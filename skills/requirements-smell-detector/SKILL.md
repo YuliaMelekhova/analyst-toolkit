@@ -25,6 +25,9 @@ Work through the text in order. For every statement, ask: *could someone
 implement this, and someone else verify it, without asking the author a
 question?* Where the answer is no, record a finding.
 
+Then read the document once more as a whole, for the defects that live between
+statements rather than inside them. See *Cross-cutting scan* below.
+
 Report only what is present in the text. Do not evaluate whether the
 requirement is a good idea, whether the scope is right, or whether the approach
 is sound — those are separate reviews.
@@ -56,7 +59,7 @@ Ten smells. Each finding names exactly one.
 | 6 | **Implicit assumption** | A fact asserted with no source: "customers always have a saved payment method" | The design rests on something nobody confirmed |
 | 7 | **Solution in disguise** | A named mechanism where a need belongs: "add a dropdown to select the plan" | The alternatives were closed before they were considered |
 | 8 | **Terminology drift** | The same concept named two ways: "customer" and "account holder". Also: a term the text relies on but never defines | Either the glossary is missing or the model is wrong |
-| 9 | **Missing failure path** | Only the successful case is described | The expensive half of the work is unspecified |
+| 9 | **Missing failure path** | Only the successful case is described, within a statement or across the document | The expensive half of the work is unspecified |
 | 10 | **Untraceable number** | A threshold with no origin: "within 2 seconds", "up to 500 users" | Cannot be renegotiated when it turns out costly |
 
 ### Choosing between smells
@@ -77,6 +80,30 @@ actually missing, and mention the rest in the reformulation.
 Statements that are individually sound may still contradict each other, or
 contradict an acceptance criterion. Report the contradiction under the smell
 that best fits the weaker of the two statements, and name both.
+
+## Cross-cutting scan
+
+Some gaps are invisible statement by statement because they belong to no
+statement. After the sequential pass, check the document as a whole against the
+list below.
+
+For each item, establish one of three things: the document covers it, the
+document places it out of scope, or it genuinely cannot arise here. Only where
+none of the three holds is there a finding — reported under smell 9.
+
+| Scenario | Ask |
+|---|---|
+| **The assigned party becomes unavailable** | Someone leaves, loses access, has a role revoked, or is deactivated while an action is pending on them. What happens to the pending work? |
+| **The action is repeated** | The same request arrives twice, or a user resubmits after a timeout. Is the second one refused, ignored, or processed? |
+| **State changes between read and write** | Two actors act on the same object concurrently, or the object moves state after a screen was rendered. Which one wins? |
+| **A dependency does not answer** | An external call times out, returns an error, or returns something unexpected. Is the operation abandoned, held, or retried? |
+| **Configuration changes mid-flight** | A rule, sequence or setting the operation depends on is edited while the operation is in progress. Does it bind at the start or re-read as it goes? |
+| **The set is empty or the boundary is reached** | Zero items, one item, the last item, or the maximum. Does the rule still hold? |
+
+Do not report a scenario simply because it is unmentioned. A document about a
+read-only report has no concurrency question; a story explicitly bounded to one
+actor has no reassignment question. Say so and move on rather than filling the
+table.
 
 ## Framework reference
 
@@ -111,6 +138,9 @@ A findings table, then a summary. Nothing else.
 - Cleanest statements: <identifiers carrying no blocking defect, or "none">
 - Not reviewed: <anything skipped and why>
 ```
+
+Findings from the cross-cutting scan have no quote to cite. Use `—` in the
+quote column and name the scenario in the reformulation.
 
 Quote exactly, and keep quotes short enough to locate the statement. Where the
 same defect appears many times, report it once with a count rather than filling
@@ -188,7 +218,7 @@ original language, unchanged.
 | 3 | "process ... and notify the user" | Compound requirement | Should fix | Split. Processing and notification fail independently and are delivered separately. |
 | 4 | "notify the user" | Missing actor | Blocking | No performer, and "the user" is unresolved — payer, recipient, or both. Nothing here can be implemented without a decision the text does not contain. |
 | 5 | "under 2 seconds" | Untraceable number | Consider | Value and scope are usable; the percentile and source are absent. State whether this is a mean or a ceiling before it is agreed. |
-| 6 | — | Missing failure path | Should fix | No statement of behaviour when processing fails, times out, or is submitted twice. |
+| 6 | — | Missing failure path | Should fix | Cross-cutting: no behaviour stated for a payment submitted twice, or for the processor failing to answer. Neither is placed out of scope. |
 
 ## Summary
 
