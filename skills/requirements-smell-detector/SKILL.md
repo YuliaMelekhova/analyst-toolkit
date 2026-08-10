@@ -52,15 +52,19 @@ Ten smells. Each finding names one.
 | 2 | **Subjective quality** | "fast", "simple", "seamless", "intuitive", "user-friendly", "robust" | Cannot pass or fail, so will not be built or tested to |
 | 3 | **Unbounded quantifier** | "all", "any", "each relevant", "as needed", "where appropriate" | The boundary of the set is unknown |
 | 4 | **Compound requirement** | Two statements joined by "and", "as well as", a semicolon, or a comma list of actions | Partial delivery is invisible; one identifier covers two things |
-| 5 | **Unverifiable outcome** | No observable result: "the system handles errors gracefully" | There is nothing to check |
+| 5 | **Unverifiable outcome** | No observable result: "the system handles errors gracefully". Also: a rule or calculation stated so loosely that two implementations would produce different results | There is nothing to check, or nothing to check *against* |
 | 6 | **Implicit assumption** | A fact asserted with no source: "customers always have a saved payment method" | The design rests on something nobody confirmed |
 | 7 | **Solution in disguise** | A named mechanism where a need belongs: "add a dropdown to select the plan" | The alternatives were closed before they were considered |
-| 8 | **Terminology drift** | The same concept named two ways: "customer" and "account holder" | Either the glossary is missing or the model is wrong |
+| 8 | **Terminology drift** | The same concept named two ways: "customer" and "account holder". Also: a term the text relies on but never defines | Either the glossary is missing or the model is wrong |
 | 9 | **Missing failure path** | Only the successful case is described | The expensive half of the work is unspecified |
 | 10 | **Untraceable number** | A threshold with no origin: "within 2 seconds", "up to 500 users" | Cannot be renegotiated when it turns out costly |
 
 Some statements carry more than one smell. Report the one that blocks
 implementation most directly; mention the second in the note.
+
+Statements that are individually sound may still contradict each other. Report a
+contradiction under the smell that best fits the weaker of the two statements,
+and name both.
 
 ## Framework reference
 
@@ -92,18 +96,30 @@ A findings table, then a summary. Nothing else.
 - Statements reviewed: N
 - Findings: N blocking, N should-fix, N consider
 - Most frequent smell: <name>, N occurrences
+- Cleanest statements: <identifiers carrying no blocking defect, or "none">
 - Not reviewed: <anything skipped and why>
 ```
 
-Classify each finding using the three classes from the review checklist:
+Quote exactly, and keep quotes short enough to locate the statement. Where the
+same defect appears many times, report it once with a count rather than filling
+the table with repetitions.
+
+Name the cleanest statements even when the review is heavy. A reviewer who only
+reports defects gives the author no signal about what to preserve.
+
+## Classifying findings
+
+Use the three classes from the review checklist:
 
 - **Blocking** — cannot be built or tested as written
 - **Should fix** — buildable, but will cause avoidable rework
 - **Consider** — preference or a note for later; the author may decline freely
 
-Quote exactly, and keep quotes short enough to locate the statement. Where the
-same defect appears many times, report it once with a count rather than filling
-the table with repetitions.
+The class follows from whether the statement can be implemented and verified,
+not from how much the wording grates. A well-written artifact producing zero
+blocking findings is a normal result, not a failed review. If most findings on
+an ordinary artifact are blocking, the class has been applied too loosely and
+the distinction stops carrying information.
 
 ## Constraints
 
@@ -154,5 +170,6 @@ original language, unchanged.
 - Statements reviewed: 2
 - Findings: 3 blocking, 3 should-fix, 0 consider
 - Most frequent smell: none dominant
+- Cleanest statements: none
 - Not reviewed: nothing skipped
 ```
