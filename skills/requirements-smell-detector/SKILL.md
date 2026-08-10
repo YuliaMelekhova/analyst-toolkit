@@ -44,27 +44,39 @@ If the user does not answer, proceed and state the assumption you made.
 
 ## What to look for
 
-Ten smells. Each finding names one.
+Ten smells. Each finding names exactly one.
 
 | # | Smell | Recognise it by | Why it matters |
 |---|---|---|---|
-| 1 | **Missing actor** | Passive voice with no performer: "the record is updated" | Nobody knows what performs the action or when |
+| 1 | **Missing actor** | No performer anywhere in the statement: "the record is updated" | Nobody knows what performs the action |
 | 2 | **Subjective quality** | "fast", "simple", "seamless", "intuitive", "user-friendly", "robust" | Cannot pass or fail, so will not be built or tested to |
-| 3 | **Unbounded quantifier** | "all", "any", "each relevant", "as needed", "where appropriate" | The boundary of the set is unknown |
+| 3 | **Unbounded quantifier** | "all", "any", "each relevant", "as needed", "where appropriate". Also: a set defined by exclusion rather than enumeration | The boundary of the set is unknown |
 | 4 | **Compound requirement** | Two statements joined by "and", "as well as", a semicolon, or a comma list of actions | Partial delivery is invisible; one identifier covers two things |
-| 5 | **Unverifiable outcome** | No observable result: "the system handles errors gracefully". Also: a rule or calculation stated so loosely that two implementations would produce different results | There is nothing to check, or nothing to check *against* |
+| 5 | **Unverifiable outcome** | No observable result: "handles errors gracefully". Also: a rule, calculation or trigger stated so loosely that two implementations would differ | There is nothing to check, or nothing to check against |
 | 6 | **Implicit assumption** | A fact asserted with no source: "customers always have a saved payment method" | The design rests on something nobody confirmed |
 | 7 | **Solution in disguise** | A named mechanism where a need belongs: "add a dropdown to select the plan" | The alternatives were closed before they were considered |
 | 8 | **Terminology drift** | The same concept named two ways: "customer" and "account holder". Also: a term the text relies on but never defines | Either the glossary is missing or the model is wrong |
 | 9 | **Missing failure path** | Only the successful case is described | The expensive half of the work is unspecified |
 | 10 | **Untraceable number** | A threshold with no origin: "within 2 seconds", "up to 500 users" | Cannot be renegotiated when it turns out costly |
 
-Some statements carry more than one smell. Report the one that blocks
-implementation most directly; mention the second in the note.
+### Choosing between smells
 
-Statements that are individually sound may still contradict each other. Report a
-contradiction under the smell that best fits the weaker of the two statements,
-and name both.
+Some statements carry more than one. Name the smell that describes what is
+actually missing, and mention the rest in the reformulation.
+
+- **If a performer is named anywhere in the statement, it is not smell 1** —
+  however vague the timing, condition or trigger is. Unclear *when* something
+  happens is smell 5. Unclear *what does it* is smell 1.
+- **If a value exists but its origin does not, it is smell 10.** If no value
+  exists at all, it is smell 2 or 5.
+- **If a term is undefined, it is smell 8.** If the term is defined but the
+  behaviour around it is not, it is smell 5 or 9.
+- **When two smells fit equally, report the one that blocks implementation more
+  directly.**
+
+Statements that are individually sound may still contradict each other, or
+contradict an acceptance criterion. Report the contradiction under the smell
+that best fits the weaker of the two statements, and name both.
 
 ## Framework reference
 
@@ -111,15 +123,28 @@ reports defects gives the author no signal about what to preserve.
 
 Use the three classes from the review checklist:
 
-- **Blocking** — cannot be built or tested as written
-- **Should fix** — buildable, but will cause avoidable rework
-- **Consider** — preference or a note for later; the author may decline freely
+- **Blocking** — the statement cannot be implemented at all as written, or
+  implementing it produces a system that provably cannot satisfy its own rules
+- **Should fix** — implementable, but two competent readers would build it
+  differently, or the ambiguity will surface as rework
+- **Consider** — preference, or a note for later; the author may decline freely
 
-The class follows from whether the statement can be implemented and verified,
-not from how much the wording grates. A well-written artifact producing zero
-blocking findings is a normal result, not a failed review. If most findings on
-an ordinary artifact are blocking, the class has been applied too loosely and
-the distinction stops carrying information.
+The class follows from what an implementer can do with the statement, not from
+how much the wording grates.
+
+**Calibration.** Blocking is the narrow class. Reserve it for logical holes and
+undefined behaviour with no defensible reading — an unreachable state, a rule
+whose completion condition can never fire, a required field with no possible
+value. An ambiguity where a reasonable implementer would pick one reading and
+be caught in review is *should fix*, not blocking.
+
+On an ordinary artifact, expect blocking findings to be a minority and often
+zero. If most findings are blocking, the class has been applied too loosely and
+has stopped carrying information.
+
+**A missing source, alone, is at most *consider*.** An NFR carrying a value, a
+condition and a verification method is usable; the absent source matters when
+the number is challenged, not when it is built.
 
 ## Constraints
 
@@ -158,17 +183,17 @@ original language, unchanged.
 
 | # | Quote | Smell | Class | Suggested reformulation |
 |---|-------|-------|-------|------------------------|
-| 1 | "should quickly process" | Subjective quality | Blocking | Remove "quickly" — the timing is stated separately in the next sentence. Keeping both invites two interpretations. |
-| 2 | "all payment requests" | Unbounded quantifier | Blocking | Name the set: which request types, in which states, initiated by whom. |
-| 3 | "process ... and notify the user" | Compound requirement | Blocking | Split. Processing and notification fail independently and are delivered separately. |
-| 4 | "notify the user" | Missing actor | Should fix | Which user — the payer, the recipient, both? Through which channel, and is delivery confirmed? |
-| 5 | "under 2 seconds" | Untraceable number | Should fix | State the percentile, the load condition, how it is verified, and who set the threshold. Currently unclear whether this is a mean or a ceiling. |
+| 1 | "should quickly process" | Subjective quality | Should fix | Remove "quickly" — the timing is stated separately in the next sentence. Keeping both invites two interpretations. |
+| 2 | "all payment requests" | Unbounded quantifier | Should fix | Name the set: which request types, in which states, initiated by whom. |
+| 3 | "process ... and notify the user" | Compound requirement | Should fix | Split. Processing and notification fail independently and are delivered separately. |
+| 4 | "notify the user" | Missing actor | Blocking | No performer, and "the user" is unresolved — payer, recipient, or both. Nothing here can be implemented without a decision the text does not contain. |
+| 5 | "under 2 seconds" | Untraceable number | Consider | Value and scope are usable; the percentile and source are absent. State whether this is a mean or a ceiling before it is agreed. |
 | 6 | — | Missing failure path | Should fix | No statement of behaviour when processing fails, times out, or is submitted twice. |
 
 ## Summary
 
 - Statements reviewed: 2
-- Findings: 3 blocking, 3 should-fix, 0 consider
+- Findings: 1 blocking, 4 should-fix, 1 consider
 - Most frequent smell: none dominant
 - Cleanest statements: none
 - Not reviewed: nothing skipped
