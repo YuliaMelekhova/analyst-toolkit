@@ -55,16 +55,24 @@ Updating a template changes what the skills do, without editing any skill.
 | | What it is |
 |---|---|
 | [`framework/`](framework) | Templates for BRDs, user stories, NFR catalogues and decision records; identifier conventions; a definition of ready and a review checklist |
-| [`skills/`](skills) | Agent skills that draft and review against those templates. [Start here](skills/README.md) if you have not used a skill before |
+| [`skills/`](skills) | Three agent skills that draft, interview and review against those templates. [Start here](skills/README.md) if you have not used a skill before |
 | [`NOTES.md`](NOTES.md) | What went wrong while building this. The most useful file in the repository |
+
+### The skills
+
+| Skill | Does |
+|---|---|
+| [`brd-drafter`](skills/brd-drafter) | Turns an informal request into a BRD draft, flagging gaps rather than filling them. Refuses to draft from a request that names only a solution |
+| [`nfr-interrogator`](skills/nfr-interrogator) | Interviews across eight quality categories and assembles a catalogue. Records unknowns with owners instead of supplying conventional values |
+| [`requirements-smell-detector`](skills/requirements-smell-detector) | Reviews requirements for ambiguity and unverifiable statements, returning findings with suggested reformulations — not a rewritten document |
 
 ---
 
 ## Quick start
 
 **To use the templates**, take what you need from [`framework/`](framework).
-They are plain Markdown with the guidance written into each section — no tooling,
-no setup. Read
+Plain Markdown with the guidance written into each section — no tooling, no
+setup. Read
 [`conventions/naming-and-ids.md`](framework/conventions/naming-and-ids.md) first
 if you plan to use more than one.
 
@@ -96,13 +104,19 @@ drifts from practice; guidance at the point of writing is read every time.
 something is not yet known, with an owner and a date. A recorded unknown is a
 visible risk. A plausible invention is an invisible commitment.
 
+**Anything the tool supplied is declared.** Where a skill infers something or
+offers a value, it says so in a fixed place in its output. A number that came
+from a conversation with a tool should not be indistinguishable from one that
+came from the business.
+
 **Nothing certifies itself.** The author of a requirement cannot see what they
 assumed. Neither can a model that just drafted one. Output is a draft awaiting
 review, however complete it looks.
 
-**Skills are tested against fixtures.** Each skill ships with deliberately
-defective documents and answer keys. A skill that has never been run against
-known-bad input is a guess about its own behaviour.
+**Skills are tested before they ship.** Each was run against deliberately
+difficult input and the results — including the runs that went badly — are in
+[`NOTES.md`](NOTES.md). A skill that has never been tried is a guess about its
+own behaviour.
 
 ---
 
@@ -111,18 +125,16 @@ known-bad input is a guess about its own behaviour.
 Present:
 
 - Framework — templates, conventions, quality rules
-- `requirements-smell-detector` — reviews requirements for ambiguity, with two
-  test fixtures
+- `brd-drafter`, `nfr-interrogator`, `requirements-smell-detector`, with
+  fixtures and answer keys
 
 Planned, in rough order:
 
-- `brd-drafter` — turns a short business request into a structured draft, with
-  gaps flagged rather than filled
-- `nfr-interrogator` — interviews for quality attributes across the eight
-  catalogue categories
-- A worked end-to-end example: raw request through draft, review and NFR
-  interview to a finished document, including what the agents got wrong
+- A worked end-to-end example: raw request through draft, NFR interview and
+  review to a finished document, including what the skills got wrong
 - Traceability checks — orphan detection across the identifier graph
+- Closing the testing gaps listed at the end of [`NOTES.md`](NOTES.md),
+  particularly an uncooperative NFR interview and a mixed-quality review fixture
 
 ---
 
@@ -131,6 +143,7 @@ Planned, in rough order:
 Issues are the most useful contribution right now, particularly:
 
 - A finding one of the skills got wrong on your own requirements
+- A value one of them supplied that you did not give it
 - A template section that did not survive contact with a real project
 - A defect class the smell detector misses
 
