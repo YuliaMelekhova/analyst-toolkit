@@ -33,8 +33,12 @@ own work.
 
 | Skill | What it does | Give it |
 |---|---|---|
-| [`requirements-smell-detector`](requirements-smell-detector) | Reviews requirements for ambiguity and unverifiable statements, and returns a findings table | A requirement, story, acceptance criterion, BRD section or specification |
 | [`brd-drafter`](brd-drafter) | Turns an informal business request into a structured BRD draft, flagging gaps rather than filling them | A short request, a ticket, meeting notes, a few sentences describing a need |
+| [`nfr-interrogator`](nfr-interrogator) | Interviews you across eight quality categories and assembles a catalogue, recording unknowns rather than filling them | A system or capability that needs quality attributes established |
+| [`requirements-smell-detector`](requirements-smell-detector) | Reviews requirements for ambiguity and unverifiable statements, and returns a findings table | A requirement, story, acceptance criterion, BRD section or specification |
+
+They are listed in the order you would typically use them: draft, establish
+quality attributes, review.
 
 ---
 
@@ -114,13 +118,18 @@ instead of the folder. Start again.
 
 Settings → **Customize** → **Skills** → add a skill → choose your zip.
 
+Repeat for each skill you want. They are independent — installing one does not
+require the others.
+
 **Step 5 — Check it took.**
 
 Start a new conversation and ask a normal question without naming the skill:
 
-> Can you review these requirements before I send them to the team?
-
 > Write this up as a BRD: [paste a short request]
+
+> I need to work out non-functional requirements for [a system]. Can you help?
+
+> Can you review these requirements before I send them to the team?
 
 If the response comes back in the skill's output format, it loaded. If it comes
 back as ordinary commentary, see
@@ -140,17 +149,19 @@ reads skills from two places:
 **Step 1 — Get the files.** Either clone this repository, or download it as a
 zip from the GitHub page (Code → Download ZIP) and unpack it.
 
-**Step 2 — Copy the skill folder into place.**
+**Step 2 — Copy the skill folders into place.**
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -r analyst-toolkit/skills/brd-drafter ~/.claude/skills/
-cp -r analyst-toolkit/framework ~/.claude/skills/brd-drafter/
+for s in brd-drafter nfr-interrogator requirements-smell-detector; do
+  cp -r analyst-toolkit/skills/$s ~/.claude/skills/
+  cp -r analyst-toolkit/framework ~/.claude/skills/$s/
+done
 ```
 
-Replace `~` with your project folder plus `.claude/skills` if you want it scoped
-to one project instead. The second line is the same framework copy described
-above — without it the skill has nothing to reference.
+Replace `~` with your project folder plus `.claude/skills` if you want them
+scoped to one project instead. The second copy is the framework — without it
+the skills have nothing to reference.
 
 **Step 3 — Use it.** Open Claude Code in a folder containing the document you
 want worked on, and ask in plain language:
@@ -174,7 +185,7 @@ For a one-off, or when you cannot install anything.
 > *[paste SKILL.md here]*
 
 **Step 3.** In the same message or the next one, paste the material you want
-worked on. If the skill's output should follow your templates, paste those too.
+worked on. If the output should follow your templates, paste those too.
 
 **What this does not test.** The skill will behave correctly, but you have told
 it to — so this proves nothing about whether the description triggers on its
@@ -184,45 +195,14 @@ own. Fine for using the skill, not for evaluating it.
 
 ## Using the skills
 
-### requirements-smell-detector
-
-**Give it** anything written as a requirement: a full story, a single acceptance
-criterion, a section of a BRD, an API description in prose. It works on
-fragments.
-
-Worth telling it two things, because they change the review:
-
-- **What the artifact is** — a BRD tolerates open questions that a
-  ready-for-sprint story does not
-- **How far along it is** — a first draft is read for gaps, a pre-approval
-  artifact for defects
-
-**Phrase it** however is natural: *"Review these before I hand them over"*,
-*"Is anything here ambiguous?"*, *"Check the acceptance criteria in this story"*.
-
-**You get back** a findings table — quote, smell, class, suggested
-reformulation — and a summary. A dash in the quote column means the finding is
-about something absent from the whole document rather than a specific sentence.
-
-Read the classes carefully:
-
-- **Blocking** — cannot be built as written. Rare, and zero on a well-written
-  document
-- **Should fix** — buildable, but two developers would build it differently
-- **Consider** — a note; decline it freely
-
-The summary names the **cleanest statements** as well as the defects. That line
-tells you what to preserve when you rewrite.
-
 ### brd-drafter
 
 **Give it** an informal request: a few sentences, a ticket, notes from a
 meeting. It does not need to be well organised — that is the point.
 
-**Expect questions first.** The skill asks one round of up to seven questions
-about things that change the shape of the document, then drafts. You can decline
-and tell it to draft anyway; the unanswered questions become open questions in
-the output.
+**Expect questions first.** One round of up to seven questions about things that
+change the shape of the document, then it drafts. You can decline and tell it to
+draft anyway; the unanswered questions become open questions in the output.
 
 **You get back** a document plus a short note recording what it was drafted
 from, why the status is what it is, what the blocking gaps are, and — the line
@@ -242,6 +222,61 @@ refuse to draft and ask what makes the current situation unacceptable. Writing a
 problem statement backwards from a requested feature is how a document ends up
 justifying a decision nobody examined.
 
+### nfr-interrogator
+
+**This one asks rather than reads.** Set aside time: eight categories, one at a
+time, two or three questions each. A full interview runs fifteen to twenty
+exchanges. You can stop early and ask it to assemble what it has.
+
+**Have the person with the answers present.** The skill will not supply values,
+so an interview conducted by someone guessing on the business's behalf produces
+a catalogue of guesses with a plausible shape.
+
+**"I don't know" is a real answer** — it will ask who does, and record the
+category as unestablished with an owner. That is more useful than a number
+nobody stands behind.
+
+**You get back** three tables — established, not established, not applicable —
+plus a summary. Two things there are worth reading closely:
+
+- **`Suggested by me and accepted`** — any value that originated in the
+  conversation rather than from you, even after you agreed to it. Whoever reads
+  the catalogue next needs to know which numbers came from the business
+- **Entry statuses.** A value with no verification method is `deferred`, not
+  `agreed`, however firm the number. A requirement nobody checks is
+  documentation
+
+**Expect fewer than eight categories to be established.** Six with values, two
+with owners and no values, one marked not applicable is a realistic and useful
+result.
+
+### requirements-smell-detector
+
+**Give it** anything written as a requirement: a full story, a single acceptance
+criterion, a section of a BRD, an API description in prose. It works on
+fragments.
+
+Worth telling it two things, because they change the review:
+
+- **What the artifact is** — a BRD tolerates open questions that a
+  ready-for-sprint story does not
+- **How far along it is** — a first draft is read for gaps, a pre-approval
+  artifact for defects
+
+**You get back** a findings table — quote, smell, class, suggested
+reformulation — and a summary. A dash in the quote column means the finding is
+about something absent from the whole document rather than a specific sentence.
+
+Read the classes carefully:
+
+- **Blocking** — cannot be built as written. Rare, and zero on a well-written
+  document
+- **Should fix** — buildable, but two developers would build it differently
+- **Consider** — a note; decline it freely
+
+The summary names the **cleanest statements** as well as the defects. That line
+tells you what to preserve when you rewrite.
+
 ---
 
 ## What these skills will not do
@@ -251,7 +286,8 @@ Deliberate limits, not gaps:
 | They will not | Why |
 |---|---|
 | Invent a number, threshold or target | A plausible invented value becomes a real commitment the moment somebody reads it |
-| Name a system, vendor or standard that is not in the source | Same, and harder to spot |
+| Offer a conventional value as though it were yours | 99.9% and p95 are defaults, not answers. If one is suggested, the summary records that it was |
+| Name a system, vendor or standard that is not in the source | Same problem, harder to spot |
 | Fill in a missing failure path | Naming the gap is the work; filling it is a different task |
 | Rewrite your requirements wholesale | A corrected version gets accepted as-is, and the review teaches you nothing |
 | Resolve a contradiction between stakeholders | Recording both positions is analysis; picking one is a decision, and it is not theirs |
@@ -273,8 +309,8 @@ expected output.
 | Is code execution on? | Settings → Capabilities |
 | Does the folder name match the `name:` field? | Rename the folder |
 | Was the folder zipped, or the file? | Re-zip the folder |
-| Did you ask about the thing the skill covers? | The descriptions are narrow on purpose — requirements review, or drafting a business requirement |
-| Is the input actually a requirement or a request? | Prose that is neither is explicitly out of scope |
+| Did you ask about the thing the skill covers? | The descriptions are narrow on purpose |
+| Is the input the right kind? | Prose that is neither a requirement nor a request is explicitly out of scope |
 
 If everything checks out and it still does not trigger, the `description` field
 is what to change — not the body of the skill. That field is the only part the
@@ -291,20 +327,23 @@ Each skill folder has a `tests/` directory with fixtures and answer keys. They
 exist because a skill that has never been run against known input is a guess
 about its own behaviour.
 
-The two skills are graded on opposite properties:
+The three are graded on different properties:
 
 - **A reviewer is judged on what it finds** — and, more importantly, on what it
-  leaves alone. Fixtures are one deliberately bad document and one carefully
-  written one
-- **A drafter is judged on what it refrains from writing.** Fixtures are five
-  short requests, each provoking a different kind of invention: a request with
-  no problem in it, a source that names an unidentified external system, a
+  leaves alone. Fixtures: one deliberately bad document, one carefully written
+  one
+- **A drafter is judged on what it refrains from writing.** Fixtures: five short
+  requests, each provoking a different kind of invention — a request with no
+  problem in it, a source naming an unidentified external system, a
   contradiction, a stated absence of data
+- **An interviewer is judged on the conversation**, which no fixture captures.
+  Run it against a system you actually know and watch for a number you did not
+  say
 
-The fastest way to grade a draft: take any specific in it — a number, a name, a
-date, a rule — and find it in the source. If it is not there, it should be on
-the `Assumed` line. If it is on neither, that is the failure this skill exists
-to prevent.
+The fastest way to grade a draft or a catalogue: take any specific in it — a
+number, a name, a date, a rule — and find it in the source or in what you said.
+If it is not there, it should be on the `Assumed` or `Suggested by me` line. If
+it is on neither, that is the failure these skills exist to prevent.
 
 **How to read a run.** Judge the findings on their merits before comparing them
 against the key. A finding that names a real defect is correct whether or not it
@@ -331,3 +370,8 @@ The two that carry the most weight in practice are **constraints** and the
 **worked example**. The example sets the density and tone of everything the
 skill produces; without one, output drifts between terse and exhaustive run to
 run.
+
+One pattern worth copying: give the skill somewhere to declare what it supplied.
+The drafter has an `Assumed` line, the interviewer a `Suggested by me and
+accepted` line. Both fired in testing, and in each case a value that would
+otherwise have disappeared into the output stayed visible instead.
