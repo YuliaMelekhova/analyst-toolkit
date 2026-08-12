@@ -218,10 +218,118 @@ rather than leaving it silent.
 
 ---
 
+## nfr-interrogator
+
+The other two skills work on text that already exists. This one produces
+information out of a conversation, and its failure mode is different: an
+interviewer knows the conventional numbers — 99.9%, p95, thirty days retention —
+and can offer them in place of an answer. The person nods, because the number
+looks reasonable, and a value that came from nowhere enters the catalogue with
+the same weight as one that came from the business.
+
+Tested once, as a full eight-category interview about a real internal system: a
+pipeline where a request submitted through a Slack form is stored, drafted into
+a formal requirement by an LLM agent, and published to a wiki, with a human
+approving before publication.
+
+### What held
+
+**No conventional values were offered.** Not one percentile, uptime figure or
+retention period was proposed. Where a scale was needed to make a question
+answerable — *an hour, half a day, a day?* — it was offered as a range to choose
+from, not as a suggestion, and the difference is visible in the transcript.
+
+**Consequences before numbers.** The first performance question asked what the
+person does while waiting and what happens downstream if the draft is late. The
+answer — they switch to other work, and the requester asks in the channel after
+a day or two — produced the observation that the requirement is measured in
+hours rather than seconds. No number had been mentioned by either side at that
+point.
+
+**One follow-up, then record.** The rule held in every category.
+
+**A deferred item came back.** The verification method for the performance
+requirement was explicitly postponed to the observability category, and it
+returned there without prompting, several exchanges later.
+
+**Unknowns kept their owners.** Eleven entries landed in *not established*,
+eight of them with a named owner, grouped in the closing summary: one
+conversation with the analytics lead closes five of them.
+
+### The one deviation, and why it was left alone
+
+The person said downtime of "half a day" was survivable. The catalogue recorded
+four hours.
+
+That is an interpretation, not a record of what was said, and by the skill's own
+rule no number should appear that the person did not give. Recording "half a
+day" and asking what that means in hours would have been correct.
+
+But the skill flagged it twice — in a line under the table, and again in the
+`Suggested by me and accepted` field of the summary. The declaration mechanism
+worked exactly as designed: the value did not dissolve into the catalogue.
+
+No change was made. The rule already exists and it fired; adding *and do not
+convert units* would be treating a symptom. The distinction that matters is
+between a value that is inserted and declared and one that is inserted silently,
+and this was firmly the first.
+
+### What it produced that was not designed
+
+Three observations came out of the interview that are in neither the skill nor
+the NFR template:
+
+**Auditability as a precondition for verifiability.** The system's one hard
+constraint is that nothing publishes without human approval. The person
+described storing a record of who approved as *desirable*. The skill noted, once
+and without pressing, that if the approval record is not kept, the constraint
+itself cannot be checked — and suggested raising the question's status with its
+owner rather than trying to raise it directly.
+
+**Edit rate as the only available quality signal.** In the observability
+category it asked whether anyone could answer how many drafts were edited before
+publication, noting that this is the only signal available about how well the
+agent is doing. Human approval tends to be read as a guarantee of quality rather
+than as a source of data about it.
+
+**Template duplication.** It asked whether the requirement template lives in one
+place or is duplicated between the wiki and the agent's prompt, because at three
+contributing teams those copies diverge. This is the same principle the
+repository is built on — skills reference the framework rather than restating it
+— arrived at independently from a question about compatibility.
+
+The closing remark was of the same kind: three of the deferred entries depend on
+the same missing thing, so building observability is the cheapest work with the
+largest effect on the catalogue. That is an observation about the shape of the
+list rather than a restatement of its contents.
+
+### What it did not do
+
+One answer described a real defect — the requirement template is duplicated
+between the wiki and the agent prompt and synchronised by hand, which the person
+characterised as *not at all*. It was filed under *not established* as a missing
+synchronisation procedure.
+
+Formally correct, and an acceptable limit for an elicitation skill: its job is
+to record the state of knowledge, not to raise findings. Worth knowing that the
+boundary sits there.
+
+### Untested
+
+- **An uncooperative interview.** The person answered in detail throughout.
+  Behaviour against short, vague or impatient answers is unobserved, and that is
+  where an interviewer is most tempted to fill gaps to keep momentum.
+- **A person who asks for a value.** The rule for offering one, and recording it
+  as offered, was never exercised.
+- **A scope too broad to interview.** The instruction to push back on "our
+  platform" was never triggered.
+
+---
+
 ## The framework references do not work in a standalone upload
 
-Both skills point at files in `framework/`. Uploaded to the Claude app as a zip
-containing only `SKILL.md`, those files are not present.
+All three skills point at files in `framework/`. Uploaded to the Claude app as a
+zip containing only `SKILL.md`, those files are not present.
 
 The skills noticed and said so, unprompted, in three separate runs — each time
 noting that the document structure had been reconstructed from the worked
@@ -245,19 +353,20 @@ answer turned out to be neither. They work, when they are present.
 
 - A mixed artifact — mostly sound with one badly written section. The realistic
   case, and the hardest to calibrate. Both fixtures are uniform.
-- Behaviour when a glossary is supplied. All runs assumed none existed and
-  caveated terminology findings accordingly.
+- Behaviour when a glossary is supplied.
 - A non-English artifact.
 
 **brd-drafter**
 
-- Fixture 01 — the thin-request case. The other four covered its failure modes
-  between them, but it has not been run.
-- The answered path. Every run declined the clarification round; behaviour when
-  the questions are actually answered has not been observed.
-- A source long enough that prioritising the seven questions becomes hard. All
-  fixtures fit on one screen.
+- Fixture 01 — the thin-request case.
+- The answered path. Every run declined the clarification round.
+- A source long enough that prioritising the seven questions becomes hard.
 - Extending an existing BRD rather than drafting fresh.
+
+**nfr-interrogator**
+
+- A single run only, on a system whose owner answered thoroughly. The three gaps
+  above are the ones worth closing first.
 
 ---
 
