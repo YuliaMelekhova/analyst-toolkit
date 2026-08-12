@@ -34,6 +34,7 @@ own work.
 | Skill | What it does | Give it |
 |---|---|---|
 | [`requirements-smell-detector`](requirements-smell-detector) | Reviews requirements for ambiguity and unverifiable statements, and returns a findings table | A requirement, story, acceptance criterion, BRD section or specification |
+| [`brd-drafter`](brd-drafter) | Turns an informal business request into a structured BRD draft, flagging gaps rather than filling them | A short request, a ticket, meeting notes, a few sentences describing a need |
 
 ---
 
@@ -61,12 +62,32 @@ controlled by an owner — if the toggle is missing, ask them.
 
 **Step 2 — Build the folder.**
 
-On your own computer, create a folder named exactly as the skill:
+On your own computer, create a folder named exactly as the skill, and put the
+framework files it references inside it:
 
 ```
-requirements-smell-detector/
-└── SKILL.md
+brd-drafter/
+├── SKILL.md
+└── framework/
+    ├── conventions/naming-and-ids.md
+    ├── templates/brd.md
+    ├── templates/nfr-catalog.md
+    └── quality-rules/review-checklist.md
 ```
+
+**The framework folder is not optional.** Each skill points at those files
+rather than restating their contents — that is what keeps the templates and the
+agent instructions from drifting apart. Uploaded without them, a skill still
+works, but it reconstructs the document structure from the worked example
+inside `SKILL.md`, and the result will not match your templates. Section order,
+identifier schemes and required fields all come from the framework.
+
+You can tell this has happened: the skill says so, usually in a closing note
+about the referenced files being absent.
+
+Which framework files each skill needs is listed under *Framework reference* in
+its `SKILL.md`. Copying the whole `framework/` folder is simpler and does no
+harm.
 
 Two things people get wrong here:
 
@@ -76,13 +97,14 @@ Two things people get wrong here:
 **Step 3 — Zip the folder.**
 
 Right-click the **folder** and compress it. Not the file — the folder. When you
-open the resulting archive you should see the folder inside it, and `SKILL.md`
+open the resulting archive you should see the folder inside it, and its contents
 inside that:
 
 ```
-requirements-smell-detector.zip
-└── requirements-smell-detector/
-    └── SKILL.md
+brd-drafter.zip
+└── brd-drafter/
+    ├── SKILL.md
+    └── framework/
 ```
 
 If you see `SKILL.md` sitting at the top of the archive, you zipped the file
@@ -94,13 +116,14 @@ Settings → **Customize** → **Skills** → add a skill → choose your zip.
 
 **Step 5 — Check it took.**
 
-Start a new conversation, attach a requirements document, and ask a normal
-question without naming the skill:
+Start a new conversation and ask a normal question without naming the skill:
 
 > Can you review these requirements before I send them to the team?
 
-If the response comes back as a findings table with smells and classes, the
-skill loaded. If it comes back as ordinary commentary, see
+> Write this up as a BRD: [paste a short request]
+
+If the response comes back in the skill's output format, it loaded. If it comes
+back as ordinary commentary, see
 [When it does not trigger](#when-it-does-not-trigger).
 
 ---
@@ -121,26 +144,19 @@ zip from the GitHub page (Code → Download ZIP) and unpack it.
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -r analyst-toolkit/skills/requirements-smell-detector ~/.claude/skills/
+cp -r analyst-toolkit/skills/brd-drafter ~/.claude/skills/
+cp -r analyst-toolkit/framework ~/.claude/skills/brd-drafter/
 ```
 
-Replace `~` with your project folder plus `.claude/skills` if you want it
-scoped to one project instead.
+Replace `~` with your project folder plus `.claude/skills` if you want it scoped
+to one project instead. The second line is the same framework copy described
+above — without it the skill has nothing to reference.
 
 **Step 3 — Use it.** Open Claude Code in a folder containing the document you
-want reviewed, and ask in plain language:
+want worked on, and ask in plain language:
 
 ```
 Review requirements.md — is anything in there ambiguous?
-```
-
-**Why this method is worth the setup.** The skill can read the
-[`framework`](../framework) files it references, rather than working from the
-descriptions inside `SKILL.md` alone. If you want that, copy the framework
-folder alongside:
-
-```bash
-cp -r analyst-toolkit/framework ~/.claude/skills/requirements-smell-detector/
 ```
 
 ---
@@ -157,8 +173,8 @@ For a one-off, or when you cannot install anything.
 >
 > *[paste SKILL.md here]*
 
-**Step 3.** In the same message or the next one, paste or attach the
-requirements you want reviewed.
+**Step 3.** In the same message or the next one, paste the material you want
+worked on. If the skill's output should follow your templates, paste those too.
 
 **What this does not test.** The skill will behave correctly, but you have told
 it to — so this proves nothing about whether the description triggers on its
@@ -166,115 +182,134 @@ own. Fine for using the skill, not for evaluating it.
 
 ---
 
-## Using the smell detector
+## Using the skills
 
-### What to give it
+### requirements-smell-detector
 
-Anything written as a requirement: a full story, a single acceptance criterion,
-a section of a BRD, an API description in prose. It works on fragments — you do
-not need a complete document.
+**Give it** anything written as a requirement: a full story, a single acceptance
+criterion, a section of a BRD, an API description in prose. It works on
+fragments.
 
-It is worth telling it two things, because they change the review:
+Worth telling it two things, because they change the review:
 
 - **What the artifact is** — a BRD tolerates open questions that a
   ready-for-sprint story does not
 - **How far along it is** — a first draft is read for gaps, a pre-approval
   artifact for defects
 
-If you say nothing, it will assume something and tell you what it assumed.
+**Phrase it** however is natural: *"Review these before I hand them over"*,
+*"Is anything here ambiguous?"*, *"Check the acceptance criteria in this story"*.
 
-### How to phrase the request
+**You get back** a findings table — quote, smell, class, suggested
+reformulation — and a summary. A dash in the quote column means the finding is
+about something absent from the whole document rather than a specific sentence.
 
-Any of these work:
+Read the classes carefully:
 
-> Review these requirements before I hand them over.
-
-> Is anything here ambiguous?
-
-> This is a first draft of a BRD section — what needs work?
-
-> Check the acceptance criteria in this story.
-
-You do not need to say "use the requirements-smell-detector skill". If you have
-to, the description is not matching and should be fixed.
-
-### What comes back
-
-A findings table and a summary:
-
-| Column | Meaning |
-|---|---|
-| Quote | The exact text at issue. A dash means the finding is about something absent from the whole document, not a specific sentence |
-| Smell | Which of the ten defect types it is |
-| Class | Blocking, should-fix, or consider |
-| Suggested reformulation | What is missing and what would resolve it |
-
-Read the classes carefully — they carry most of the information:
-
-- **Blocking** — cannot be built as written. Should be rare, and zero on a
-  well-written document
+- **Blocking** — cannot be built as written. Rare, and zero on a well-written
+  document
 - **Should fix** — buildable, but two developers would build it differently
 - **Consider** — a note; decline it freely
 
 The summary names the **cleanest statements** as well as the defects. That line
-is worth reading: it tells you what to preserve when you rewrite.
+tells you what to preserve when you rewrite.
 
-### What it will not do
+### brd-drafter
+
+**Give it** an informal request: a few sentences, a ticket, notes from a
+meeting. It does not need to be well organised — that is the point.
+
+**Expect questions first.** The skill asks one round of up to seven questions
+about things that change the shape of the document, then drafts. You can decline
+and tell it to draft anyway; the unanswered questions become open questions in
+the output.
+
+**You get back** a document plus a short note recording what it was drafted
+from, why the status is what it is, what the blocking gaps are, and — the line
+worth reading first — what it **assumed**. Anything inferred rather than stated
+appears there.
+
+**The status will be `draft` or `needs-info`, never anything further.**
+`in-review` and `approved` are reached by a person.
+
+**A thin draft is a correct draft.** A three-sentence request produces a
+document that is half empty with a long list of open questions. That is the
+output working, not failing — the gaps are the deliverable, and the document is
+the container for them.
+
+If a request names only a solution — *"add an export button"* — the skill will
+refuse to draft and ask what makes the current situation unacceptable. Writing a
+problem statement backwards from a requested feature is how a document ends up
+justifying a decision nobody examined.
+
+---
+
+## What these skills will not do
 
 Deliberate limits, not gaps:
 
-| It will not | Why |
+| They will not | Why |
 |---|---|
-| Rewrite your requirements | A corrected version gets accepted wholesale, and the review stops teaching you anything |
-| Fill in a missing number | An invented threshold becomes a real commitment the moment someone reads it |
-| Write your missing failure paths | Naming the gap is the review; filling it is the writing |
-| Judge scope, priority or business value | Different review, different reader |
-| Tell you the requirements are ready | That is a human decision against [`definition-of-ready.md`](../framework/quality-rules/definition-of-ready.md) |
+| Invent a number, threshold or target | A plausible invented value becomes a real commitment the moment somebody reads it |
+| Name a system, vendor or standard that is not in the source | Same, and harder to spot |
+| Fill in a missing failure path | Naming the gap is the work; filling it is a different task |
+| Rewrite your requirements wholesale | A corrected version gets accepted as-is, and the review teaches you nothing |
+| Resolve a contradiction between stakeholders | Recording both positions is analysis; picking one is a decision, and it is not theirs |
+| Judge scope, priority, effort or business value | Different review, different reader |
+| Tell you anything is ready | A human decision against [`definition-of-ready.md`](../framework/quality-rules/definition-of-ready.md) |
 
-If you want the gaps filled rather than named, that is a different task — ask
-for it separately, after you have read the findings.
+If you want the gaps filled rather than named, ask for that separately, after
+reading what is missing.
 
 ---
 
 ## When it does not trigger
 
-The skill loaded but did nothing, or you got ordinary commentary instead of a
-findings table.
+The skill loaded but did nothing, or you got ordinary commentary instead of the
+expected output.
 
 | Check | Fix |
 |---|---|
 | Is code execution on? | Settings → Capabilities |
 | Does the folder name match the `name:` field? | Rename the folder |
 | Was the folder zipped, or the file? | Re-zip the folder |
-| Did you ask about *requirements*? | The description triggers on requirements review, not on general document feedback |
-| Is the text actually a requirement? | Prose that is not a requirement is explicitly out of the skill's scope |
+| Did you ask about the thing the skill covers? | The descriptions are narrow on purpose — requirements review, or drafting a business requirement |
+| Is the input actually a requirement or a request? | Prose that is neither is explicitly out of scope |
 
 If everything checks out and it still does not trigger, the `description` field
-is the thing to change — not the body of the skill. That field is the only part
-the assistant reads when deciding whether to load it.
+is what to change — not the body of the skill. That field is the only part the
+assistant reads when deciding whether to load it.
+
+**If the output ignores your templates**, the framework files are missing from
+the upload. See [step 2](#a-upload-to-the-claude-app).
 
 ---
 
 ## Testing a skill
 
 Each skill folder has a `tests/` directory with fixtures and answer keys. They
-exist because a skill that has never been run against a known-bad document is a
-guess.
+exist because a skill that has never been run against known input is a guess
+about its own behaviour.
 
-Two kinds:
+The two skills are graded on opposite properties:
 
-- **Recall fixtures** — deliberately bad text with many planted defects. Tests
-  whether the skill finds them
-- **Precision fixtures** — carefully written text with two or three subtle
-  defects. Tests whether the skill invents findings that are not there
+- **A reviewer is judged on what it finds** — and, more importantly, on what it
+  leaves alone. Fixtures are one deliberately bad document and one carefully
+  written one
+- **A drafter is judged on what it refrains from writing.** Fixtures are five
+  short requests, each provoking a different kind of invention: a request with
+  no problem in it, a source that names an unidentified external system, a
+  contradiction, a stated absence of data
 
-Precision matters more. A reviewer who flags everything gets ignored within a
-week.
+The fastest way to grade a draft: take any specific in it — a number, a name, a
+date, a rule — and find it in the source. If it is not there, it should be on
+the `Assumed` line. If it is on neither, that is the failure this skill exists
+to prevent.
 
-**How to read a run.** Judge the findings on their merits before comparing
-against the key. A finding that names a real defect is correct whether or not
-it was planted — and in practice, writing a genuinely clean fixture is harder
-than it sounds. See [`NOTES.md`](../NOTES.md) for what happened when we tried.
+**How to read a run.** Judge the findings on their merits before comparing them
+against the key. A finding that names a real defect is correct whether or not it
+was planted — and in practice, writing a genuinely clean fixture is harder than
+it sounds. See [`NOTES.md`](../NOTES.md) for what happened when we tried.
 
 ---
 
