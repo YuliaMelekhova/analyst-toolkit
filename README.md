@@ -11,6 +11,10 @@ the same text.
 
 ---
 
+📖 **[Read the story behind this toolkit](https://ai-systems-analyst-toolkit.notion.site/AI-Systems-Analyst-Toolkit-3bbcf90fc550803b8c00dffd882cffa8)** — why it exists, what broke during testing, and what that changed.
+
+---
+
 ## The problem
 
 Most teams have both of these, separately: a set of documentation standards
