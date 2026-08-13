@@ -6,6 +6,10 @@ toolkit with no visible seams is a marketing page.
 
 ---
 
+> A prose version of this log, in English and Russian, is [here](https://ai-systems-analyst-toolkit.notion.site/AI-Systems-Analyst-Toolkit-3bbcf90fc550803b8c00dffd882cffa8).
+
+---
+
 ## requirements-smell-detector
 
 Tested three times against two documents: one written badly on purpose, one
