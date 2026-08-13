@@ -48,7 +48,7 @@ Everything left of the diamond is automated. Everything right of it follows from
 
 ## Where to start
 
-**To evaluate the design:** `architecture.md`, then ADR-004 in `decision-log.md`, then `not-automated.md`. Those three carry the argument.
+**To evaluate the design:** `architecture.md`, then PDR-004 in `decision-log.md`, then `not-automated.md`. Those three carry the argument.
 
 **To reuse the pattern:** `architecture.md` for the stage model, `routing-matrix.md` for how routing policy is kept reviewable by non-engineers, `agent-contract.md` for the instruction structure. The specific request types are disposable; the separation of drafting from judgement is not.
 
@@ -62,9 +62,9 @@ Named here rather than left in footnotes, because a reference implementation tha
 
 - **Knowledge pack content enters the agent's instruction.** Write access to the documentation space is therefore effectively write access to the agent. This is the highest-value unaddressed risk in the design.
 - **Nothing detects knowledge pack drift.** Drafting quality decays gradually rather than failing.
-- **Reviewer attribution is role-level.** Resume links are bearer capabilities in a shared channel; the pipeline cannot detect that an approver is also the requester. ADR-010 states the limitation and does not survive contact with a real audit obligation.
+- **Reviewer attribution is role-level.** Resume links are bearer capabilities in a shared channel; the pipeline cannot detect that an approver is also the requester. PDR-010 states the limitation and does not survive contact with a real audit obligation.
 - **The approval gate compels a click, not a reading.** It cannot prevent rubber-stamping. `metrics.md` proposes indicators intended to make it visible, all of them proxies.
-- **Delimiters are a convention, not a boundary.** Untrusted input handling makes instruction-following far less likely, not impossible. Nothing here depends on it holding, which is why the full instruction is published (ADR-012).
+- **Delimiters are a convention, not a boundary.** Untrusted input handling makes instruction-following far less likely, not impossible. Nothing here depends on it holding, which is why the full instruction is published (PDR-012).
 
 ## Relation to the rest of this repository
 
@@ -72,9 +72,7 @@ Named here rather than left in footnotes, because a reference implementation tha
 
 The drafting agent's core obligation is the same one the `brd-drafter` skill is built on: report what is absent rather than filling it. An artifact that looks complete passes review by looking complete.
 
-Two open items pending alignment with `framework/`:
+Aligned with `framework/`:
 
-- Request identifier format `BR-<TYPE>-<YYYY>-<NNN>` against `framework/conventions/naming-and-ids.md`
-- ADR structure against `framework/adr-template.md`
-
-In both cases the `framework/` definition wins and these files will be amended.
+- Request identifiers follow `framework/conventions/naming-and-ids.md`: `BR-<NNN>`, one global sequence, zero-padded, never reused, never renumbered.
+- Decision records follow the structure of the framework ADR template, under the `PDR-` prefix. See `decision-log.md` for why the prefix differs.
