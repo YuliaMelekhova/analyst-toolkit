@@ -117,6 +117,15 @@ Placeholders must fail loudly. A sanitised export that imports and runs against 
 
 Automated scans catch the mechanical cases. They do not catch an internal project name, so section 5 still applies.
 
+The `jq` scans below assume `jq` is installed. Where it is not, the equivalent checks run under Python with no dependencies:
+
+```bash
+python3 -c "import json,sys; d=json.load(open(sys.argv[1])); \
+print('pinData' in d, 'staticData' in d, d.get('meta',{}).get('instanceId')); \
+print(sorted({v['name'] for n in d['nodes'] if 'credentials' in n for v in n['credentials'].values()}))" \
+  n8n-workflow.sanitized.json
+```
+
 ```bash
 # Keys that should not exist at all
 jq 'has("pinData"), has("staticData"), .meta.instanceId' n8n-workflow.sanitized.json
