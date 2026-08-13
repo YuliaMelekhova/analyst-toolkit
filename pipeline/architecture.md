@@ -35,7 +35,7 @@ Six stages, each with one owner and one responsibility. Stage names are canonica
 Two rules constrain the model:
 
 - **The Registry is the state of record, not Confluence and not Slack.** A request has exactly one status, and it lives in Notion. Confluence holds published output; Slack holds conversation. Neither is authoritative about where a request stands.
-- **Drafting and Review are separate stages held by separate actors.** They are not two steps of one activity. See ADR-004 in `decision-log.md`.
+- **Drafting and Review are separate stages held by separate actors.** They are not two steps of one activity. See PDR-004 in `decision-log.md`.
 
 ## Flow
 
@@ -139,7 +139,7 @@ flowchart LR
 
 **Boundary 2: pipeline to LLM agent.** The agent receives the request payload and the knowledge pack for its type. It does not receive credentials, and it holds no write access to Confluence or to the Registry status field. Its output is a draft body and a gap list, returned to n8n, which performs writes on its behalf under scoped permissions.
 
-**Boundary 3: agent output to publication.** Crossed only by an authenticated human action recorded against a named reviewer role. This is the structural gate; see ADR-004.
+**Boundary 3: agent output to publication.** Crossed only by an authenticated human action recorded against a named reviewer role. This is the structural gate; see PDR-004.
 
 ## Stage contracts
 
@@ -181,9 +181,11 @@ The gap list is the load-bearing part. An agent that quietly invents a plausible
 
 Applied consistently across the workflow export, the routing matrix and the decision log.
 
-**Request identifier:** `BR-<TYPE>-<YYYY>-<NNN>`, for example `BR-FEE-2026-014`. Type codes are `FEE`, `RAIL`, `RISK`, `RPT`, `MEX`, `INT`, defined in `routing-matrix.md`. Sequence is per year, not per type.
+**Request identifier:** `BR-<NNN>`, for example `BR-014`. One global sequence across all request types, zero-padded to three digits, per `framework/conventions/naming-and-ids.md`. Numbers are never reused and never renumbered; a deleted request leaves a gap in the sequence.
 
-> Pending check: `framework/conventions/naming-and-ids.md` is the authority for identifier formats in this repository. If it defines a conflicting shape, that definition wins and this section is amended to match.
+The identifier carries no type segment and no year. This was not the first design: an earlier draft used `BR-<TYPE>-<YYYY>-<NNN>`, which reads well in a Slack message and becomes false the moment a reviewer reclassifies a request. An identifier exists to be referenced, and a reference that has to be corrected is worse than one that was never descriptive. Type lives on the registry record, which is the field that can change.
+
+Anyone filtering requests by type reads the `Type` property. Nothing parses the identifier.
 
 **n8n node names:** `<STAGE> <NN> <Action>`, for example `ORC 03 Classify request type`, `REG 01 Create request record`. Stage abbreviations are `ITK`, `ORC`, `REG`, `DFT`, `REV`, `PUB`. Numbering is sequential per stage; node names are stable once assigned, and a node removed from the flow leaves its number retired rather than triggering a renumber of the rest.
 
