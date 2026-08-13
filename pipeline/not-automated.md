@@ -16,7 +16,7 @@ The test that separates category 1 from category 2: **would automating this make
 
 ### The approval decision
 
-Covered in full by ADR-004. Summarised here because every other entry in this section depends on it: no automated actor can write the `Published` status, there is no timeout that approves, and no request type skips review.
+Covered in full by PDR-004. Summarised here because every other entry in this section depends on it: no automated actor can write the `Published` status, there is no timeout that approves, and no request type skips review.
 
 ### Any compliance, legal or risk position
 
@@ -38,11 +38,11 @@ Ranking gaps sounds harmless and is not. A severity label produces a reading ord
 
 If a reviewer determines the type is wrong, a human corrects it and the request re-enters at Orchestration. Nothing detects misclassification automatically.
 
-The pipeline has exactly one place where it decides something about a request, and that place is a lookup against a requester-supplied code. Adding a model-based check would create a second, silent judgement, which is the pattern ADR-004 exists to prevent.
+The pipeline has exactly one place where it decides something about a request, and that place is a lookup against a requester-supplied code. Adding a model-based check would create a second, silent judgement, which is the pattern PDR-004 exists to prevent.
 
 ### Promoting a RISK draft to current status
 
-`RISK` requests publish as draft (ADR-006). Promotion is manual and lives outside this pipeline.
+`RISK` requests publish as draft (PDR-006). Promotion is manual and lives outside this pipeline.
 
 The pipeline cannot observe whether a fraud threshold was actually implemented. Automating promotion would mean automating a claim about system state the pipeline has no access to. The predictable failure is a forgotten promotion leaving accurate documentation in draft, which is the better failure than a false assurance in the current space.
 
@@ -72,10 +72,10 @@ Not principled positions. Gaps, stated so they are not discovered later. Also li
 |---|---|---|
 | No Slack request signature verification in `ITK 01` | The intake webhook accepts anything that reaches it. Path obscurity is not a control | A verification node before `ORC 01`, rejecting on signature mismatch |
 | Sequence generation via workflow static data in `REG 02` | Identifier collisions under concurrent submissions | A registry count query, or a dedicated counter with atomic increment |
-| Resume links are bearer capabilities in a shared channel | Anyone in the channel can decide; no individual attribution (ADR-010) | An authenticated approval surface, deployment specific |
+| Resume links are bearer capabilities in a shared channel | Anyone in the channel can decide; no individual attribution (PDR-010) | An authenticated approval surface, deployment specific |
 | No requester-is-reviewer detection | Self-approval is possible and undetected | Follows from individual attribution; unenforceable without it |
 | No error workflow | Failures surface only in the n8n execution log. A stalled request is silent | An error workflow notifying the requester and the maintainer with the request identifier |
-| No retry on `DFT 03` failure | A transient API error discards a request entirely | A capped retry with backoff. Capped, because an uncapped retry against a paid API is a cost incident (ADR-007) |
+| No retry on `DFT 03` failure | A transient API error discards a request entirely | A capped retry with backoff. Capped, because an uncapped retry against a paid API is a cost incident (PDR-007) |
 | No delimiter escaping in `ORC 02` | A request body containing the closing delimiter breaks the request block | Reject or escape the delimiter sequence during validation |
 | No knowledge pack drift detection | Drafting quality decays silently as packs diverge from reality | Change monitoring on pack pages, with staleness surfaced to the reviewer at review time |
 
@@ -95,7 +95,7 @@ A digest of open requests older than their SLA, posted to a channel humans read 
 
 ### Load-balanced assignment to individual reviewers
 
-**The case for.** Role-level assignment means everyone assumes someone else will pick it up. Assigning to a named person creates ownership and would fix both the diffusion of responsibility and the attribution gap in ADR-010.
+**The case for.** Role-level assignment means everyone assumes someone else will pick it up. Assigning to a named person creates ownership and would fix both the diffusion of responsibility and the attribution gap in PDR-010.
 
 **Why not.** These are two different problems and the second one is the reason to be careful. Assignment by round-robin creates attribution without accountability: the record shows a name, and that name was allocated by an algorithm rather than chosen by someone weighing who should look at this. It reads like individual accountability under audit while being load balancing.
 
@@ -117,13 +117,13 @@ There is a second problem specific to using a model to check a model. The two sh
 
 ### Model-based classification at intake
 
-Covered by ADR-003. Restated because it is the most frequently proposed change: classification by model is a second place where the pipeline is silently wrong, and the requester never sees what it decided.
+Covered by PDR-003. Restated because it is the most frequently proposed change: classification by model is a second place where the pipeline is silently wrong, and the requester never sees what it decided.
 
 ### Publishing directly on approval, skipping the registry write-back
 
 **The case for.** `REG 05` is an extra API call between approval and publication, and a failure there leaves a published page with a registry record still reading `In review`.
 
-**Why not.** The failure is real and the ordering is deliberate: publication happens first, then the write-back. A failed write-back leaves a published page and a stale record, which is recoverable and detectable. The reverse ordering would leave records claiming publication for pages that do not exist, which is a lie the registry tells confidently. The registry is the state of record (ADR-001), and a state of record that overstates is worse than one that lags.
+**Why not.** The failure is real and the ordering is deliberate: publication happens first, then the write-back. A failed write-back leaves a published page and a stale record, which is recoverable and detectable. The reverse ordering would leave records claiming publication for pages that do not exist, which is a lie the registry tells confidently. The registry is the state of record (PDR-001), and a state of record that overstates is worse than one that lags.
 
 ---
 
