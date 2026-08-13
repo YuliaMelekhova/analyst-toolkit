@@ -176,7 +176,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// BR-<TYPE>-<YYYY>-<NNN>, sequence per year across all types.\n// The sequence source is the registry record count for the current year; the\n// count query is intentionally not shown here because it is registry-specific.\n// Replace SEQUENCE_SOURCE with a real lookup before use.\nconst item = $input.first().json;\nconst year = new Date(item.submittedAt).getUTCFullYear();\n\nconst sequence = $getWorkflowStaticData('global').lastSequence\n  ? $getWorkflowStaticData('global').lastSequence + 1\n  : 1; // SEQUENCE_SOURCE: replace with a registry count query. Static data is\n       // not safe against concurrent executions and is a placeholder only.\n$getWorkflowStaticData('global').lastSequence = sequence;\n\nconst requestId = `BR-${item.typeCode}-${year}-${String(sequence).padStart(3, '0')}`;\n\nreturn [{ json: { ...item, requestId, registryPageId: item.id ?? null } }];"
+        "jsCode": "// BR-<NNN>, per framework/conventions/naming-and-ids.md.\n// One global sequence across all request types. No type segment and no year:\n// an identifier that encodes classification becomes wrong when a request is\n// reclassified, and identifiers must never be renumbered.\n// Zero-padded to three digits so text sorting matches numeric sorting.\nconst item = $input.first().json;\n\nconst sequence = $getWorkflowStaticData('global').lastSequence\n  ? $getWorkflowStaticData('global').lastSequence + 1\n  : 1; // SEQUENCE_SOURCE: replace with a registry count query. Static data is\n       // not safe against concurrent executions and is a placeholder only.\n// Sequence numbers are never reused. A deleted request leaves a gap.\n$getWorkflowStaticData('global').lastSequence = sequence;\n\nconst requestId = `BR-${String(sequence).padStart(3, '0')}`;\n\nreturn [{ json: { ...item, requestId, registryPageId: item.id ?? null } }];"
       },
       "id": "00000000-0000-0000-0000-000000000007",
       "name": "REG 02 Assign request identifier",
@@ -403,7 +403,7 @@
         200
       ],
       "webhookId": "00000000-0000-0000-0000-00000000000b",
-      "notes": "Execution halts here indefinitely by design. There is no timeout that auto-approves. See decision-log.md ADR-004."
+      "notes": "Execution halts here indefinitely by design. There is no timeout that auto-approves. See decision-log.md PDR-004."
     },
     {
       "parameters": {
