@@ -71,7 +71,7 @@ The temptation is to apply secondary review widely, on the theory that two revie
 
 **Cross-cutting requests.** A request that genuinely spans two types is not routed to both. It is returned as `Needs input` with an instruction to split it. Combined requests produce a document that neither reviewer owns and that gets approved on the strength of the half each reviewer understood.
 
-**Misclassification.** If the reviewer determines the type is wrong, the decision is `Needs input`, the type is corrected on the registry record, and the request re-enters at Orchestration. The original identifier is retained; the identifier tracks the request, not its classification. This means a `BR-FEE-2026-014` may end up documented as a `RPT` request, which looks untidy and is preferable to renumbering something people have already linked to.
+**Misclassification.** If the reviewer determines the type is wrong, the decision is `Needs input`, the type is corrected on the registry record, and the request re-enters at Orchestration. The identifier is unaffected: `BR-014` describes a request, not its classification, and correcting the type changes one registry field and nothing else. Identifiers are never renumbered (`framework/conventions/naming-and-ids.md`).
 
 ## Unmatched types
 
