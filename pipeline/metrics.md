@@ -85,11 +85,11 @@ Not measured, on purpose.
 
 **Hours saved.** Requires a counterfactual that does not exist. There is no baseline, and constructing one from estimated manual drafting time produces a figure whose magnitude is set by whoever chose the estimate.
 
-**Automation rate, or share of requests completed without human intervention.** This metric is directly adversarial to ADR-004. The target value is zero by design, so tracking it creates pressure toward a number the architecture exists to prevent. A metric that rewards removing the control is worse than no metric.
+**Automation rate, or share of requests completed without human intervention.** This metric is directly adversarial to PDR-004. The target value is zero by design, so tracking it creates pressure toward a number the architecture exists to prevent. A metric that rewards removing the control is worse than no metric.
 
 **Any agent accuracy or quality score.** Would require either a second model grading the first, rejected in `not-automated.md`, or human grading at a volume nobody will sustain past the first month. A quality score that decays into being computed from whatever is cheap is worse than an acknowledged absence.
 
-**Per-individual reviewer statistics.** Unavailable anyway, since attribution is role-level (ADR-010). Worth stating as a choice rather than a limitation: measurement aimed at individuals becomes performance management, and reviewers who are measured on throughput approve faster. The metric would change the behaviour it claims to observe, in the wrong direction.
+**Per-individual reviewer statistics.** Unavailable anyway, since attribution is role-level (PDR-010). Worth stating as a choice rather than a limitation: measurement aimed at individuals becomes performance management, and reviewers who are measured on throughput approve faster. The metric would change the behaviour it claims to observe, in the wrong direction.
 
 ## Instrumentation gaps
 
