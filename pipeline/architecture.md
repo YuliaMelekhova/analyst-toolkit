@@ -116,6 +116,8 @@ stateDiagram-v2
     end note
 ```
 
+One asymmetry is worth naming, because the diagram does not show it. A request enters this state machine only when the Registry record is created, which happens after validation. A submission that fails validation in Orchestration therefore never reaches `Submitted` at all: the requester is told what is missing and no record exists. The `Submitted -> Needs input` transition covers requests that were registered and later found incomplete, not malformed submissions. Registering malformed submissions was considered and rejected, since it fills the registry with records that were never requests.
+
 `Needs input` is deliberately reachable from three stages. A pipeline that can only succeed or fail pushes reviewers toward approving weak drafts because rejection feels expensive. A cheap path back to the requester makes "this is not ready" the low-friction option.
 
 ## Trust boundaries
@@ -183,7 +185,9 @@ Applied consistently across the workflow export, the routing matrix and the deci
 
 > Pending check: `framework/naming-conventions.md` is the authority for identifier formats in this repository. If it defines a conflicting shape, that definition wins and this section is amended to match.
 
-**n8n node names:** `<STAGE> <NN> <Action>`, for example `ORC 03 Classify request type`, `REG 01 Create request record`. Stage abbreviations are `INT`, `ORC`, `REG`, `DFT`, `REV`, `PUB`. Numbering is per stage and gapped by design, so an inserted node does not force a renumber.
+**n8n node names:** `<STAGE> <NN> <Action>`, for example `ORC 03 Classify request type`, `REG 01 Create request record`. Stage abbreviations are `ITK`, `ORC`, `REG`, `DFT`, `REV`, `PUB`. Numbering is sequential per stage; node names are stable once assigned, and a node removed from the flow leaves its number retired rather than triggering a renumber of the rest.
+
+> Intake is abbreviated `ITK`, not `INT`, because `INT` is already the request type code for integration changes in `routing-matrix.md`. The collision surfaced while naming nodes, after both conventions had been set independently.
 
 **Roles, never people:** `Compliance Reviewer`, `Finance Approver`, `Backend Reviewer`, `Requester`. No individual names or accounts appear anywhere in this directory.
 
