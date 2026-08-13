@@ -74,7 +74,7 @@ The drafting agent's core obligation is the same one the `brd-drafter` skill is 
 
 Two open items pending alignment with `framework/`:
 
-- Request identifier format `BR-<TYPE>-<YYYY>-<NNN>` against `framework/naming-conventions.md`
+- Request identifier format `BR-<TYPE>-<YYYY>-<NNN>` against `framework/conventions/naming-and-ids.md`
 - ADR structure against `framework/adr-template.md`
 
 In both cases the `framework/` definition wins and these files will be amended.
