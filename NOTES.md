@@ -388,3 +388,69 @@ stakeholders.
 
 That is the case for the tooling, and it is a stronger case than any of the
 finding tables.
+
+---
+
+# NOTES entry: pipeline block
+
+> Append to `NOTES.md`. Written as a section to paste under the existing entries.
+
+---
+
+## 2026-08-13 - `pipeline/` reference implementation
+
+Nine files: `README.md`, `architecture.md`, `routing-matrix.md`, `agent-contract.md`, `decision-log.md`, `not-automated.md`, `metrics.md`, and `workflow/` holding a 24-node sanitised n8n export, a sanitisation checklist and a configuration reference.
+
+### Order, and why it mattered
+
+Written in dependency order rather than importance order: architecture first because it fixes the stage names every other file uses, then the sanitised export, then routing, agent contract, decision log, exclusions, metrics, README last.
+
+Putting the sanitisation work third was deliberate. It is the only step with a real disclosure risk, and it is better to hit that before nine files have accumulated around it. The ordering paid off differently than expected: it was not the sanitisation that surfaced problems, it was the act of writing documents against an artifact that already existed.
+
+### Four defects, all found by documenting rather than by building
+
+**The workflow was missing a node, and the build did not care.** `DFT 02 Generate draft` read `$json.agentInstruction` and `$json.agentPayload`. Nothing produced them. The JSON was valid, the graph had no dangling references, every automated check passed, and the workflow would have failed on first execution. It surfaced only when writing `agent-contract.md` forced the question of where the system prompt is assembled. Added `DFT 02 Assemble agent instruction`, renumbered generation to `DFT 03` and parsing to `DFT 04`, and added a check that every field a node reads is produced upstream.
+
+This is the entry worth keeping. Structural validation confirms a graph is well-formed; it says nothing about whether the data flowing through it exists. Writing the document that explains a component is a stronger test than building the component, because explanation requires tracing provenance and construction does not.
+
+**Two conventions collided.** The stage abbreviation for Intake was `INT`, and `INT` was already the request type code for integration changes. Both conventions were set in the same file, independently, ninety lines apart, and neither looked wrong on its own. Found while naming actual nodes. Intake became `ITK`; the request type codes were left alone since they were already agreed. The collision is recorded in `architecture.md` rather than quietly fixed.
+
+**A convention contradicted its own examples.** `architecture.md` claimed node numbering was "gapped by design, so an inserted node does not force a renumber" while giving `ORC 03` and `REG 01` as examples. Both cannot be true. Removed the gapping claim and stated instead that numbers are stable once assigned and a removed node leaves its number retired. Then immediately violated the new rule by renumbering `DFT 02` to `DFT 03`, which is defensible only because nothing had been published yet.
+
+**The state diagram described a state that cannot exist.** The lifecycle showed `Submitted -> Needs input` on validation failure. But validation runs in Orchestration, before the registry record is created, so a request failing validation never reaches `Submitted` at all. Two ways to fix it: create the record before validating, or amend the diagram. Chose the second, since registering malformed submissions fills the registry with records that were never requests. Added a paragraph naming the asymmetry rather than redrawing the diagram to hide it.
+
+### Verification approach
+
+Each document that duplicates data from the workflow got a script checking the duplication holds:
+
+- All six routing rows parsed out of the `ORC 04` Code node and matched against `routing-matrix.md` on template, reviewer role, secondary review, publication mode and SLA.
+- Every `ADR-NNN` reference across the directory resolved against headings in `decision-log.md`.
+- Every registry field cited in `metrics.md` checked against the fields actually written by `REG` nodes.
+- Graph integrity: dangling references, unreachable nodes, overlapping canvas positions.
+
+The routing table is duplicated in code and in prose on purpose (ADR-008), and duplication without a checker is just a delayed defect. The scripts are throwaway and were not committed, which is itself a gap: a check that exists only in a session transcript will not run again.
+
+### Sanitisation, dogfooded
+
+`SANITIZATION.md` was written before the export it describes, then run against it. Two findings.
+
+Clean on every scan, which was less reassuring than it sounds, since the file was generated from a builder script rather than exported from a live instance. A checklist validated only against synthetic output has not been tested on the case it exists for.
+
+`jq` was not present in the environment, so half the verification commands failed on first run. Added dependency-free Python equivalents. Small, and the kind of thing that makes a checklist unusable at the moment someone actually needs it.
+
+### The metrics decision
+
+The original plan had `metrics.md` reporting numbers. Changed to a measurement design with no values, for two reasons.
+
+The context is synthetic, so any figure would be fabricated, and labelling it illustrative does not help: readers retain "review latency around 30 hours" long after forgetting the label. Numbers are stickier than caveats.
+
+Second, and more useful generally: the pipeline replaces a process nobody measured, so there is no baseline. Without one, no measurement supports a claim of improvement, only a claim about the current state. Worth remembering the next time a before-and-after comparison is requested for something that was never instrumented before.
+
+The harder part was the review-quality family. Every indicator is a proxy and every proxy is gameable. The strongest available one is the correlation between gap count and approval decision: if approval rate is independent of how many gaps a draft carries, the gap list is not being read. Its presence proves nothing; its absence is hard to explain innocently. Wrote them as explicitly weak rather than putting weak proxies on a dashboard where presentation lends them authority.
+
+### Still open
+
+- Request identifier format and ADR structure are both marked pending against `framework/naming-conventions.md` and `framework/adr-template.md`. Two `pending check` markers in the files, to be resolved by reading the framework definitions rather than by asserting these are correct.
+- `instructionVersion` is computed in `DFT 02` and never persisted to the registry, so no measurement can be attributed to a version of the agent contract. Flagged in `metrics.md` as the instrumentation gap to close first, and not yet closed.
+- The verification scripts should become a committed check rather than session artifacts.
+
