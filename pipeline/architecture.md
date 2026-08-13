@@ -183,7 +183,7 @@ Applied consistently across the workflow export, the routing matrix and the deci
 
 **Request identifier:** `BR-<TYPE>-<YYYY>-<NNN>`, for example `BR-FEE-2026-014`. Type codes are `FEE`, `RAIL`, `RISK`, `RPT`, `MEX`, `INT`, defined in `routing-matrix.md`. Sequence is per year, not per type.
 
-> Pending check: `framework/naming-conventions.md` is the authority for identifier formats in this repository. If it defines a conflicting shape, that definition wins and this section is amended to match.
+> Pending check: `framework/conventions/naming-and-ids.md` is the authority for identifier formats in this repository. If it defines a conflicting shape, that definition wins and this section is amended to match.
 
 **n8n node names:** `<STAGE> <NN> <Action>`, for example `ORC 03 Classify request type`, `REG 01 Create request record`. Stage abbreviations are `ITK`, `ORC`, `REG`, `DFT`, `REV`, `PUB`. Numbering is sequential per stage; node names are stable once assigned, and a node removed from the flow leaves its number retired rather than triggering a renumber of the rest.
 
