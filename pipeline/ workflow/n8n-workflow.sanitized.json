@@ -1,0 +1,961 @@
+{
+  "name": "Business request intake to reviewed documentation (reference)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "<<INTAKE_WEBHOOK_PATH>>",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000000",
+      "name": "ITK 01 Receive request submission",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1360,
+        300
+      ],
+      "webhookId": "00000000-0000-0000-0000-00000000000a",
+      "notes": "Slack interactivity endpoint. Receives the view_submission payload from the request modal. Field values are treated as untrusted input from here on."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map the Slack modal submission onto the canonical request shape.\n// No interpretation happens here: fields are copied, trimmed and typed only.\nconst state = $input.first().json.view?.state?.values ?? {};\nconst pick = (block, action) => state[block]?.[action]?.value\n  ?? state[block]?.[action]?.selected_option?.value\n  ?? null;\n\nconst trim = (v) => (typeof v === 'string' ? v.trim() : v);\n\nreturn [{\n  json: {\n    submittedAt: new Date().toISOString(),\n    requesterSlackId: $input.first().json.user?.id ?? null,\n    typeCode: trim(pick('block_type', 'action_type')),\n    title: trim(pick('block_title', 'action_title')),\n    // Free text. Carried as data. Never concatenated into agent instructions.\n    body: trim(pick('block_body', 'action_body')),\n    businessJustification: trim(pick('block_justification', 'action_justification')),\n    requestedBy: trim(pick('block_team', 'action_team')),\n    targetDate: trim(pick('block_target_date', 'action_target_date')),\n  }\n}];"
+      },
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "ORC 01 Normalise payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1140,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect every missing field rather than failing on the first one, so the\n// requester gets one complete list instead of a sequence of rejections.\nconst REQUIRED = ['typeCode', 'title', 'body', 'businessJustification', 'requestedBy'];\nconst VALID_TYPES = ['FEE', 'RAIL', 'RISK', 'RPT', 'MEX', 'INT'];\n\nconst item = $input.first().json;\nconst missingFields = REQUIRED.filter((f) => !item[f] || String(item[f]).length === 0);\n\nif (item.typeCode && !VALID_TYPES.includes(item.typeCode)) {\n  missingFields.push('typeCode (value not in ' + VALID_TYPES.join(', ') + ')');\n}\nif (item.body && String(item.body).length < 40) {\n  missingFields.push('body (too short to draft from, minimum 40 characters)');\n}\n\nreturn [{ json: { ...item, missingFields, isValid: missingFields.length === 0 } }];"
+      },
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "ORC 02 Validate required fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -920,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c-valid",
+              "leftValue": "={{ $json.isValid }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "ORC 03 Route on validity",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -700,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Single source of routing truth inside the workflow.\n// Mirrored in pipeline/routing-matrix.md. If the two disagree, the matrix is\n// the document under review and this table is what actually runs, so a\n// mismatch is a defect in both.\nconst ROUTING = {\n  FEE:  { label: 'Fee schedule change',                template: 'brd-fee-change',         reviewerRole: 'Finance Approver',    reviewerChannel: 'C00000000001', parentPageId: '0000000001', publicationMode: 'standard',   reviewSlaHours: 48,  secondaryReview: [] },\n  RAIL: { label: 'Payout rail or corridor enablement', template: 'brd-rail-enablement',    reviewerRole: 'Compliance Reviewer', reviewerChannel: 'C00000000002', parentPageId: '0000000002', publicationMode: 'standard',   reviewSlaHours: 120, secondaryReview: ['Backend Reviewer'] },\n  RISK: { label: 'Fraud rule threshold adjustment',    template: 'brd-risk-threshold',     reviewerRole: 'Compliance Reviewer', reviewerChannel: 'C00000000002', parentPageId: '0000000003', publicationMode: 'draft-only', reviewSlaHours: 24,  secondaryReview: [] },\n  RPT:  { label: 'Reconciliation or reporting request',template: 'brd-reporting',          reviewerRole: 'Finance Approver',    reviewerChannel: 'C00000000001', parentPageId: '0000000004', publicationMode: 'standard',   reviewSlaHours: 72,  secondaryReview: [] },\n  MEX:  { label: 'Merchant onboarding exception',      template: 'brd-merchant-exception', reviewerRole: 'Compliance Reviewer', reviewerChannel: 'C00000000002', parentPageId: '0000000005', publicationMode: 'standard',   reviewSlaHours: 48,  secondaryReview: [] },\n  INT:  { label: 'Merchant integration or API change', template: 'brd-integration',        reviewerRole: 'Backend Reviewer',    reviewerChannel: 'C00000000003', parentPageId: '0000000006', publicationMode: 'standard',   reviewSlaHours: 72,  secondaryReview: [] },\n};\n\nconst item = $input.first().json;\nconst routing = ROUTING[item.typeCode];\n\n// No default branch. An unknown type must not silently take the cheapest path.\nif (!routing) {\n  throw new Error('No routing rule for type code: ' + item.typeCode);\n}\n\nreturn [{ json: { ...item, routing } }];"
+      },
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "ORC 04 Resolve routing rule",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.requesterSlackId }}",
+          "mode": "id"
+        },
+        "text": "=Your request could not be registered yet. Missing or invalid:\n{{ $json.missingFields.map(f => '- ' + f).join('\\n') }}\n\nResubmit with these filled in. Nothing has been recorded.",
+        "otherOptions": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000005",
+      "name": "ORC 09 Return validation failure to requester",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        520
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Slack account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "00000000-0000-0000-0000-000000000000",
+          "mode": "id"
+        },
+        "title": "={{ $json.title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Submitted"
+            },
+            {
+              "key": "Type|select",
+              "selectValue": "={{ $json.typeCode }}"
+            },
+            {
+              "key": "Requesting team|rich_text",
+              "textContent": "={{ $json.requestedBy }}"
+            },
+            {
+              "key": "Reviewer role|select",
+              "selectValue": "={{ $json.routing.reviewerRole }}"
+            },
+            {
+              "key": "Review SLA hours|number",
+              "numberValue": "={{ $json.routing.reviewSlaHours }}"
+            },
+            {
+              "key": "Submitted at|date",
+              "date": "={{ $json.submittedAt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000006",
+      "name": "REG 01 Create request record",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        200
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      },
+      "notes": "The registry is the state of record. Status lives here and nowhere else."
+    },
+    {
+      "parameters": {
+        "jsCode": "// BR-<TYPE>-<YYYY>-<NNN>, sequence per year across all types.\n// The sequence source is the registry record count for the current year; the\n// count query is intentionally not shown here because it is registry-specific.\n// Replace SEQUENCE_SOURCE with a real lookup before use.\nconst item = $input.first().json;\nconst year = new Date(item.submittedAt).getUTCFullYear();\n\nconst sequence = $getWorkflowStaticData('global').lastSequence\n  ? $getWorkflowStaticData('global').lastSequence + 1\n  : 1; // SEQUENCE_SOURCE: replace with a registry count query. Static data is\n       // not safe against concurrent executions and is a placeholder only.\n$getWorkflowStaticData('global').lastSequence = sequence;\n\nconst requestId = `BR-${item.typeCode}-${year}-${String(sequence).padStart(3, '0')}`;\n\nreturn [{ json: { ...item, requestId, registryPageId: item.id ?? null } }];"
+      },
+      "id": "00000000-0000-0000-0000-000000000007",
+      "name": "REG 02 Assign request identifier",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        200
+      ],
+      "notes": "Known weakness: static data is not concurrency safe. See decision-log.md."
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.registryPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Drafted"
+            },
+            {
+              "key": "Open gaps|number",
+              "numberValue": "={{ $json.gapList.length }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000008",
+      "name": "REG 03 Set status Drafted",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        840,
+        200
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.registryPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "In review"
+            },
+            {
+              "key": "Review requested at|date",
+              "date": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000009",
+      "name": "REG 04 Set status In review",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1280,
+        200
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://example.invalid/wiki/api/v2/pages/{{ $json.routing.template }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000010",
+      "name": "DFT 01 Load knowledge pack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        180,
+        200
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "00000000-0000-0000-0000-000000000003",
+          "name": "Documentation platform auth (placeholder)"
+        }
+      },
+      "notes": "Knowledge pack and template for the resolved request type. If this fails, drafting must not proceed on a generic template."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  model: 'claude-sonnet-4-6',\n  max_tokens: 4000,\n  system: $json.agentInstruction,\n  messages: [{ role: 'user', content: $json.agentPayload }]\n}) }}",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000011",
+      "name": "DFT 02 Generate draft",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        400,
+        200
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "00000000-0000-0000-0000-000000000004",
+          "name": "LLM provider auth (placeholder)"
+        }
+      },
+      "notes": "The agent has no credentials of its own and no write access. It returns text to n8n, which performs every write under scoped permissions."
+    },
+    {
+      "parameters": {
+        "jsCode": "// The agent is instructed to return a single JSON object. Parsing is strict:\n// an unparseable response is a failure, not something to salvage with a regex.\nconst raw = $input.first().json.content?.map(b => b.text ?? '').join('') ?? '';\nlet parsed;\n\ntry {\n  parsed = JSON.parse(raw.replace(/^```json\\s*|\\s*```$/g, '').trim());\n} catch (e) {\n  throw new Error('Agent response was not valid JSON. Draft discarded.');\n}\n\nif (!Array.isArray(parsed.gapList)) {\n  throw new Error('Agent response omitted gapList. Draft discarded.');\n}\nif (typeof parsed.body !== 'string' || parsed.body.length === 0) {\n  throw new Error('Agent response omitted body. Draft discarded.');\n}\n\n// A draft claiming zero gaps is possible but rare enough to be worth surfacing\n// to the reviewer rather than trusting.\nconst prior = $('REG 02 Assign request identifier').first().json;\n\nreturn [{\n  json: {\n    ...prior,\n    draftBody: parsed.body,\n    gapList: parsed.gapList,\n    gapListEmpty: parsed.gapList.length === 0,\n  }\n}];"
+      },
+      "id": "00000000-0000-0000-0000-000000000012",
+      "name": "DFT 03 Parse draft and gap list",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        620,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.routing.reviewerChannel }}",
+          "mode": "id"
+        },
+        "text": "=*{{ $json.requestId }}* - {{ $json.title }}\nType: {{ $json.routing.label }}\nReviewer role: {{ $json.routing.reviewerRole }}\nSLA: {{ $json.routing.reviewSlaHours }}h\nOpen gaps: {{ $json.gapList.length }}{{ $json.gapListEmpty ? '  <- zero gaps reported, verify this is real' : '' }}\n\n{{ $json.gapList.map(g => '- ' + g).join('\\n') }}\n\nApprove: {{ $execution.resumeUrl }}?decision=approved\nReject: {{ $execution.resumeUrl }}?decision=rejected\nNeeds input: {{ $execution.resumeUrl }}?decision=needs_input",
+        "otherOptions": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000013",
+      "name": "REV 01 Request reviewer approval",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Slack account (placeholder)"
+        }
+      },
+      "notes": "Gap list is shown before the approve link, not after, and not collapsed. A reviewer who approves has been shown what is missing."
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000014",
+      "name": "REV 02 Wait for reviewer decision",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1500,
+        200
+      ],
+      "webhookId": "00000000-0000-0000-0000-00000000000b",
+      "notes": "Execution halts here indefinitely by design. There is no timeout that auto-approves. See decision-log.md ADR-004."
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d-app",
+                    "leftValue": "={{ $json.query.decision }}",
+                    "rightValue": "approved",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "approved"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d-rej",
+                    "leftValue": "={{ $json.query.decision }}",
+                    "rightValue": "rejected",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rejected"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d-ni",
+                    "leftValue": "={{ $json.query.decision }}",
+                    "rightValue": "needs_input",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "needs_input"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000015",
+      "name": "REV 03 Route reviewer decision",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1720,
+        200
+      ],
+      "notes": "No fallback output. An unrecognised decision value fails the execution rather than defaulting to any status."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://example.invalid/wiki/api/v2/pages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  spaceId: '<<DOCS_SPACE_ID>>',\n  parentId: $json.routing.parentPageId,\n  status: $json.routing.publicationMode === 'draft-only' ? 'draft' : 'current',\n  title: $json.requestId + ' ' + $json.title,\n  body: { representation: 'storage', value: $json.draftBody }\n}) }}",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000016",
+      "name": "PUB 01 Create documentation page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1940,
+        40
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "00000000-0000-0000-0000-000000000003",
+          "name": "Documentation platform auth (placeholder)"
+        }
+      },
+      "notes": "RISK requests publish as draft regardless of approval. Approval authorises the record, not the activation of a fraud threshold."
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.registryPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Published"
+            },
+            {
+              "key": "Published page|url",
+              "urlValue": "={{ $json._links?.webui }}"
+            },
+            {
+              "key": "Approved by role|select",
+              "selectValue": "={{ $json.routing.reviewerRole }}"
+            },
+            {
+              "key": "Decided at|date",
+              "date": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000017",
+      "name": "REG 05 Set status Published and write back URL",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        40
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      },
+      "notes": "Reachable only downstream of REV 03. No other path writes Published."
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.requesterSlackId }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.requestId }} has been reviewed and published.",
+        "otherOptions": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000018",
+      "name": "PUB 02 Notify requester of publication",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2380,
+        40
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Slack account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.registryPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Rejected"
+            },
+            {
+              "key": "Decision reason|rich_text",
+              "textContent": "={{ $json.query.reason ?? 'Not supplied' }}"
+            },
+            {
+              "key": "Decided at|date",
+              "date": "={{ $now.toISO() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000019",
+      "name": "REG 06 Set status Rejected",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1940,
+        300
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.requesterSlackId }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.requestId }} was not approved. Reason: {{ $json.query.reason ?? 'not supplied' }}. Nothing was published.",
+        "otherOptions": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000020",
+      "name": "PUB 03 Notify requester of rejection",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Slack account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.registryPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Needs input"
+            },
+            {
+              "key": "Decision reason|rich_text",
+              "textContent": "={{ $json.query.reason ?? 'Not supplied' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000021",
+      "name": "REG 07 Set status Needs input after review",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1940,
+        560
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "00000000-0000-0000-0000-000000000002",
+          "name": "Registry account (placeholder)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.requesterSlackId }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.requestId }} needs more from you before it can be published: {{ $json.query.reason ?? 'see reviewer comment' }}. The record stays open.",
+        "otherOptions": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000022",
+      "name": "PUB 04 Request additional input from requester",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        560
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "00000000-0000-0000-0000-000000000001",
+          "name": "Slack account (placeholder)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "ITK 01 Receive request submission": {
+      "main": [
+        [
+          {
+            "node": "ORC 01 Normalise payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ORC 01 Normalise payload": {
+      "main": [
+        [
+          {
+            "node": "ORC 02 Validate required fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ORC 02 Validate required fields": {
+      "main": [
+        [
+          {
+            "node": "ORC 03 Route on validity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ORC 03 Route on validity": {
+      "main": [
+        [
+          {
+            "node": "ORC 04 Resolve routing rule",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ORC 09 Return validation failure to requester",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ORC 04 Resolve routing rule": {
+      "main": [
+        [
+          {
+            "node": "REG 01 Create request record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 01 Create request record": {
+      "main": [
+        [
+          {
+            "node": "REG 02 Assign request identifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 02 Assign request identifier": {
+      "main": [
+        [
+          {
+            "node": "DFT 01 Load knowledge pack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DFT 01 Load knowledge pack": {
+      "main": [
+        [
+          {
+            "node": "DFT 02 Generate draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DFT 02 Generate draft": {
+      "main": [
+        [
+          {
+            "node": "DFT 03 Parse draft and gap list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DFT 03 Parse draft and gap list": {
+      "main": [
+        [
+          {
+            "node": "REG 03 Set status Drafted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 03 Set status Drafted": {
+      "main": [
+        [
+          {
+            "node": "REV 01 Request reviewer approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REV 01 Request reviewer approval": {
+      "main": [
+        [
+          {
+            "node": "REG 04 Set status In review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 04 Set status In review": {
+      "main": [
+        [
+          {
+            "node": "REV 02 Wait for reviewer decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REV 02 Wait for reviewer decision": {
+      "main": [
+        [
+          {
+            "node": "REV 03 Route reviewer decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REV 03 Route reviewer decision": {
+      "main": [
+        [
+          {
+            "node": "PUB 01 Create documentation page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "REG 06 Set status Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "REG 07 Set status Needs input after review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PUB 01 Create documentation page": {
+      "main": [
+        [
+          {
+            "node": "REG 05 Set status Published and write back URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 05 Set status Published and write back URL": {
+      "main": [
+        [
+          {
+            "node": "PUB 02 Notify requester of publication",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 06 Set status Rejected": {
+      "main": [
+        [
+          {
+            "node": "PUB 03 Notify requester of rejection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REG 07 Set status Needs input after review": {
+      "main": [
+        [
+          {
+            "node": "PUB 04 Request additional input from requester",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": false
+  },
+  "tags": []
+}
