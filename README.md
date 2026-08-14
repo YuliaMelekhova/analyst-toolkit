@@ -86,10 +86,11 @@ automated actor can publish.** The agent holds no credentials, cannot reach the
 registry or the documentation platform, and every write is performed on its
 behalf. There is no timeout that approves and no request type that skips review.
 
-Alongside the implementation, the design record: twelve ADRs with their rejected
-alternatives, a routing matrix written to be argued with by the people it routes
-to, an agent contract with its own weaknesses stated, a measurement design that
-reports no numbers, and a document on what is held by humans on purpose.
+Alongside the implementation, the design record: eleven decision records with
+their rejected alternatives, a routing matrix written to be argued with by the
+people it routes to, an agent contract with its own weaknesses stated, a
+measurement design that reports no numbers, and a document on what is held by
+humans on purpose.
 
 The tooling is real and named. The business context is synthetic. The workflow
 export is sanitised and will not run as supplied.
@@ -110,7 +111,7 @@ installation at all.
 
 **To read the pipeline as a case**, start with
 [`pipeline/README.md`](pipeline/README.md). If you only read three files, make
-them `architecture.md`, ADR-004 in `decision-log.md`, and `not-automated.md` -
+them `architecture.md`, PDR-004 in `decision-log.md`, and `not-automated.md` -
 those carry the argument.
 
 **To publish an n8n workflow of your own**,
