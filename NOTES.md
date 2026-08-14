@@ -424,11 +424,11 @@ This is the entry worth keeping. Structural validation confirms a graph is well-
 Each document that duplicates data from the workflow got a script checking the duplication holds:
 
 - All six routing rows parsed out of the `ORC 04` Code node and matched against `routing-matrix.md` on template, reviewer role, secondary review, publication mode and SLA.
-- Every `ADR-NNN` reference across the directory resolved against headings in `decision-log.md`.
+- Every `PDR-NNN` reference across the directory resolved against headings in `decision-log.md`.
 - Every registry field cited in `metrics.md` checked against the fields actually written by `REG` nodes.
 - Graph integrity: dangling references, unreachable nodes, overlapping canvas positions.
 
-The routing table is duplicated in code and in prose on purpose (ADR-008), and duplication without a checker is just a delayed defect. The scripts are throwaway and were not committed, which is itself a gap: a check that exists only in a session transcript will not run again.
+The routing table is duplicated in code and in prose on purpose (PDR-008), and duplication without a checker is just a delayed defect. The scripts are throwaway and were not committed, which is itself a gap: a check that exists only in a session transcript will not run again.
 
 ### Sanitisation, dogfooded
 
@@ -450,7 +450,39 @@ The harder part was the review-quality family. Every indicator is a proxy and ev
 
 ### Still open
 
-- Request identifier format and ADR structure are both marked pending against `framework/naming-conventions.md` and `framework/adr-template.md`. Two `pending check` markers in the files, to be resolved by reading the framework definitions rather than by asserting these are correct.
 - `instructionVersion` is computed in `DFT 02` and never persisted to the registry, so no measurement can be attributed to a version of the agent contract. Flagged in `metrics.md` as the instrumentation gap to close first, and not yet closed.
 - The verification scripts should become a committed check rather than session artifacts.
 
+## 2026-08-14 - corrections found by reading the published repository
+
+### A directory named with a leading space
+
+`pipeline/workflow/` was actually `pipeline/ workflow/`. Twelve links across six files pointed at the path without the space, and every one of them returned 404 on GitHub. Confirmed against `raw.githubusercontent.com`: the un-spaced path returned 404, the percent-encoded `%20workflow` path returned 200.
+
+The worst-placed of those links is in the root README, which offers `SANITIZATION.md` as the one piece that stands alone and needs nothing else from this repository. It was the file least reachable.
+
+Nothing anywhere referenced the spaced path, so renaming the directory fixed all twelve links and broke none.
+
+Why it survived every check: a leading space is a legal directory name, and the local checkout resolves relative paths from it without complaint - every editor, shell and Markdown preview opens the file. Link checking was done by reading, and a reader supplies the path they expect rather than the path that exists. The defect is only visible from outside the checkout, which is the one vantage point never used.
+
+This is the fifth defect in this block found by looking at the artifact rather than at the tooling, and the first found by looking at it as a stranger would. The earlier four came from writing explanations. This one came from fetching the files over HTTP, which is a different test and apparently a necessary one: an artifact published for other people has a failure mode that only exists once it is published.
+
+### The alignment markers were closed but the log was not
+
+The `Still open` list carried two `pending check` markers against `framework/naming-conventions.md` and `framework/adr-template.md`. Stale in two ways.
+
+The markers themselves were already gone from the pipeline files. Request identifiers are `BR-<NNN>` per the convention, with the consequence recorded: `PDR-011` had nothing left to decide once type segments were removed from identifiers, and was deleted. The `PDR-` prefix is documented in `decision-log.md` as an extension to the framework scheme rather than a use of it. The decision records follow `framework/templates/adr.md` section for section.
+
+And neither path in the bullet was correct. The files are `framework/conventions/naming-and-ids.md` and `framework/templates/adr.md`.
+
+A resolved item left in an open list is worse than an unrecorded one. It spends attention on a question that already has an answer, and it makes the rest of the list less trustworthy.
+
+### `ADR-` where the log says `PDR-`
+
+`decision-log.md` argues at length that these records are not analysis decision records and must not carry `ADR-`. The root README called them "twelve ADRs". `pipeline/README.md` and `architecture.md` said the same. The verification notes in the 2026-08-13 entry cited `ADR-008` and described checking "every `ADR-NNN` reference" across the directory.
+
+The prefix was changed. The prose written before the change was not swept, so the repository stated its convention and violated it in the same breath.
+
+There were also eleven records, not twelve. Numbering runs to `PDR-012` because `PDR-011` was deleted; the count had been taken from the highest number rather than from the directory.
+
+The two references inside the 2026-08-13 entry were corrected in place rather than left standing with a note, which departs from how corrections are handled elsewhere in this file. The reasoning: those lines name identifiers, and an identifier that resolves to nothing is not a record of a past belief, it is a broken reference. Where an entry records what was thought at the time, it stays as written. Where it records what a thing is called, it gets corrected.
