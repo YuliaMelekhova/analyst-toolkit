@@ -39,7 +39,7 @@ Everything left of the diamond is automated. Everything right of it follows from
 | `architecture.md` | Stage model, flow and lifecycle diagrams, trust boundaries, per-stage contracts. The vocabulary source for everything else |
 | `routing-matrix.md` | Six request types, reviewer assignment, publication modes, escalation, and why each assignment is what it is |
 | `agent-contract.md` | The drafting agent instruction under a seven-parameter structure, untrusted input handling, and what happens when the contract is violated |
-| `decision-log.md` | Twelve ADRs, each with the rejected alternatives and the conditions that would justify revisiting |
+| `decision-log.md` | Eleven decision records, each with the rejected alternatives and the conditions that would justify revisiting |
 | `not-automated.md` | What is held by humans on purpose, what is simply missing, and which tempting automations were rejected |
 | `metrics.md` | Measurement design: what to instrument, what distorts it, and what is deliberately not measured |
 | `workflow/n8n-workflow.sanitized.json` | The 24-node workflow export |
