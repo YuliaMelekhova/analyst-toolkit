@@ -208,7 +208,7 @@ Stated here so the rest of the directory does not have to imply it.
 
 - `routing-matrix.md` - request types, reviewer assignment, escalation
 - `agent-contract.md` - the drafting agent instruction, in full
-- `decision-log.md` - ADRs, including the human approval gate
+- `decision-log.md` - decision records, including the human approval gate
 - `not-automated.md` - deliberate exclusions and their revisit criteria
 - `metrics.md` - measurement design
 - `workflow/SANITIZATION.md` - what to strip before publishing an n8n export
