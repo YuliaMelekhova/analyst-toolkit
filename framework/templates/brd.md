@@ -10,20 +10,20 @@ traces:
   blocked_by: []         # OQ-xxx
 ---
 
-# BR-000 — <Title>
+# BR-000 - <Title>
 
 > **How to use this template.** Every section below states what it is for and
 > what makes it wrong. Delete the guidance blockquotes before publishing.
-> Sections marked **required** may not be left empty — if you cannot fill one,
+> Sections marked **required** may not be left empty - if you cannot fill one,
 > the document is `needs-info`, not `draft`.
 
 ---
 
-## 1. Problem — required
+## 1. Problem - required
 
 > What is happening today that should not be, or what is not happening that
 > should. Describe the situation, not the solution. If this section can be read
-> as "we don't have feature X", it is not a problem statement — ask why the
+> as "we don't have feature X", it is not a problem statement - ask why the
 > absence of X matters and write that instead.
 
 <!-- 3–6 sentences. -->
@@ -38,7 +38,7 @@ hypothesis, and should be labelled as one.
 
 ---
 
-## 2. Outcome — required
+## 2. Outcome - required
 
 > What is true after this is delivered, expressed so that a disinterested
 > person could check it. "Improved experience" is not checkable. "Plan changes
@@ -54,20 +54,19 @@ hypothesis, and should be labelled as one.
 
 > If the "measured how" column cannot be filled, the measure is decorative.
 > Either find a real measurement path or drop the row and say the outcome is
-> not measurable yet — that is an honest position, a fake metric is not.
+> not measurable yet - that is an honest position, a fake metric is not.
 
 ---
 
 ## 3. Scope
 
-### In scope — required
+### In scope - required
 
 > The set of changes this document authorises. Written as capabilities, not as
-> screens or endpoints — those belong to the stories.
+> screens or endpoints - those belong to the stories.
 
-- 
 
-### Out of scope — required
+### Out of scope - required
 
 > The single most useful section in this template. List what a reasonable
 > reader would otherwise assume is included, and say plainly that it is not.
@@ -80,14 +79,14 @@ hypothesis, and should be labelled as one.
 
 ---
 
-## 4. Stakeholders — required
+## 4. Stakeholders - required
 
 | Role | Name | Interest in the outcome | Decides / consulted / informed |
 |---|---|---|---|
 | | | | |
 
 > "Decides" must name exactly one role per decision area. If two roles decide
-> the same thing, the disagreement has not happened yet — it has been deferred.
+> the same thing, the disagreement has not happened yet - it has been deferred.
 
 ---
 
@@ -112,7 +111,7 @@ hypothesis, and should be labelled as one.
 
 > Statements that are true regardless of implementation. Each one gets an
 > identifier so stories and tests can point at it. Rules that depend on a
-> screen or an API shape are not business rules — they are design decisions
+> screen or an API shape are not business rules - they are design decisions
 > and belong in an ADR.
 
 | Rule | Statement | Source of authority |
@@ -123,13 +122,13 @@ hypothesis, and should be labelled as one.
 
 ## 7. Constraints and assumptions
 
-**Constraints** — things that are fixed and not up for negotiation in this scope.
+**Constraints** - things that are fixed and not up for negotiation in this scope.
 
 | Constraint | Type | Imposed by |
 |---|---|---|
 | | legal / technical / commercial / temporal | |
 
-**Assumptions** — things taken as true without proof, which would change the
+**Assumptions** - things taken as true without proof, which would change the
 solution if wrong.
 
 | Assumption | If it turns out false | How we would find out |
@@ -153,13 +152,29 @@ solution if wrong.
 
 ---
 
-## 9. Open questions — required
+## 9. Open questions - required
 
 > Gaps that block drafting or delivery. Every entry has a named owner and a
-> date by which an unanswered question becomes a decision by default. A
-> question with no owner is a note, not a question.
+> moment by which it must be answered. A question with no owner is a note, not
+> a question.
+>
+> The last column states what happens when that moment passes, and it takes one
+> of two forms. Either a **default decision**, which takes effect without
+> further discussion - or, where no default is defensible, an **escalation**
+> naming who decides and on what trigger. A question with neither is a wish.
+>
+> Reaching for escalation should be uncomfortable. Most questions have a
+> defensible default, and writing one forces the author to say what the
+> document would mean if the answer never came. Escalation is for the case
+> where silence is itself the wrong outcome - where proceeding without an
+> answer would authorise something nobody agreed to, or would assign an
+> authority nobody granted.
+>
+> Expect one or two escalations in a document, not a column of them, and expect
+> them to share a trigger: the point at which the unanswered question first
+> makes further work indefensible.
 
-| ID | Question | Blocks | Owner | Needed by | Default if unanswered |
+| ID | Question | Blocks | Owner | Needed by | If unanswered |
 |---|---|---|---|---|---|
 | OQ-000 | | | | | |
 
