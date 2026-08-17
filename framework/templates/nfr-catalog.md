@@ -6,7 +6,7 @@ owner: <role accountable for quality attributes>
 updated: YYYY-MM-DD
 ---
 
-# Non-Functional Requirements — Catalogue
+# Non-Functional Requirements - Catalogue
 
 Functional requirements describe what the system does. These describe how well
 it has to do it, and they are where most delivery surprises come from.
@@ -56,7 +56,7 @@ difference between a usable and an unusable formulation.
 ### 1. Performance
 
 **Ask.** Which interaction feels slow today, and what is the user doing while
-they wait? What happens downstream if a response is late — retry, timeout,
+they wait? What happens downstream if a response is late - retry, timeout,
 duplicate? Is this a perceived-speed problem or a throughput problem?
 
 **Units.** Latency (ms/s) at a stated percentile, throughput (requests or
@@ -68,7 +68,7 @@ records per second), processing time for a batch.
 | A nightly reconciliation of 2M records completes within a 4-hour window | Reports should generate quickly |
 
 > Averages hide the cases people complain about. Always ask for a percentile.
-> If the stakeholder cannot name one, p95 is a reasonable default to propose —
+> If the stakeholder cannot name one, p95 is a reasonable default to propose -
 > and record that it was proposed, not requested.
 
 ---
@@ -94,7 +94,7 @@ data loss window if the worst happens?
 
 ### 3. Scalability and capacity
 
-**Ask.** What does the system look like at 10× today's volume — and is 10×
+**Ask.** What does the system look like at 10× today's volume - and is 10×
 realistic within the horizon we are designing for? Which dimension grows:
 users, data, transactions, or integrations? Is growth gradual or spiky?
 
@@ -174,7 +174,7 @@ time to detect.
 ### 7. Compatibility and portability
 
 **Ask.** What do we have to keep working that already exists? Which clients,
-browsers, versions, or integration partners are in the supported set — and who
+browsers, versions, or integration partners are in the supported set - and who
 decides when something leaves it? What happens to consumers when the contract
 changes?
 
@@ -214,14 +214,25 @@ supported locales.
    `not applicable` with one line of reasoning rather than leaving it blank.
    The blank is indistinguishable from an oversight.
 2. **Do not invent values.** If the number is unknown, record `status: unknown`
-   with an owner and a date. A guessed threshold becomes a contractual one the
-   moment somebody reads it.
+   with an owner and a moment. A guessed threshold becomes a contractual one the
+   moment somebody reads it. The owner is a role rather than a person, and the
+   moment may be a calendar date or a named gate - *before design begins*,
+   *before delivery planning*. Demanding a date where none was given invites an
+   invented one, which is the same failure as an invented value in a field
+   nobody checks.
 3. **Every value has a cost.** Before recording a number, ask what would change
    if it were half as strict. If nothing, the number is arbitrary.
 4. **Defaults are inherited, overrides are explicit.** Scope-level documents
    reference catalogue identifiers and state only what differs.
 5. **An NFR nobody verifies is documentation, not a requirement.** The
    verification field is not optional.
+6. **A quality stated without a value is a position, not a requirement.**
+   Statements like *the original record is authoritative* or *silent misrouting
+   is an outage rather than degradation* are checkable but not measurable, and
+   they do not become requirements by being given an `NFR-` identifier. Record
+   them under *Positions* below, marked as candidate decisions. The moment
+   anything is designed or built on one, it becomes a decision record with its
+   options and consequences, and it leaves this document.
 
 ---
 
@@ -230,3 +241,23 @@ supported locales.
 | ID | Category | Statement | Value | Status | Applies to |
 |---|---|---|---|---|---|
 | NFR-001 | | | | | |
+
+---
+
+## Positions
+
+> Qualities asserted without a value. Checkable, not measurable, and not yet
+> deliberated: none of these was chosen from alternatives, so none is a decision
+> record yet. The last column is what stops this section becoming a drawer -
+> every position carries the condition on which it must leave.
+>
+> Positions are numbered within this document and carry no framework
+> identifier. An identifier exists so that other documents can reference a
+> thing, and nothing may reference a position: the moment anything is designed
+> or built on one, it becomes a decision record and takes an `ADR-` identifier
+> then. A position with a durable address is an invitation to cite it, which is
+> the one thing it must not support.
+
+| # | Statement | Stated by | Becomes a decision when |
+|---|---|---|---|
+| 1 | | | |
