@@ -62,6 +62,7 @@ Updating a template changes what the skills do, without editing any skill.
 | [`framework/`](framework) | Templates for BRDs, user stories, NFR catalogues and decision records; identifier conventions; a definition of ready and a review checklist |
 | [`skills/`](skills) | Three agent skills that draft, interview and review against those templates. [Start here](skills/README.md) if you have not used a skill before |
 | [`pipeline/`](pipeline) | A reference implementation of a request-to-documentation pipeline, with the design record explaining what is deliberately not automated. [Start here](pipeline/README.md) |
+| [`example/`](example) | One request taken through all three skills to a revised document. Every file is the unedited output of the step that produced it. [Start here](example/README.md) |
 | [`NOTES.md`](NOTES.md) | What went wrong while building this. The most useful file in the repository |
 
 ### The skills
@@ -94,6 +95,37 @@ humans on purpose.
 
 The tooling is real and named. The business context is synthetic. The workflow
 export is sanitised and will not run as supplied.
+
+---
+
+### The worked example
+
+[`example/`](example) takes one request - broker submissions for commercial
+property insurance, sorted by hand and reaching underwriters too slowly - through
+all three skills and out the other side. Seven files, each the unedited output of
+the step that produced it. Nothing was rerun to get a better result.
+
+It is here because each skill is defensible on its own and the seams are where
+the defects are. The blocking defect the review found existed in neither
+document: the requirements placed a measurement inside scope that the boundary
+put outside it, and only the pairing made that visible. The NFR interview, asked
+about security, surfaced a business rule the drafting step could not have known
+about, and it changed what a routing error costs from lost time to a
+confidentiality breach.
+
+The interview produced no numbers at all. Eight quality categories, and not one
+value - every quantity depended on a service level nobody had the authority to
+set. A catalogue full of plausible thresholds would have looked better and meant
+less.
+
+Four framework changes came out of the run rather than out of a preference: the
+open questions column now demands a default decision or an escalation, the NFR
+catalogue gained a place for qualities that are checkable but not measurable, and
+the identifier convention changed. Those changes rest on one document, which is
+thin, and [`NOTES.md`](NOTES.md) says so.
+
+What it does not show: any of this after contact with implementation. The
+document ends at `needs-info` with fourteen open questions.
 
 ---
 
@@ -168,14 +200,15 @@ Present:
   fixtures and answer keys
 - `pipeline/` - sanitised workflow export, architecture, routing matrix, agent
   contract, decision log, exclusions and measurement design
+- `example/` - one request through all three skills, and the framework changes
+  the run forced
 
 Planned, in rough order:
 
-- A worked end-to-end example: raw request through draft, NFR interview and
-  review to a finished document, including what the skills got wrong
 - Traceability checks - orphan detection across the identifier graph
 - Closing the testing gaps listed at the end of [`NOTES.md`](NOTES.md),
-  particularly an uncooperative NFR interview and a mixed-quality review fixture
+  particularly a mixed-quality review fixture and a pass with deliberately
+  leading questions
 
 ---
 
