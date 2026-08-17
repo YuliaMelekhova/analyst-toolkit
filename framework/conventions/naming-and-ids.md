@@ -10,7 +10,7 @@ the only thing that makes traceability possible without a dedicated tool.
 | `BR-` | Business requirement | `BR-014` | The business need is accepted for analysis |
 | `US-` | User story | `US-052` | The story is written, before refinement |
 | `AC-` | Acceptance criterion | `US-052/AC-3` | Scoped inside its story, never global |
-| `NFR-` | Non-functional requirement | `NFR-007` | The NFR interview produces a measurable value |
+| `NFR-` | Non-functional requirement | `NFR-007` | The entry is created, whether or not a value exists yet |
 | `ADR-` | Analysis decision record | `ADR-005` | A decision with more than one viable option is made |
 | `OQ-` | Open question | `OQ-021` | A gap blocks drafting and needs a named owner |
 
@@ -26,6 +26,11 @@ the only thing that makes traceability possible without a dedicated tool.
    meaningless; always write `US-052/AC-3`.
 5. **One requirement, one identifier.** If a statement needs two identifiers to
    describe it, it is two requirements.
+6. **An identifier is an address, not a certificate.** It says where a thing
+   is, not that it is finished. An `NFR-` entry with no value yet still needs
+   an identifier, because other documents have to reference it in order to
+   record that they are blocked on it. Maturity belongs in the `status` field,
+   never in whether an identifier was granted.
 
 ## Linking
 
