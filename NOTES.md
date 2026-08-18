@@ -487,7 +487,7 @@ There were also eleven records, not twelve. Numbering runs to `PDR-012` because 
 
 The two references inside the 2026-08-13 entry were corrected in place rather than left standing with a note, which departs from how corrections are handled elsewhere in this file. The reasoning: those lines name identifiers, and an identifier that resolves to nothing is not a record of a past belief, it is a broken reference. Where an entry records what was thought at the time, it stays as written. Where it records what a thing is called, it gets corrected.
 
-## 2026-08-16 - worked end-to-end example, and what it did to the framework
+## 2026-08-17 - worked end-to-end example, and what it did to the framework
 
 An attempt to run all three skills in sequence on one request, recorded in
 `example/`. The domain is commercial property insurance: broker submissions
