@@ -29,7 +29,7 @@ following it.
 | `fixture-01-answer-key.md` | The defects planted in it, and what a run should find |
 | `fixture-02-approval-routing.md` | Input: a carefully written draft with a few subtle defects |
 | `fixture-02-answer-key.md` | The same, for fixture 02 |
-| `fixture-03-mixed-document.md` | Input: a mostly sound draft with one badly written section, placed first |
+| `fixture-03-siu-referral.md` | Input: a mostly sound draft with one badly written section, placed first |
 | `fixture-03-answer-key.md` | The same, for fixture 03, plus how to read a run for contamination |
 
 Answer keys are read after a run, not before. Reading the key first makes the
