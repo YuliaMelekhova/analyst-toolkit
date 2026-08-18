@@ -29,6 +29,28 @@ following it.
 | `fixture-01-answer-key.md` | The defects planted in it, and what a run should find |
 | `fixture-02-approval-routing.md` | Input: a carefully written draft with a few subtle defects |
 | `fixture-02-answer-key.md` | The same, for fixture 02 |
+| `fixture-03-mixed-document.md` | Input: a mostly sound draft with one badly written section, placed first |
+| `fixture-03-answer-key.md` | The same, for fixture 03, plus how to read a run for contamination |
 
 Answer keys are read after a run, not before. Reading the key first makes the
 run worthless, because the finding you are looking for is the one you will find.
+
+## What each fixture is for
+
+Fixtures 01 and 02 test the skill against the document. Fixture 03 tests the
+skill against itself.
+
+- **01** is defective throughout and measures recall: does the skill find
+  defects in text that is plainly badly written
+- **02** is carefully written and measures precision: does the skill invent
+  findings when there is little to find
+- **03** is uneven, which is the realistic case and the one neither of the
+  others can produce. It measures whether reviewing one section changes the
+  review of the next: false findings in careful text that follows bad text, or
+  a class assigned by the company a defect keeps rather than by the defect
+
+Fixture 03 carries three matched pairs, each one defect type at one class, with
+one member in the badly written section and one in a careful section. The pairs
+are the measurement, and they are the reason the fixture cannot be edited
+casually: moving a pair member into different company destroys the comparison
+it exists to support.
