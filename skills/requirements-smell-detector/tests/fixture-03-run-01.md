@@ -46,10 +46,10 @@ and a reviewer told to apply a smell detector is already looking for smells.
 
 ## Run output, verbatim
 
-Reproduced without edits. The em-dashes below are the skill's own output and are
-left in place, on the same grounds that exclude the two smell-detector fixtures
-from the repository's em-dash pass: editing a recorded run makes it not a
-record. See the NOTES entry for this run.
+Reproduced without edits, including its punctuation, wording and formatting. The
+block was compared byte for byte against the captured output rather than read
+for correctness, on the same grounds that freeze the fixtures themselves: a
+quotation that has been tidied is not a record.
 
 ## Findings
 
