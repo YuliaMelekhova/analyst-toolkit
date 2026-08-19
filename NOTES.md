@@ -931,3 +931,180 @@ read. Convention without a check is how 326 accumulated.
   its own framing returned to it. Fixture 07's agreement trait is untested
 - Whether the form of a clarifying question belongs in `brd-drafter` as a rule
 - Roughly 150 em-dashes remain in files not touched today
+
+## 2026-08-18 - first run of `requirements-smell-detector` against fixture 03
+
+Recorded in full in
+`skills/requirements-smell-detector/tests/fixture-03-run-01.md`. Commit
+`811187149d070c286e250c19f540c1ff76fefb6b`, installed skill byte-identical to the
+repository copy of `SKILL.md`. The fixture was not edited.
+
+### The review was done in a separate context, and that was not caution for its own sake
+
+The context that planned this run knew the document was a fixture from this
+repository, knew a key existed and knew fixture 01 had ended with the key being
+wrong. None of that is available to somebody handed a document by a colleague,
+and all of it disposes a reviewer to hunt. So the review was performed by a
+subagent with no prior conversation, given one file copied out of the repository
+under a neutral name, with the words fixture, test, key, repository and release
+absent from the request, and reading restricted to that one file. Two tool calls
+were made, consistent with the skill invocation and one file read.
+
+What this does not remove: the subagent was told which skill to apply. Triggering
+is untested by this run.
+
+### It does not pass, and it failed in the way the fixture was built to catch
+
+16 of the key's 20 planted defects found. All four misses are in the defective
+first section or in the cross-cutting row. No planted defect in the careful
+sections was missed.
+
+Pair B is the failure. R4's missing failure path was not found, and R4 was then
+named among the cleanest statements, while its careful-section twin R17 was found.
+That is saturation as the key defines it, observed rather than predicted.
+
+The missing-failure-path lens was not absent. Finding 21 applies it to R5 and to
+the shared-drive write in R9, both in the same section as R4, and finding 25
+applies it to R17. The lens was on, aimed at the right section, and the plant was
+still missed.
+
+### Saturation and contamination are not alternatives
+
+The key asks which of the two a run shows. This one shows both, each in the
+direction the key predicts for it.
+
+The signal the key designates is clean: R12's number and R2's number are both
+`consider`, no inflation on the careful-side member. But three of the four
+`blocking` items in the defective section were classed `should fix`, and the one
+careful-section item the key classes `should fix` was classed `blocking`. The
+severity gradient runs down the page while the density of findings runs up it.
+Every finding beyond the key's list sits at or after R10.
+
+Pair A passed by construction rather than on merit. The run reported R2 and R12 in
+one row, so the two could not receive different classes, and class divergence
+within a pair is what the instrument measures. A run that merges pair members
+makes the measurement unavailable. That is a hole in the instrument.
+
+### Six corrections to the key, three of them on one statement
+
+The key invites this and fixture 01 set the precedent. Three land on R12, which
+the key declares complete apart from its number: "recorded activity" is never
+defined although the escalation trigger turns on it and AC-3's Given cannot be
+constructed without it; R12 settles when inactivity is evaluated and not whether
+escalation repeats, and the condition holds at every subsequent evaluation; and
+"becomes accountable for its outcome" has no expression in the system, with
+neither the owner after escalation nor the manager's authority to record an
+outcome stated.
+
+The other three: R11's "exactly one outcome per referral" contradicts R18's
+reopening, which returns the referral for a further outcome; R11 does not require
+the recording investigator to be the owner while AC-2 assumes it; and R18's bare
+citation of claims policy clause 6.1 carries neither the value nor the anchor of
+the reopening window, which is the standard bait item 3 uses to justify R15.
+
+Bait item 2 is worded too broadly rather than wrong. It inoculates against the
+argument that "material inconsistency" is an undefined judgement call, and the run
+did not make that argument. It named something else, that the third sentence of
+R11 is written as a statement of fact rather than as a rule with enforcement.
+Counted as written it is a false positive; counted on the merits it is a thin real
+finding at an inflated class.
+
+R12 mattering here is not incidental. R12 is the careful-side member of pair A, so
+three extra findings on it would read as contamination if the key were right about
+it. It is not.
+
+### The two keys disagree with each other
+
+`fixture-02-answer-key.md` treats the reassignment clock question as a genuine
+planted defect, D3 at `should fix`: R11 against R3, whether the deadline restarts
+or carries over. `fixture-03-answer-key.md` declares the same construct complete
+in R12 and R13. This run sided with the earlier key against the later one, and it
+did so before either was read, because the comparison was written after the
+assessment was fixed.
+
+Two keys about the same construct cannot both be right, and neither was checked
+against the other when the second was written. Nothing in the repository compares
+keys.
+
+### The cross-cutting scan closes a category, not a document
+
+Findings 21 to 26 read as one pass over a fixed category list, each satisfied by
+the first statement that fits. That single mechanism explains both halves of this
+run's pair B result: the same category found R17 downstream and skipped R4
+upstream. This is the section fixture 02's D4 caused to be added, and it is now
+visible that closing a category is not the same as sweeping the document.
+
+### Em-dashes, the collision yesterday's entry set up
+
+Yesterday the two smell-detector fixtures were excluded from the em-dash pass,
+because editing a fixture makes the runs recorded here unreproducible. The next
+instance arrived immediately and from the other side: the skill's own output
+contains 18 em-dashes, so any run record reproducing the output verbatim carries
+them into the repository, and cleaning them makes the record not a record.
+
+In `fixture-03-run-01.md` they sit inside the verbatim block, which is fenced by
+an explicit note, and there are none outside it. Both facts are checked
+mechanically rather than by eye: the block is compared byte for byte against the
+captured output, and em-dashes are counted inside and outside separately. Either
+the convention gains an exception for verbatim blocks in run records, or the skill
+stops emitting them. Not decided.
+
+### Similarity to fixture 02 shows nothing on its own
+
+The fixture 03 key names this as its known weakness: if findings line up
+suspiciously well with fixture 02, suspect recognition of the shape rather than
+reading of the text. They do line up, on D1, on D4 and partly on D3, and the bait
+items of the same form were left alone in both documents.
+
+That comparison cannot carry the weight. The two fixtures are alike by
+construction, down to the same five-column constraints table with the same
+explained alert gap, and two of the three smell types planted in fixture 03 are
+the ones planted in fixture 02. That is the author's choice, not the run's, and
+against documents that alike, agreement is what an honest reading produces.
+
+One point runs the other way and is worth keeping. Both documents pin the moment
+a periodic evaluation decides, in almost the same words: fixture 02's R4 for
+expiry, fixture 03's R12 for escalation. Fixture 02's key lists R4 as bait and
+three runs left it alone. This run attacked R12, and the difference tracks a real
+difference in the texts, because expiry changes the state and escalation does not,
+so only in R12 does the condition still hold at the next evaluation. In the one
+place where treating the two alike would have been wrong, they were not treated
+alike. One data point, and not a conclusion.
+
+Separating reading from recognition needs a different instrument: a document of
+the same form with no defects in it, or fixture 03 with its sections and pairs
+shuffled, so that repeating fixture 02's findings would mean repeating them
+somewhere they do not belong. Neither exists.
+
+### Still open from this run
+
+- Whether a finding's class can be assigned independently of what else is in the
+  document. The gradient across this run is the calibration failure fixture 02's
+  key names, appearing as a slope rather than as one inflated finding, and no
+  mechanism is proposed
+- One finding per statement even when a smell repeats, against the readability of
+  a merged row. Undecided, and merging is what made pair A unmeasurable
+- The cleanest-statements list is not produced by exclusion. It contradicted the
+  findings table three times in one run, on R4, R13 and R14, and naming a
+  statement clean is a stronger claim than not mentioning it
+- No rule distinguishes an illustrative number in a reformulation from an invented
+  value. A claim scoring 40 is used to argue the R2 against R6 contradiction and
+  is not in the fixture
+- Coverage from requirements to acceptance criteria is checked in neither
+  direction. Referral creation, the threshold and the application of the hold have
+  no criterion, and the run named three of the four criteria clean
+- `fixture-03-answer-key.md` needs the R12 and R11 corrections and a narrower bait
+  item 2. Not edited, on the same grounds as the fixture: it is an input to a
+  recorded run
+- Whether fixture 02's key or fixture 03's key is right about the reassignment
+  clock. This run sided with fixture 02's, and nothing compares keys to each other
+- Whether the em-dash convention gains an exception for verbatim blocks in run
+  records, or the skill stops emitting them
+- A same-form document with no defects, or a shuffled fixture 03, to separate
+  reading from recognition. Neither exists, and the similarity section supports no
+  claim without one
+- Triggering is untested for `requirements-smell-detector`. Every run so far named
+  the skill in the request
+- Three keys, three corrections, all written by the author of the fixture before
+  any run. Whether that form of key is worth keeping, or whether a key should be
+  assembled from the first run and argued against it
