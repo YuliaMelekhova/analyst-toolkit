@@ -891,23 +891,6 @@ requester for the analyst's own model of the process. Not fixed: the rule is
 easy to write and hard to follow, and one run does not establish how often this
 happens. The draft in the run record carries a disclosure line instead.
 
-### Em-dashes
-
-326 em-dashes were in this repository before any of today's work, in every
-`SKILL.md`, both READMEs, the templates, the fixtures and the decision records.
-The convention requiring en-dashes was recorded nowhere in the repository - not
-in `conventions/naming-and-ids.md`, not in any README - which is a plausible
-reason it was never followed.
-
-Every file touched today is now clean, which removed 179. The remainder stays
-until a separate pass, and the two smell-detector fixtures are excluded from
-that pass on the same grounds as before: editing a fixture makes the runs
-recorded here unreproducible.
-
-The check is `grep -rn " - " --include="*.md" .` and it is only useful once the
-repository is clean, because a check that always returns something stops being
-read. Convention without a check is how 326 accumulated.
-
 ### Still open from this run
 
 - The `deferred` and `unknown` boundary in `nfr-interrogator`: `deferred`
@@ -930,14 +913,16 @@ read. Convention without a check is how 326 accumulated.
 - A pass with deliberately leading questions, to test whether the skill notices
   its own framing returned to it. Fixture 07's agreement trait is untested
 - Whether the form of a clarifying question belongs in `brd-drafter` as a rule
-- Roughly 150 em-dashes remain in files not touched today
 
 ## 2026-08-18 - first run of `requirements-smell-detector` against fixture 03
 
 Recorded in full in
 `skills/requirements-smell-detector/tests/fixture-03-run-01.md`. Commit
 `811187149d070c286e250c19f540c1ff76fefb6b`, installed skill byte-identical to the
-repository copy of `SKILL.md`. The fixture was not edited.
+repository copy of `SKILL.md`. The fixture was not edited. The verbatim block in
+the run record was compared byte for byte against the captured output rather
+than read for correctness, because a quotation that has been tidied is not a
+record.
 
 ### The review was done in a separate context, and that was not caution for its own sake
 
@@ -1034,21 +1019,6 @@ run's pair B result: the same category found R17 downstream and skipped R4
 upstream. This is the section fixture 02's D4 caused to be added, and it is now
 visible that closing a category is not the same as sweeping the document.
 
-### Em-dashes, the collision yesterday's entry set up
-
-Yesterday the two smell-detector fixtures were excluded from the em-dash pass,
-because editing a fixture makes the runs recorded here unreproducible. The next
-instance arrived immediately and from the other side: the skill's own output
-contains 18 em-dashes, so any run record reproducing the output verbatim carries
-them into the repository, and cleaning them makes the record not a record.
-
-In `fixture-03-run-01.md` they sit inside the verbatim block, which is fenced by
-an explicit note, and there are none outside it. Both facts are checked
-mechanically rather than by eye: the block is compared byte for byte against the
-captured output, and em-dashes are counted inside and outside separately. Either
-the convention gains an exception for verbatim blocks in run records, or the skill
-stops emitting them. Not decided.
-
 ### Similarity to fixture 02 shows nothing on its own
 
 The fixture 03 key names this as its known weakness: if findings line up
@@ -1098,8 +1068,6 @@ somewhere they do not belong. Neither exists.
   recorded run
 - Whether fixture 02's key or fixture 03's key is right about the reassignment
   clock. This run sided with fixture 02's, and nothing compares keys to each other
-- Whether the em-dash convention gains an exception for verbatim blocks in run
-  records, or the skill stops emitting them
 - A same-form document with no defects, or a shuffled fixture 03, to separate
   reading from recognition. Neither exists, and the similarity section supports no
   claim without one
