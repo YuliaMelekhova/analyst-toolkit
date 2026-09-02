@@ -1077,7 +1077,7 @@ somewhere they do not belong. Neither exists.
   any run. Whether that form of key is worth keeping, or whether a key should be
   assembled from the first run and argued against it
 
-  ## 2026-08-19 - the "still open" list from the previous entry understated itself
+## 2026-08-19 - the "still open" list from the previous entry understated itself
 
 `fixture-03-answer-key.md` was revised to v2 the day after the entry above was
 written, and the entry was never updated to say so. The "still open" list ends
