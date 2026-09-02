@@ -1108,3 +1108,57 @@ that found the leading-space directory on 2026-08-14. Reading the artifact
 against its own claims about itself keeps finding things that reading the
 prose does not.
 
+
+## 2026-09-02 - revisiting the eleventh smell, with fixture-03 as evidence
+
+The question was raised twice and answered neither time with anything to point
+at: the 2026-08-17 entry called an eleventh smell for convention breaches
+"probably wrong" without testing the alternative, and the 2026-08-18 entry
+re-listed it as open on no new grounds. Fixture-03 is the first run since that
+bears on it, so it is worth checking rather than re-guessing.
+
+### What the run actually did
+
+Its own summary states the boundary directly: *"no glossary or convention
+outside this file was consulted, as instructed, so terminology findings are
+judged against the document's own Definitions section and Context."* That is
+the skill working as designed, not a gap it happened to leave. Pair C and the
+three bait items tied to the Definitions section were found and left alone
+correctly on exactly this basis.
+
+### Why that settles the general case
+
+An eleventh smell checking target documents against `naming-and-ids.md` would
+be checking arbitrary business documents, most of which have no reason to
+follow a convention that belongs to this repository, against a convention of
+this repository. Fixture-03's referral system is not a toolkit artifact and
+was never going to be. A rule that only fires on documents that happen to be
+this framework's own output is not a smell in the sense the other ten are; it
+is a repository-specific check wearing a general one's clothes.
+
+### The narrower case was already closed, not still open
+
+The 2026-08-17 entry's actual fix - moving identifier-convention conformance
+into the human checklist - is implemented, not just decided:
+`framework/quality-rules/review-checklist.md` carries the exact line, *"cheap
+to check by eye and invisible to the drafting tools, which mint identifiers
+without consulting the scheme."* That is the one case where a target document
+genuinely is governed by this repository's conventions - the toolkit's own
+BRDs, NFR catalogues and ADRs - and it already has a home. Adding a
+twin check inside `requirements-smell-detector` would duplicate it across two
+places for the one case where it applies, which is the drift this repository
+argues against everywhere else in it.
+
+### Decision
+
+Confirmed: no eleventh smell. The 2026-08-18 "still open" bullet undersold its
+own answer by treating the question as unexamined when the run that raised it
+had already examined it, in its own summary line, without being asked to.
+
+Not changed: the "Framework reference" section in
+`skills/requirements-smell-detector/SKILL.md`. It exists to govern the
+skill's own reformulations, not to audit a target document's identifiers, and
+fixture-03 gave that section nothing to do because pair B and C's findings
+never needed a reformulated ID. That is consistent with its stated purpose
+rather than evidence against it.
+
