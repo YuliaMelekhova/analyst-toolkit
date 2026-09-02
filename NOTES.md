@@ -1076,3 +1076,35 @@ somewhere they do not belong. Neither exists.
 - Three keys, three corrections, all written by the author of the fixture before
   any run. Whether that form of key is worth keeping, or whether a key should be
   assembled from the first run and argued against it
+
+  ## 2026-08-19 - the "still open" list from the previous entry understated itself
+
+`fixture-03-answer-key.md` was revised to v2 the day after the entry above was
+written, and the entry was never updated to say so. The "still open" list ends
+with: *"`fixture-03-answer-key.md` needs the R12 and R11 corrections and a
+narrower bait item 2. Not edited."* That sentence has been wrong since commit
+`1faf80d0ee`.
+
+v2 makes exactly the corrections the run argued for, and one more it did not
+list: the reassignment clock disagreement with `fixture-02-answer-key.md` is
+resolved against this key, R16 moves from `should fix` to `blocking`, and pair
+A is formally retired as an instrument rather than left implicitly weakened.
+The key's own "History of this key" section carries the argument for each
+change and what would make it wrong. Not repeated here.
+
+Two things worth naming rather than letting the correction stand alone.
+
+**A closed item stayed on an open list for a day, and would have stayed longer
+without a reason to reread the file.** The 2026-08-14 entry named this exact
+failure mode in the pipeline block's alignment markers: a resolved item left in
+an open list is worse than an unrecorded one, because it spends attention on a
+question that already has an answer. It happened again, on this list, within a
+day of writing it.
+
+**Nothing prompted this correction from inside the workflow.** It surfaced
+because a person going through the "still open" list line by line fetched the
+file the bullet pointed at, rather than trusting the bullet. The same method
+that found the leading-space directory on 2026-08-14. Reading the artifact
+against its own claims about itself keeps finding things that reading the
+prose does not.
+
