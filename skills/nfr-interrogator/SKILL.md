@@ -212,6 +212,11 @@ The catalogue, then a short summary:
 | ID | Category | Statement | Value | Condition | Verification | Source | Status |
 |---|---|---|---|---|---|---|---|
 
+For a `deferred` entry, the Status cell carries the owner and the gate inline:
+`deferred - owner: <role>, by: <named gate>`. A bare `deferred` with nothing
+after it is indistinguishable from `unknown` and is the defect this exists to
+catch.
+
 ## Not established
 
 Includes both categories asked about without result and categories never
