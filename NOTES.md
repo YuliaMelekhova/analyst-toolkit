@@ -1162,3 +1162,54 @@ fixture-03 gave that section nothing to do because pair B and C's findings
 never needed a reformulated ID. That is consistent with its stated purpose
 rather than evidence against it.
 
+## 2026-09-02 - the deferred/unknown boundary was never missing a rule, it was missing a place to put the answer
+
+Re-read the two places this was raised: the 2026-08-17 entry framed it as an
+interview problem ("no date arose once in the entire interview"), and the
+2026-08-18 "still open" bullet repeated that framing without adding to it.
+Neither is what the artifacts show.
+
+### What the walkthrough already knew
+
+The skill's own worked example, in "What must never be invented," produces a
+`deferred` entry carrying `owner: product owner` and
+`needed_by: before build begins`, with the note: *"The moment is a gate rather
+than a date, because none was given."* This is the right mechanism, already
+designed, already demonstrated.
+
+### What the real output actually has room for
+
+`## Output format` defines the table the skill is bound to: eight columns,
+`ID | Category | Statement | Value | Condition | Verification | Source |
+Status`. No `owner`. No `needed_by`. `example/04-nfr-catalog.md` follows this
+exactly - all seventeen entries `deferred`, none carrying an owner or a moment
+anywhere in the row, because there is no cell for either. This is the same
+species of drift already named on 2026-08-17 as "worked examples inside
+skills are a second copy of the convention": the walkthrough models a richer
+entry than the format instructs the skill to produce, and assembly quietly
+drops what the interview gathered.
+
+`framework/templates/nfr-catalog.md`'s own status line is a smaller instance
+of the same thing: its comment still reads `proposed | agreed | deferred |
+unknown`, missing `not covered`, which the skill has defined and used since
+2026-08-17.
+
+### Decision
+
+The distinction between `deferred` and `unknown` stands - it is not the
+interview's job to manufacture a date, and demanding one would reintroduce the
+invented-value failure this skill exists to prevent. What changes is where the
+answer goes. Rather than two new columns, mostly empty, `deferred` entries
+carry the owner and the gate inline in the Status cell:
+`deferred - owner: <role>, by: <named gate>`. A bare `deferred` is now
+indistinguishable from an incomplete entry rather than a legitimate one, which
+is the point: the table can be checked by reading it, not by trusting the
+word next to it.
+
+Two edits, not made yet, pending confirmation on wording:
+- `framework/templates/nfr-catalog.md`, status comment: add `not covered`
+- `skills/nfr-interrogator/SKILL.md`, `## Output format`: one line under the
+  `Established` table specifying the inline convention above
+
+Not changed: the walkthrough example itself. It already shows the right
+fields; the format around it needed to catch up, not the other way round.
