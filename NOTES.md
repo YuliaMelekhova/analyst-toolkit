@@ -1227,3 +1227,41 @@ written, is the third time this file has done this - 2026-08-19 and
 2026-09-02 both name the same pattern. Not fixing the habit here; naming it a
 third time is enough to make it a habit worth noticing rather than a
 coincidence worth re-explaining each time.
+
+## 2026-09-03 - writing the rule that two runs, not one, asked for
+
+Re-read where this was raised: fixture 06 on 2026-08-16 caught a leading
+question in its own interviewer and called it, correctly, too early to write
+a rule from - "one run does not establish how often this happens." Fixture 07
+then avoided the same defect by rewording its questions rather than by
+following a rule, because none existed to follow. That is two runs agreeing
+on the same failure without either producing a rule, which is a different
+situation from the one the original deferral was written for.
+
+### What fixture 06 found, exactly
+
+Asking what makes a claim *approved rather than pending* handed the
+respondent two state names and a model of the process; the answer confirmed
+them, and confirmation of your own framing is not evidence. The run's own
+analysis named the open form: *what happens to a claim after it is
+submitted?* A second question, *describe the state, not the system*,
+prescribed the shape of the answer rather than its content - a milder version
+of the same defect, since a more suggestible respondent would have produced
+whatever the phrasing implied.
+
+### Decision
+
+Added a `Question form` subsection to `brd-drafter/SKILL.md`, Phase 1: a
+one-line test (would a bare echo of your own wording count as an answer),
+one verified before/after pair taken directly from the fixture 06 finding,
+and a shorter caution about instructions on answer-shape, stated as prose
+rather than a second table row because no second verified pair exists yet.
+
+This does not resolve the open question of how often the defect occurs in
+practice - fixture 06 is still one run - but the rule was withheld pending a
+reason to write it, and a second run avoiding the same failure by instinct
+rather than by instruction is that reason.
+
+Not changed: `framework/templates/brd.md` and the fixture files themselves.
+The defect was in how the skill asks, not in what it records.
+
