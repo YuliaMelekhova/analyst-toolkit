@@ -1213,3 +1213,17 @@ Two edits, not made yet, pending confirmation on wording:
 
 Not changed: the walkthrough example itself. It already shows the right
 fields; the format around it needed to catch up, not the other way round.
+
+## 2026-09-03 - closing the sentence the previous entry left open
+
+The entry above ends: *"Two edits, not made yet, pending confirmation on
+wording."* Both are made: `framework/templates/nfr-catalog.md` carries
+`not covered` in its status comment, and `skills/nfr-interrogator/SKILL.md`
+carries the inline `deferred - owner: <role>, by: <named gate>` convention
+under the `Established` table.
+
+A checklist item going stale inside its own entry, on the same day it was
+written, is the third time this file has done this - 2026-08-19 and
+2026-09-02 both name the same pattern. Not fixing the habit here; naming it a
+third time is enough to make it a habit worth noticing rather than a
+coincidence worth re-explaining each time.
