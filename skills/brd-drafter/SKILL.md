@@ -29,6 +29,26 @@ grouped round of no more than seven questions, and only about things that
 change the shape of the document. Do not ask about details that can sit in the
 draft as open questions.
 
+### Question form
+
+The rule above says how many questions and what they must be about. It says
+nothing about their form, and a question that already contains its own answer
+cannot be failed by an agreeable respondent - the source confirms your framing
+back to you, and the document ends up citing the requester for your own model
+of the process.
+
+Before sending a question, check whether a bare echo of your own wording would
+count as an answer. If so, rewrite it.
+
+| Leading | Open |
+|---|---|
+| What makes a claim approved rather than pending? | What happens to a claim after it is submitted? |
+
+An instruction on how to answer is the same defect from the other side -
+*describe the state, not the system* prescribes the shape of the answer as
+much as the example above prescribes its content. Ask what happened, not what
+kind of answer to give.
+
 If the user declines to answer, or answers partially, proceed to phase 2 with
 what you have. Do not ask a second round unless the answers introduce a new
 blocking gap.
