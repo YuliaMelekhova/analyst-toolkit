@@ -37,7 +37,7 @@ condition: 500 concurrent sessions, warm cache, primary region
 verification: synthetic check in CI, alert at p95 > 1.6 s
 source: support tickets Q2, threshold agreed with <role> on YYYY-MM-DD
 applies_to: [BR-014]
-status: agreed          # proposed | agreed | deferred | unknown
+status: agreed          # proposed | agreed | deferred | unknown | not covered
 ```
 
 > `status: unknown` is a legitimate value and is preferable to an invented
