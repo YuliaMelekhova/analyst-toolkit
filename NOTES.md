@@ -1265,3 +1265,51 @@ rather than by instruction is that reason.
 Not changed: `framework/templates/brd.md` and the fixture files themselves.
 The defect was in how the skill asks, not in what it records.
 
+## 2026-09-03 - OQ-014 was not the problem, "author" was
+
+Re-read the 2026-08-18 bullet: "OQ-014 was decided by the analyst rather than
+the requester... a wider latitude than it should have had." Checked the
+specific default against `brd.md`'s own escalation test before assuming the
+bullet was right about where the fault sat.
+
+### The default itself is defensible
+
+Escalation exists for the case where "proceeding without an answer would
+authorise something nobody agreed to, or would assign an authority nobody
+granted." OQ-014's default - rules evaluated at assignment, not arrival -
+assigns no one anything; it is the same shape of choice as OQ-001, OQ-004,
+OQ-008, all defaults, none flagged. Reclassifying it as escalation would be
+performing caution rather than applying the test.
+
+### What actually happened
+
+`review-checklist.md` gives *"Author may decline a consider finding without
+justification."* `brd.md`'s own header defines `owner` as *"accountable for
+the business outcome"* and, separately, `author: <analyst>`. Read against that
+field, the rule licenses exactly what happened: the analyst, who is literally
+the document's `author`, declining on the artifact's behalf. `brd-drafter`'s
+own Role section says the opposite in different words - *"you are drafting,
+not deciding... every gap belongs to them, not to you"* - where "them" plainly
+means the requester. Two framework documents use "author" for two different
+people, and `review-checklist.md` inherited the collision the moment its
+generic rule was applied to a BRD.
+
+### Decision
+
+Renamed the field, rather than annotating the rule: `brd.md`'s `author:
+<analyst>` is now `drafted_by: <analyst>`. `owner` is now the only field that
+answers "who may decide," on any artifact, with no case-by-case reading
+required. Added one paragraph to `review-checklist.md` making the general
+rule explicit - author means whoever is accountable, not whoever drafted -
+for artifact types where those are different people.
+
+### Cost, named rather than hidden
+
+`example/02-brd-draft.md` and `example/06-brd-final.md` are marked "unedited
+output" and use the old field name. They are not being touched. This is the
+same drift already named for the walkthrough in `nfr-interrogator/SKILL.md`:
+a worked example now shows an earlier state of a convention it was supposed
+to demonstrate. Left as a known cost, not a fixed one - fixing it means
+deciding whether frozen run records may ever be regenerated against a changed
+template, which is a larger question than this entry.
+
