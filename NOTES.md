@@ -1313,3 +1313,56 @@ to demonstrate. Left as a known cost, not a fixed one - fixing it means
 deciding whether frozen run records may ever be regenerated against a changed
 template, which is a larger question than this entry.
 
+## 2026-09-04 - six items from fixture 03's own diagnosis, written into the skill
+
+Fixture-03-run-01.md's "What this suggests about the skill" already argued
+each of these from the evidence in that run. Nothing here is a new finding;
+this is that section's six numbered items turned into rules in
+`requirements-smell-detector/SKILL.md`, plus the fifth methodological item
+from the 2026-08-18 "still open" list (requirement to acceptance-criterion
+coverage), which the run's item 5 restates in different words.
+
+### The six changes
+
+1. **Cross-cutting scan now requires a sweep, not a first match.** Findings
+   21 to 26 read as one pass that stopped at the first statement fitting each
+   category; #21 named two dependencies and missed R4, the planted case in
+   the same section. Added: name every statement that plausibly belongs to a
+   scenario before deciding coverage.
+2. **Class calibration is now required to be independent of position.**
+   Three of four blocking items in the defective section were classed
+   should-fix, and the one careful-section item the key expected as
+   should-fix was classed blocking. Added: assign a class from the statement
+   alone, and re-check the finding list as a set before output if classes
+   cluster by position.
+3. **Cleanest statements must now be produced by exclusion.** R4, R13 and R14
+   appeared in both the findings table and the cleanest list on this run, and
+   R4 is a planted defect. Added: derive the list by removing every
+   identifier already in the findings table, not by compiling it separately.
+4. **The one-row-per-repeated-defect instruction is narrowed.** It previously
+   read "report it once with a count," unconditionally, which is what let #3
+   merge R2 and R12 into a single row and made pair A unmeasurable, since a
+   shared row cannot carry two different classes. It now applies only when
+   every occurrence would carry the same class and reformulation; otherwise
+   each occurrence gets its own row.
+5. **Acceptance-criterion coverage now runs in both directions.** #17
+   observed that AC-1 would pass despite the hold gap and did not generalise
+   from it. Added a row to the cross-cutting scan: for each requirement,
+   which criterion would fail if it were violated.
+6. **Illustrative numbers are now distinguished from invented ones by rule,
+   not by trust.** #6 argued a contradiction using a claim scoring 40, a
+   number not in the fixture and not a proposed threshold, but nothing
+   marked it as illustration rather than invention. Added: illustrative
+   numbers must be marked as such in the reformulation.
+
+### What this does not resolve
+
+The run's own list had a seventh line, not acted on here: three keys across
+three fixtures have each needed correction after their first run, written by
+the fixture's own author before any run existed to check them against. That
+is a comment on the test method, not on the skill, and nothing in this entry
+changes how fixtures or their keys get written.
+
+Not tested: whether these six additions hold up against a fourth run. Fixture
+03 is still the only evidence for all six, same as fixture 02 was the only
+evidence for the calibration finding it originally raised.
