@@ -99,6 +99,11 @@ none of the three holds is there a finding — reported under smell 9.
 | **A dependency does not answer** | An external call times out, returns an error, or returns something unexpected. Is the operation abandoned, held, or retried? |
 | **Configuration changes mid-flight** | A rule, sequence or setting the operation depends on is edited while the operation is in progress. Does it bind at the start or re-read as it goes? |
 | **The set is empty or the boundary is reached** | Zero items, one item, the last item, or the maximum. Does the rule still hold? |
+| **A requirement has no acceptance criterion** | Criteria are usually checked against requirements. Check the reverse: for each requirement, which criterion would fail if it were violated? One with no answer is a gap, even if every criterion traces cleanly to something. |
+
+For each scenario, first name every statement that plausibly belongs to it,
+not just the first one noticed. A category is not settled by its first match;
+the planted case may be the second statement in the same section.
 
 Do not report a scenario simply because it is unmentioned. A document about a
 read-only report has no concurrency question; a story explicitly bounded to one
@@ -142,12 +147,20 @@ A findings table, then a summary. Nothing else.
 Findings from the cross-cutting scan have no quote to cite. Use `—` in the
 quote column and name the scenario in the reformulation.
 
-Quote exactly, and keep quotes short enough to locate the statement. Where the
-same defect appears many times, report it once with a count rather than filling
-the table with repetitions.
+Quote exactly, and keep quotes short enough to locate the statement. Report
+one finding per statement. Where the same smell appears in several statements
+and every occurrence would carry the same class and the same reformulation,
+report it once with a count and list the identifiers. Where occurrences could
+reasonably receive different classes, give each its own row: a shared row
+cannot carry two different classes when the statements deserve them.
 
 Name the cleanest statements even when the review is heavy. A reviewer who only
-reports defects gives the author no signal about what to preserve.
+reports defects gives the author no signal about what to preserve. Produce this
+list by exclusion: start from every statement reviewed, remove every
+identifier that appears anywhere in the findings table, and name what remains.
+Do not compile it separately from memory, and check it against the findings
+table before output. Naming a statement clean is a stronger claim than not
+mentioning it.
 
 ## Classifying findings
 
@@ -172,6 +185,11 @@ On an ordinary artifact, expect blocking findings to be a minority and often
 zero. If most findings are blocking, the class has been applied too loosely and
 has stopped carrying information.
 
+Assign a class using only the statement in front of you, not the impression
+built by the statements already read. Before output, scan the finding list as
+a set: if classes cluster by position in the document rather than by what
+each statement actually allows an implementer to do, re-derive them.
+
 **A missing source, alone, is at most *consider*.** An NFR carrying a value, a
 condition and a verification method is usable; the absent source matters when
 the number is challenged, not when it is built.
@@ -182,7 +200,11 @@ the number is challenged, not when it is built.
   Producing a corrected version invites it to be accepted wholesale, which
   defeats the review.
 - **Do not invent values.** If a threshold has no source, the finding is that it
-  has no source — not a proposed number.
+  has no source — not a proposed number. A number used to illustrate an
+  argument (this claim would score 40 under that rule) is not a proposed value
+  and is not this violation, but say so explicitly in the reformulation. An
+  unmarked illustrative number and an invented one look identical to a reader
+  skimming the table.
 - **Do not fill gaps.** A missing failure path is a finding, not an invitation
   to write one.
 - **Do not soften findings to be encouraging.** A review that reads as
