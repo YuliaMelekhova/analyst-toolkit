@@ -3,7 +3,7 @@ id: BR-000
 title: <One line, written as an outcome, not as a feature>
 status: draft            # draft | needs-info | in-review | approved | superseded
 owner: <name / role accountable for the business outcome>
-author: <analyst>
+drafted_by: <analyst>
 updated: YYYY-MM-DD
 traces:
   decided_in: []         # ADR-xxx
