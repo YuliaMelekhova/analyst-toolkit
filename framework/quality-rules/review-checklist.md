@@ -103,6 +103,12 @@ Keep the classes honest. A reviewer who marks everything blocking is
 negotiated with rather than listened to; one who marks nothing blocking is
 decorative.
 
+**"Author" means whoever is accountable for the content, not whoever drafted
+it.** On an artifact prepared by one party for another - a BRD an analyst
+drafts for a requester - that is the `owner` field, not the drafter. A
+drafter dispositioning a finding on the accountable party's behalf is the
+same latitude problem this checklist exists to prevent elsewhere.
+
 ---
 
 ## Conduct
