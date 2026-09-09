@@ -1366,3 +1366,73 @@ changes how fixtures or their keys get written.
 Not tested: whether these six additions hold up against a fourth run. Fixture
 03 is still the only evidence for all six, same as fixture 02 was the only
 evidence for the calibration finding it originally raised.
+
+## 2026-09-07 - fixture 04, and a gap wider than the fixture
+
+`fixture-04-ecl-reporting.md` and its unsigned twin, with a full answer key,
+had existed in this repository unrun since before this NOTES.md file starts
+tracking them. They are exactly the "same-form document" this file has asked
+for since the 2026-08-18 entry: the answer key's own words, "the question run
+01 of fixture 03 could not settle... a third and cheaper one," match the
+tracker's language closely enough that this was very likely written for that
+exact purpose and then not followed through.
+
+### A blindness failure before any run happened
+
+The key was read in full before its existence as a test instrument was
+understood, which is exactly the violation `fixture-03-run-01.md`'s own
+protocol exists to prevent. That disqualified running either twin blind in
+this session. Two separate, fresh conversations outside this project each
+received one twin and one identical, ordinary request that did not name the
+skill. Scoring the resulting transcripts against an already-read key does not
+require blindness the way producing them does, so scoring proceeded.
+Full detail in `skills/requirements-smell-detector/tests/fixture-04-run-01.md`.
+
+### What the run found, briefly
+
+Both twins triggered the skill on an unprompted, ordinary request, closing
+the triggering question open since fixture 01. The signed twin's run cited
+the document's approved status as a reason to narrow its own scope, in its
+opening sentence, before any finding - the exact failure `fixture-04`'s
+protocol names and disqualifies. Neither run found any of the three real
+items in section 9, the device the fixture is named for; the unsigned run's
+closing remark treats the open-questions table's hollow defaults as already
+having "correctly captured" the same class of gap, which is the identical
+failure wearing a different section number. Both runs independently
+under-called the same four items from Blocking to Should fix. Full scoring
+and the reasoning behind each call is in the run file; not repeated here.
+
+### What this run is not evidence of, and why
+
+Every one of the six 2026-09-04 rules, and the two decisions before them,
+postdate 2026-08-10, and the skill instance used in both fresh chats was
+confirmed, while scoring this run, to still be the 2026-08-10 file. This was
+checked directly: the skill loaded in this project carried none of the
+September changes, and Yulia confirmed nothing had been uploaded anywhere
+since 2026-09-02, only pushed to GitHub. This run tests the original skill
+against a harder fixture. It tests none of this month's fixes, including the
+cleanest-statements rule, which the unsigned run's own transcript violates in
+the exact shape fixture 03 first found it in - a second occurrence of the
+problem the rule targets, not a test of whether the rule holds.
+
+### The gap itself
+
+Nothing in this repository's workflow connects a change landing in GitHub to
+that change reaching a Claude skill configuration. They are two different
+places, updated by two different actions, and only one of those actions had
+been happening. Every rule written into a `SKILL.md` in this file since
+2026-09-02, across all three skills, existed only as text in a repository
+until today. Three zips, one per skill, each bundling the current `SKILL.md`
+with every `framework/` file it references, were built and uploaded to
+replace the stale ones. Confirmed live afterward the same way the gap was
+found: asking a fresh chat to quote a section only the new text contains, and
+getting it back verbatim.
+
+### Not yet done
+
+`fixture-04` has not been run against the skill it was actually meant to
+test. The findings above stand as a description of the pre-2026-09-02 skill
+on a fixture built after most of that skill's rules were already fixed
+elsewhere; whether the September rules change any of section 9, the
+Blocking/Should-fix pattern, or the signed twin's scope narrowing is open and
+requires a third and fourth run, not argued from this entry.
