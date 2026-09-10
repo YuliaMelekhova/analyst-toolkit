@@ -1436,3 +1436,47 @@ on a fixture built after most of that skill's rules were already fixed
 elsewhere; whether the September rules change any of section 9, the
 Blocking/Should-fix pattern, or the signed twin's scope narrowing is open and
 requires a third and fourth run, not argued from this entry.
+
+## 2026-09-08 - fixture 04, run 02: one rule confirmed, one gap it does not cover
+
+Same fixture, same protocol, this time against the skill actually carrying
+the 2026-09-02 through 2026-09-04 changes. Full scoring, side by side with
+run 01, is in `fixture-04-run-02.md`. Three results worth carrying forward
+on their own.
+
+**The coverage rule holds.** Both twins independently found the requirement
+with no acceptance criterion, at the key's class, first time this has been
+found in any of the four transcripts across both runs. One rule, one gap it
+was written for, found on both documents it was tested against.
+
+**The cleanest-by-exclusion rule holds, and a narrower gap sits next to it.**
+No statement in either run 02 transcript appears in the findings table and
+the cleanest list at once, which was the specific failure the 2026-09-04
+entry gave the rule for. But run 02's unsigned twin names `Stage` and `R2`
+cleanest, and both carry the same deferred-to-nonexistent-rules construction
+the same transcript correctly calls Blocking two rows earlier, on a different
+statement. The rule stops two lists from contradicting each other. It does
+not stop a statement that was never read against the ten smells from being
+certified anyway, because that is a different claim than the one it was
+written to check. Worth a rule of its own at some point; not written today,
+since one run is what this file has, and one run establishes an occurrence,
+not a rule's worth of evidence.
+
+**Section 9 is still the strongest result in this fixture, for the wrong
+reason.** Four transcripts, two skill versions, zero hits on any of the
+three real items in the fixture's namesake section. Nothing from
+2026-09-02 through 2026-09-04 touched this, so the outcome was expected; it
+is recorded again here because a second confirmation with no exceptions is a
+different kind of evidence than the first.
+
+### An error, owned
+
+The two twin documents were reused from run 01 under the same file names,
+`fixture-04-ecl-reporting-signed.md` and `...-unsigned.md`. The unsigned
+twin's transcript opens by citing the file name directly as the reason for
+its framing. That is a leak in the material, not a finding about the skill,
+and it makes this run's condition-3 result on the unsigned twin unusable
+either way. The signed twin's equivalent citation reads the document's own
+front matter instead and is unaffected. Any further run uses names that do
+not contain either condition.
+
