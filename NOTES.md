@@ -1480,3 +1480,52 @@ either way. The signed twin's equivalent citation reads the document's own
 front matter instead and is unaffected. Any further run uses names that do
 not contain either condition.
 
+## 2026-09-08 - section 9's cause, not just its symptom
+
+Four transcripts missed the same three items in section 9, across two skill
+versions, with no exceptions. That consistency was itself the clue: a defect
+this stable is more likely a property of the skill's framing than four
+independent lapses in reading.
+
+### What the transcripts said about themselves
+
+All four "Not reviewed" lines, written independently, converge on close to
+the same phrase: *"narrative/context, not requirement statements,"*
+*"context, not requirement statements,"* *"context and governance sections
+rather than testable statements,"* *"narrative/context, not requirements."*
+`SKILL.md`'s own frontmatter says, of when to use the skill at all: *"Do not
+use for reviewing prose that is not a requirement."* The four transcripts are
+echoing that sentence, applied one level too low: a rule meant to gate
+whether the skill fires on a document was being used, inside an already-
+triggered review, to gate which sentences within the document count.
+
+### Why this reaches section 9 and section 11 by different doors
+
+Section 9's items carry no identifier and are phrased as plain sentences, so
+they read as commentary rather than as a requirement in the R#/NFR#/AC# shape
+the rest of the document trains the eye to look for. Section 11's "if
+unanswered" cells do carry an identifier, one per row, but a cell with any
+text in it satisfies the schema at a glance, and the content of that text was
+not separately tested. Different mechanisms, same result: something that
+looks resolved, whether by shape or by occupancy, was treated as resolved
+without being read for what it actually says.
+
+### Decision
+
+Added one general rule to `requirements-smell-detector/SKILL.md`, in Task,
+rather than a named carve-out for "Known limitations" sections or for
+open-question tables specifically: an identifier's presence or absence does
+not decide whether a sentence is in scope, only its content does, and a
+table cell that is not empty is not the same thing as a cell that is
+correct. A rule tied to this fixture's specific section names would fix this
+fixture and nothing written differently next time; the mechanism named above
+is what needed the rule, not the section number it happened to surface in.
+
+Not changed: the frontmatter's own "not a requirement" line, which gates
+triggering and is doing a different, legitimate job. The new rule sits inside
+the skill's working instructions, once it has already started.
+
+### Still open
+
+Whether this rule reaches section 9 on a fifth run. Nothing here has been
+tested against it yet.
