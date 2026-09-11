@@ -28,6 +28,16 @@ question?* Where the answer is no, record a finding.
 Then read the document once more as a whole, for the defects that live between
 statements rather than inside them. See *Cross-cutting scan* below.
 
+A requirements artifact is not only its numbered rules. A bulleted
+limitation, a stated assumption, or the answer already written into a table
+cell asserts something as fact the same way a numbered rule does, and is
+tested the same way: could someone implement or rely on it without asking
+the author a question. Whether a sentence carries an identifier is not a
+test of whether it is in scope; only its content is. A "Known limitations"
+entry that gives no boundary, date, or plan is not different in kind from a
+rule that names no actor. A table cell that is not empty is not the same
+thing as a table cell that is correct.
+
 Report only what is present in the text. Do not evaluate whether the
 requirement is a good idea, whether the scope is right, or whether the approach
 is sound — those are separate reviews.
