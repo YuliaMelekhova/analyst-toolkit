@@ -1529,3 +1529,45 @@ the skill's working instructions, once it has already started.
 
 Whether this rule reaches section 9 on a fifth run. Nothing here has been
 tested against it yet.
+
+## 2026-09-11 - a rule for certified-without-examination
+
+Named provisionally on 2026-09-08, not written then because one instance was
+one occurrence. Run 03 added a second and third on the same day it was
+scored: `Stage` named clean in two separate transcripts while a structurally
+identical statement, "significant increase in credit risk," was correctly
+called Blocking in one of those same transcripts; the adjustment-threshold
+limitation named clean on both twins of run 03 because an open question
+tracks it. Three statements, three runs, the same shape each time: something
+not found in the findings table gets certified rather than tested.
+
+### Why the 2026-09-04 rule does not reach this
+
+That rule removes a statement from the cleanest list if it appears in the
+findings table. It says nothing about statements that appear in neither list,
+which is exactly where this defect lives. A statement can fail to be flagged
+for two different reasons - it was tested and found sound, or it was never
+tested - and the existing rule cannot tell these apart. Naming it clean should
+depend on which.
+
+### Decision
+
+Added one paragraph to `requirements-smell-detector/SKILL.md`, directly after
+the 2026-09-04 rule it extends rather than replaces: exclusion from the
+findings table is a floor, not a test. Before naming a statement clean, the
+same question that produced every other finding must be asked of it
+specifically. Two concrete failure shapes are named, both drawn from run 03
+rather than invented: certifying a statement clean because a different
+statement using the same construction was the one already caught, and
+certifying a gap resolved because an open question tracks it, when the
+question being open is the evidence the gap is real.
+
+### Still open
+
+Whether this reaches `Stage`, `R8`, or the threshold limitation on a fourth
+run. `R8` in particular has now resisted five of six transcripts under three
+different rule states; if a fourth run does not move it, the cause is more
+likely specific to how R8 is worded than to a gap in the skill's general
+instructions, and is worth checking against the document rather than against
+`SKILL.md` next.
+
