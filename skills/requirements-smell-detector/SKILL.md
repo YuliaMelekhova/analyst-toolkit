@@ -172,6 +172,16 @@ Do not compile it separately from memory, and check it against the findings
 table before output. Naming a statement clean is a stronger claim than not
 mentioning it.
 
+Exclusion is a floor, not the test itself. A statement absent from the
+findings table has not yet been shown clean; it has only not yet been
+flagged. Before naming it, apply the same question to its own words that
+produced every other finding: could someone implement or verify it without
+asking the author a question. A definition that defers to a document named
+nowhere is not clean because a different statement using the same
+construction happens to be the one already caught. An acknowledged gap
+tracked by an open question is not resolved by being tracked; the question
+being open is what makes the gap real, not what closes it.
+
 ## Classifying findings
 
 Use the three classes from the review checklist:
