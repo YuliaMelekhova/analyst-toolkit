@@ -40,7 +40,7 @@ against this log on 2026-10-14.
   a reason to narrow its scope in all three runs. No rule addresses it.
 - **The certified-without-examination rule (2026-09-11) is untested.** A run 04
   is needed to see whether it reaches `Stage`, `R8` and the adjustment-threshold
-  limitation. `R8` was named clean in three of six transcripts and raised once;
+  limitation. `R8` was named clean in two or three of six transcripts and raised once;
   if run 04 does not move it, check the wording of `R8` in the document before
   changing `SKILL.md` again. `NFR-052` has been correct twice, over-called
   twice, certified clean once and not addressed once, with no trend.
@@ -128,6 +128,9 @@ against this log on 2026-10-14.
   `answer-key.md` only. Fixtures 06 and 07 and their run records are not
   mentioned. `skills/nfr-interrogator/tests/` has no README.
 - The contents table in `pipeline/README.md` does not list `decisions/`.
+- The fixture 04 run records disagree with each other, and with the 2026-09-11
+  entry, on the points listed in the 2026-10-14 correction entry at the end of
+  this file. Settling it needs the transcripts, which are not in the repository.
 - `skills/brd-drafter/tests/answer-key.md`, under "Not tested by these
   fixtures", still lists the answered path as untested. Fixtures 06 and 07
   exercised it.
@@ -1825,3 +1828,55 @@ missed in all six transcripts.
 
 Kept in "Current open items" at the top, not repeated here. This entry closes one
 item on that list, that run 03 had no entry, and opens none.
+
+## 2026-10-14 - corrections to the run 03 entry above
+
+The run 03 entry above was written from the prose of the run 03 record. Checked
+afterwards against that record's tables and against the run 01 and run 02
+records, several of its statements do not hold. The entry is left as written.
+This one corrects it. The transcripts are not in the repository, so where two
+records disagree, this follows the tables where the tables agree with each other
+and says so where it cannot decide.
+
+### Corrections to the entry above
+
+- **"Both twins" on section 9, and "after it, both of two did."** The run 03
+  table scores the signed twin "used as evidence, not its own finding". One of
+  two twins made a section 9 sentence its own finding, and the other engaged
+  with it more weakly.
+- **Compliance-by-inertia "excluded from scope in three of them."** The run 02
+  and run 03 tables give one, run 01 signed. In the other three it was missed.
+- **"Both ahead of every earlier transcript" and "a better count than any
+  earlier transcript."** True of the signed twin, roughly 15 of 28 against 8 and
+  roughly 13 before. Not true of the unsigned twin, roughly 13 against run 02's
+  roughly 14.
+- **`R8` "named clean in three of six."** Two or three. The run 03 table scores
+  run 02 signed as named clean, and the run 02 record says `R8` recurred on
+  neither twin in that run. "Raised once, five of six not" is unaffected.
+- **"The section 9 movement is stronger than one transcript would have been."**
+  It is one clear case and one weaker one, not two clear cases.
+- **"A second independent instance in one run."** Counted from the records, the
+  certified-without-examination instances are `R8` (run 01, unsigned), `Stage`
+  and `R2` (run 02, unsigned), `Stage` again (run 03, unsigned), and the
+  adjustment-threshold limitation (run 03, both twins).
+
+### Where the records disagree with the 2026-09-11 entry
+
+- The 2026-09-11 entry says run 03 added a second and third instance, and that
+  `Stage` was named clean in two separate transcripts. Those are run 02's
+  unsigned twin and run 03's unsigned twin. The first is the instance the
+  2026-09-08 entry already had, so run 03 added one repeat of `Stage` and one new
+  statement, the threshold limitation, on both twins.
+- The same entry says "three statements, three runs". The run 03 record says
+  `R7` and `Stage` in run 02. The run 02 record says `Stage` and `R2`, and `R7`
+  there is a different failure, listed in both the findings and the cleanest
+  list (run 01). `R7` looks like a slip for `R2`. With `R2`, there are three
+  statements in two runs, 02 and 03. A third run appears only by counting `R8` in
+  run 01, which gives four statements across three runs.
+
+None of this moves the 2026-09-11 rule. The shape it names, a statement certified
+without being read, is in the records either way. What changes is the evidence
+count behind "three runs". The records were not edited.
+
+This entry opens one item on "Current open items": the run records disagree with
+each other, and settling it needs the transcripts.
