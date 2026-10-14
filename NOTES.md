@@ -131,8 +131,6 @@ against this log on 2026-10-14.
 - `skills/brd-drafter/tests/answer-key.md`, under "Not tested by these
   fixtures", still lists the answered path as untested. Fixtures 06 and 07
   exercised it.
-- Run 03 of fixture 04 has a record file and no entry in this log. The
-  2026-09-11 entry mentions it only in passing.
 
 ### Resolved items from earlier lists
 
@@ -1735,3 +1733,95 @@ follow it.
 
 The "What is still untested" section was reduced to a pointer rather than
 corrected, because a corrected copy would have been a second list.
+
+## 2026-10-14 - fixture 04, run 03, recorded after the rule it produced
+
+Run 03 has a record file, `fixture-04-run-03.md`, and until now had no entry
+here. The rule written on 2026-09-11 rests on it, so this entry is in the wrong
+order: it follows the decision it supports. The run was scored on or before
+2026-09-11, and the record carries no date. What follows is what the record
+says. The scoring table stays in the record.
+
+### Protocol
+
+Same fixture, same prompt, and the same check as run 02 that the account-level
+skill carried the current rules, here the 2026-09-08 rule. File names were
+neutral this time, `fixture-04-document-a.md` and `fixture-04-document-b.md`.
+Neither transcript referred to a file name, so the no-status-reference condition
+is scorable on both twins, which run 02's was not.
+
+The run tested one thing: whether the 2026-09-08 rule, that an identifier's
+presence does not decide whether a sentence is in scope, moves section 9. Section
+9 had produced no hit in any of the four earlier transcripts.
+
+### What moved
+
+**Section 9 is being read.** Both twins, independently, took a sentence out of
+section 9 and made it the subject of a finding rather than background for R9.
+The unsigned twin quoted "the rules current at the time of each close" and asked
+what binding point that phrase leaves undefined, a question the key does not
+raise. Before the rule, none of four transcripts did this; after it, both of two
+did. The record counts roughly 15 of 28 planted items found on the signed twin
+and 13 of 28 on the unsigned, both ahead of every earlier transcript.
+
+**The compliance-by-inertia assumption was found for the first time.** The
+signed twin raised the statement that compliance would be addressed as it arises,
+which the key calls its sharpest item. It had been missed in four earlier
+transcripts and excluded from scope in three of them. It came back at Consider,
+where the key says Blocking: found, still under-called, which is the shape every
+correctly identified item in this fixture has taken.
+
+### What did not move
+
+**Section 11.** Both twins excluded the Open questions table wholesale, with new
+wording for the same move: one called it a record of gaps rather than new
+assertions, the other a disclosed-assumption section rather than requirement
+statements. The 2026-09-08 rule says a cell that is not empty is not the same as
+a cell that is correct. Both transcripts went around it by reclassifying the
+whole section instead of its cells, a category the rule's wording did not
+anticipate. The fix for section 9 and the fix still needed for section 11 are
+not the same fix, though one mechanism was diagnosed for both.
+
+**Blocking items under-called.** NFR-047 and AC-1 were classed below the key in
+all six transcripts. AC-2 was in five, and not addressed in the sixth.
+
+**The approved status.** The signed twin cited it again, from the document's own
+front matter, the same mechanism as runs 01 and 02. The unsigned twin passed.
+
+**R8 and NFR-052.** R8 was named clean in three of six transcripts and raised in
+one, the first, with flawed reasoning. NFR-052 has been correct twice,
+over-called twice, certified clean once and not addressed once. Neither is
+trending toward the key.
+
+### A second instance of certified-without-examination
+
+Both twins named the adjustment-threshold limitation clean, with the note that an
+open question tracks it. The same item surfaced by name in the signed twin's own
+cleanest list, immediately after not being tested. Being tracked by an open
+question was read as being handled by one. That is the narrower gap the
+2026-09-08 entry named without writing a rule for, now with a second independent
+instance in one run, on a different statement from the first. It is the evidence
+the 2026-09-11 rule was written on.
+
+### Pass conditions
+
+Planted defects all found: failed on both twins, with a better count than any
+earlier transcript. No finding against bait: clean on both. No status reference:
+failed on the signed twin, passed on the unsigned. Section 9 gaps reported as
+defects: partial, the first result on this fixture that was not a flat failure.
+Classes matching the key: unchanged, with the same Blocking items under-called
+the same way.
+
+### What this run is not evidence of
+
+Two transcripts are not a rate. The section 9 movement is stronger than one
+transcript would have been, because both twins moved independently, but it is
+still two. Nothing here shows the 2026-09-11 rule works: it was written after
+this run and has not been run against anything. The section 11 gap and the
+reconciliation item, "understood by the team", are unchanged, and the latter was
+missed in all six transcripts.
+
+### Still open
+
+Kept in "Current open items" at the top, not repeated here. This entry closes one
+item on that list, that run 03 had no entry, and opens none.
