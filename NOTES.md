@@ -10,6 +10,152 @@ toolkit with no visible seams is a marketing page.
 
 ---
 
+## Current open items
+
+As of 2026-10-14. This is the one list of open questions in the repository.
+The "Untested" and "Still open" lists inside older entries are snapshots of the
+day they were written and are not kept current: fifteen of their bullets have
+since been resolved, and the table at the end of this section says where.
+Undated sections above the 2026-08-13 entry describe the state after the first
+runs and are snapshots in the same way.
+
+From 2026-10-14, when an entry opens or closes an item, this list is updated in
+the same commit.
+
+Each item says where it was raised and what the evidence is now. Items marked
+**audit** were on no earlier list; they were found by checking the files
+against this log on 2026-10-14.
+
+### requirements-smell-detector
+
+- **The Open questions table is excluded wholesale.** Both twins in run 03 set
+  section 11 aside as a record of gaps, a reclassification the 2026-09-08 rule
+  does not name and so does not close. No rule has been written.
+  (`fixture-04-run-03.md`)
+- **Blocking items are under-called.** NFR-047 and AC-1 were classed below the
+  key in all six transcripts; AC-2 in five, and not addressed in the sixth. The
+  class-independence rule of 2026-09-04 has not moved this, and no further
+  mechanism is proposed.
+- **An approved status softens the review.** The signed twin cited the status as
+  a reason to narrow its scope in all three runs. No rule addresses it.
+- **The certified-without-examination rule (2026-09-11) is untested.** A run 04
+  is needed to see whether it reaches `Stage`, `R8` and the adjustment-threshold
+  limitation. `R8` was named clean in three of six transcripts and raised once;
+  if run 04 does not move it, check the wording of `R8` in the document before
+  changing `SKILL.md` again. `NFR-052` has been correct twice, over-called
+  twice, certified clean once and not addressed once, with no trend.
+- **Section 9 is only partly reached.** Run 03 pulled the staging-rules item out
+  as its own finding on one twin. The reconciliation item ("understood by the
+  team") was missed in all six transcripts, and the "existing practice"
+  threshold item was read and certified clean by both twins in run 03.
+- **The illustrative-number rule (2026-09-04) has no recorded test.** No entry in
+  this log records a run that exercises it.
+- **Reading is not separated from recognition.** Neither a defect-free document
+  of the same form nor a shuffled fixture 03 exists. Fixture 04's unsigned twin
+  isolates approval status, which is a different measurement.
+- **The fixture 04 key has not absorbed a run 03 finding.** The unsigned twin
+  asked what binding point "the rules current at the time of each close" leaves
+  undefined, a question the key does not raise.
+- **Untested inputs:** a glossary supplied with the artifact, and a non-English
+  artifact. There is also no equivalent of the uncooperative-interview fixture.
+- **Method.** Three keys have each needed correction after their first run.
+  Whether a key should be assembled from the first run and argued against,
+  rather than written in advance, is undecided.
+
+### brd-drafter
+
+- **Fixture 01 (thin request) has not been run.** It is in `tests/fixtures.md`.
+- **Untested:** a source long enough that choosing the seven questions becomes
+  hard, and extending an existing BRD rather than drafting a new one.
+- **Leading questions.** The `Question form` rule (2026-09-03) has not been
+  tested against a respondent who agrees with whatever is proposed. Fixture 07's
+  agreement trait went unexercised because its questions had been reworded to
+  stop leading. A run with deliberately leading questions is needed.
+
+### nfr-interrogator
+
+- **Offering a common value as a starting point** has not been exercised in any
+  recorded interview.
+- **A scope too broad to interview** has not been tried. The instruction to push
+  back on "our platform" has never been triggered.
+- **Volunteering an inference during an interview:** defect or the job? Observed
+  once in the uncooperative fixture, unresolved.
+
+### All three skills
+
+- **audit:** whether `brd-drafter` and `nfr-interrogator` trigger on an
+  unprompted request is not recorded. Only the smell detector's triggering was
+  settled (2026-09-07).
+
+### Framework and worked example
+
+- **Four framework changes rest on one document.** A second worked example in a
+  different domain, answered by someone other than the author, would test them.
+- **Nothing checks the worked examples inside the skills against the templates
+  they demonstrate.** Three drifted within an hour on 2026-08-17.
+- **Frozen run records use superseded names.** `example/02-brd-draft.md` and
+  `example/06-brd-final.md` still say `author`. Whether a frozen record may ever
+  be regenerated against a changed template is undecided.
+- **Traceability checks** (orphan detection across the identifier graph) are
+  planned and not started.
+
+### pipeline
+
+- **`instructionVersion` is never persisted.** It is computed in
+  `DFT 02 Assemble agent instruction` and written nowhere; `metrics.md` names it
+  the first gap to close. Confirmed against the export on 2026-10-14.
+- **The verification scripts are not committed.** The repository has no scripts
+  directory and no CI.
+- **`SANITIZATION.md` has only been run against generated output.** It has never
+  been run against an export from a live instance.
+
+### Packaging
+
+- **A change pushed to GitHub does not reach an uploaded skill.** Found on
+  2026-09-07 and closed once by re-uploading three zips with `framework/`
+  bundled. Nothing prevents a recurrence, and verification is manual: ask a
+  fresh chat to quote a section only the new text contains.
+- **audit:** there is no tag or release. The README says v0.2.
+
+### Repository documents that disagree with the log (audit)
+
+- The README roadmap lists a mixed-quality review fixture as planned. Fixture 03
+  is that fixture and was run on 2026-08-18.
+- `skills/requirements-smell-detector/tests/README.md` lists fixtures 01 to 04
+  and their keys, and none of the run records (`fixture-03-run-01.md`,
+  `fixture-04-run-01.md` to `fixture-04-run-03.md`).
+- `skills/brd-drafter/tests/README.md` describes `fixtures.md` and
+  `answer-key.md` only. Fixtures 06 and 07 and their run records are not
+  mentioned. `skills/nfr-interrogator/tests/` has no README.
+- The contents table in `pipeline/README.md` does not list `decisions/`.
+- `skills/brd-drafter/tests/answer-key.md`, under "Not tested by these
+  fixtures", still lists the answered path as untested. Fixtures 06 and 07
+  exercised it.
+- Run 03 of fixture 04 has a record file and no entry in this log. The
+  2026-09-11 entry mentions it only in passing.
+
+### Resolved items from earlier lists
+
+| Item | Resolved by |
+|---|---|
+| `deferred` and `unknown` boundary in `nfr-interrogator` | 2026-09-02 and 2026-09-03: owner and gate recorded inline in the Status cell |
+| An eleventh smell for convention violations | 2026-09-02: decided against |
+| OQ-014 decided by the analyst | 2026-09-03: `author` renamed `drafted_by`; the default itself held up |
+| Form of a clarifying question as a rule | 2026-09-03: `Question form` added to `brd-drafter` |
+| One row per repeated defect against a merged row | 2026-09-04: merge only when every occurrence carries the same class |
+| Cleanest-statements list not produced by exclusion | Rule on 2026-09-04; held in run 02 (2026-09-08) |
+| Coverage from requirements to acceptance criteria | Rule on 2026-09-04; found on both twins in run 02 (2026-09-08) |
+| Fixture 03 key corrections | 2026-08-19: key revised to v2 |
+| Fixtures 02 and 03 keys disagreeing on the reassignment clock | 2026-08-19: resolved in key v2 |
+| A mixed artifact for the smell detector | Fixture 03, run 2026-08-18 |
+| An uncooperative interview for `nfr-interrogator` | `fixture-03-uncooperative-interview.md`; run record dated 2026-08-16, recorded in the 2026-08-17 entry |
+| The answered path for `brd-drafter` | Fixtures 06 and 07: respondents answered the clarification round (2026-08-17) |
+| Fixtures undocumented as snapshots | `tests/README.md` in `brd-drafter` and `requirements-smell-detector`; not logged until now |
+| Triggering of `requirements-smell-detector` | 2026-09-07: both twins triggered on an unprompted request |
+| Fixture 04 run against the skill it was meant to test | Runs 02 and 03 (2026-09-08, `fixture-04-run-03.md`) |
+
+---
+
 ## requirements-smell-detector
 
 Tested three times against two documents: one written badly on purpose, one
@@ -353,24 +499,10 @@ answer turned out to be neither. They work, when they are present.
 
 ## What is still untested
 
-**requirements-smell-detector**
-
-- A mixed artifact - mostly sound with one badly written section. The realistic
-  case, and the hardest to calibrate. Both fixtures are uniform.
-- Behaviour when a glossary is supplied.
-- A non-English artifact.
-
-**brd-drafter**
-
-- Fixture 01 - the thin-request case.
-- The answered path. Every run declined the clarification round.
-- A source long enough that prioritising the seven questions becomes hard.
-- Extending an existing BRD rather than drafting fresh.
-
-**nfr-interrogator**
-
-- A single run only, on a system whose owner answered thoroughly. The three gaps
-  above are the ones worth closing first.
+Superseded on 2026-10-14. The list that stood here described the state after the
+first runs, and three of its items had since been closed by later runs: a mixed
+artifact, the answered path, and an uncooperative interview. Open items are kept
+in "Current open items" at the top of this file.
 
 ---
 
@@ -391,9 +523,11 @@ finding tables.
 
 ---
 
-# NOTES entry: pipeline block
+# Dated entries
 
-> Append to `NOTES.md`. Written as a section to paste under the existing entries.
+Entries below are dated and record what was known at the time. A correction goes
+in a new entry, with one recorded exception (2026-08-14). Their "Still open"
+lists are snapshots; the current state is in "Current open items" at the top.
 
 ---
 
@@ -1571,3 +1705,33 @@ likely specific to how R8 is worded than to a gap in the skill's general
 instructions, and is worth checking against the document rather than against
 `SKILL.md` next.
 
+## 2026-10-14 - one list of open items, and what the old lists had drifted into
+
+Open items had accumulated in eight places: the first-phase "Untested" and
+"What is still untested" sections, and six "Still open" or "Not yet done"
+subsections inside dated entries. They are now consolidated under "Current open
+items" at the top of this file. Dated entries were not edited.
+
+Checking each bullet against the repository, rather than against the other
+lists, found:
+
+- Fifteen bullets already resolved, none of them marked as such where they stood.
+- The first-phase "What is still untested" section still listing three gaps that
+  later runs had closed: a mixed artifact, the answered path, and an
+  uncooperative interview.
+- A paste instruction left in the file from when the pipeline block was drafted
+  elsewhere: the heading "NOTES entry: pipeline block" and a line saying to
+  append it under the existing entries. Removed, and replaced with a heading and
+  a short note on how the dated entries are kept.
+- Five repository documents disagreeing with this log, listed under the audit
+  heading above, and run 03 of fixture 04 recorded in its own file with no entry
+  here.
+
+This is the fourth time this log has found a resolved item still listed as open
+(2026-08-14, 2026-08-19, 2026-09-03). Naming it did not stop it, so the change
+this time is structural: one list, updated in the same commit as the entry that
+opens or closes an item. That is untested until a second entry has had to
+follow it.
+
+The "What is still untested" section was reduced to a pointer rather than
+corrected, because a corrected copy would have been a second list.
