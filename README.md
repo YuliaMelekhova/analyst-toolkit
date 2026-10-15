@@ -5,7 +5,7 @@ the standards a human reviews against and the instructions an agent follows are
 the same text. Plus a reference implementation showing what happens when those
 artifacts are produced by a system rather than by hand.
 
-> **Work in progress.** This is v0.2 and is being built in the open. Files will
+> **Work in progress.** This is v0.4 and is being built in the open. Files will
 > change, structure will move, and several planned parts are not here yet - see
 > [Roadmap](#roadmap). Nothing is stable enough to depend on without reading it
 > first. Feedback and disagreement are welcome; open an issue.
@@ -206,9 +206,9 @@ Present:
 Planned, in rough order:
 
 - Traceability checks - orphan detection across the identifier graph
-- Closing the testing gaps listed at the end of [`NOTES.md`](NOTES.md),
-  particularly a mixed-quality review fixture and a pass with deliberately
-  leading questions
+- Closing the testing gaps listed under "Current open items" at the top of
+  [`NOTES.md`](NOTES.md), particularly a pass with deliberately leading
+  questions
 
 ---
 
