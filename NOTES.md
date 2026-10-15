@@ -28,34 +28,44 @@ against this log on 2026-10-14.
 
 ### requirements-smell-detector
 
-- **The Open questions table is excluded wholesale.** Both twins in run 03 set
-  section 11 aside as a record of gaps, a reclassification the 2026-09-08 rule
-  does not name and so does not close. No rule has been written.
-  (`fixture-04-run-03.md`)
+- **The Open questions table was excluded wholesale in run 03 and reached in run
+  04.** Both twins set section 11 aside as a record of gaps in run 03, and both
+  found its four `If unanswered` cells in run 04. One run each under the same
+  rule state, so variance is not excluded. No rule has been written, and by the
+  decision of 2026-10-15 none will be written against fixture 04.
 - **Blocking items are under-called.** NFR-047 and AC-1 were classed below the
-  key in all six transcripts; AC-2 in five, and not addressed in the sixth. The
-  class-independence rule of 2026-09-04 has not moved this, and no further
-  mechanism is proposed.
-- **An approved status softens the review.** The signed twin cited the status as
-  a reason to narrow its scope in all three runs. No rule addresses it.
-- **The certified-without-examination rule (2026-09-11) is untested.** A run 04
-  is needed to see whether it reaches `Stage`, `R8` and the adjustment-threshold
-  limitation. `R8` was named clean in two or three of six transcripts and raised once;
-  if run 04 does not move it, check the wording of `R8` in the document before
-  changing `SKILL.md` again. `NFR-052` has been correct twice, over-called
-  twice, certified clean once and not addressed once, with no trend.
-- **Section 9 is only partly reached.** Run 03 pulled the staging-rules item out
-  as its own finding on one twin. The reconciliation item ("understood by the
-  team") was missed in all six transcripts, and the "existing practice"
-  threshold item was read and certified clean by both twins in run 03.
+  key in all eight transcripts; AC-2 in seven, and not addressed in the eighth.
+  Run 04 found far more and still classed them low, so this is not about what the
+  reviewer finds. The class-independence rule of 2026-09-04 has not moved it, and
+  no further mechanism is proposed.
+- **An approved status softens the review.** The signed twin referred to the
+  status in all four runs. In run 04 it names the status only to say it was not
+  assessed, and lists the evidence table, stakeholders, change history and
+  approvals and most of section 12 as not reviewed: 40 statements against 49 on
+  the unsigned twin. No rule addresses it.
+- **The certified-without-examination paragraph (2026-09-11) met its
+  pre-registered criterion in run 04, and attribution is open.** Neither twin
+  named `Stage` or the adjustment-threshold limitation clean, and both reached
+  both as findings. The improvement is wider than the paragraph targets (24 and
+  27 of 28 planted items found, against roughly 13 to 15 before), the two
+  transcripts use the skill's labels differently for a reason nobody has
+  explained, and it is one run per twin. `R8` is
+  recorded and is not a criterion: raised on the notification clause by both
+  twins, and its missing performer as a whole by neither. `NFR-052` has been
+  correct three times, over-called three times, certified clean once and not
+  addressed once across eight transcripts, with no trend.
 - **The illustrative-number rule (2026-09-04) has no recorded test.** No entry in
   this log records a run that exercises it.
 - **Reading is not separated from recognition.** Neither a defect-free document
   of the same form nor a shuffled fixture 03 exists. Fixture 04's unsigned twin
   isolates approval status, which is a different measurement.
-- **The fixture 04 key has not absorbed a run 03 finding.** The unsigned twin
-  asked what binding point "the rules current at the time of each close" leaves
-  undefined, a question the key does not raise.
+- **The fixture 04 key has three unabsorbed findings, and fixture 04 is closed.**
+  Run 03: what binding point "the rules current at the time of each close" leaves
+  undefined. Run 04, signed twin: R7 and the Period end definition are tied to a
+  2026 calendar for a recurring process, and the key lists both as bait. Run 04,
+  both twins: the hollow citation to Group Accounting Policy 12.4 was missed, and
+  one gives unavailability of the cited documents as its reason. Whether to apply
+  any of them to a closed fixture is for the author.
 - **Untested inputs:** a glossary supplied with the artifact, and a non-English
   artifact. There is also no equivalent of the uncooperative-interview fixture.
 - **Method.** Three keys have each needed correction after their first run.
@@ -159,6 +169,8 @@ against this log on 2026-10-14.
 | Fixtures undocumented as snapshots | `tests/README.md` in `brd-drafter` and `requirements-smell-detector`; not logged until now |
 | Triggering of `requirements-smell-detector` | 2026-09-07: both twins triggered on an unprompted request |
 | Fixture 04 run against the skill it was meant to test | Runs 02 and 03 (2026-09-08, `fixture-04-run-03.md`) |
+| Section 9 not being read by the reviewer | Run 04 (2026-10-15): all three acknowledged gaps found on both twins, the staging item at Should fix. One run per twin |
+| Run 04 protocol points unconfirmed at scoring | Confirmed by the person who ran the chats, 2026-10-15: the liveness check passed, the signed and unsigned mapping is as inferred, and both chats were outside the project and without its memory |
 
 ---
 
@@ -1885,3 +1897,124 @@ count behind "three runs". The records were not edited.
 
 This entry opens one item on "Current open items": the run records disagree with
 each other, and settling it needs the transcripts.
+
+## 2026-10-15 - fixture 04 closes with run 04, and what it decides, written before it is run
+
+Run 04 is the last run of fixture 04. Since 2026-09-04 every change to the smell
+detector has been written from this fixture's findings and then tested on the
+same document. That measures how well the skill fits this document, and each
+further run measures it less well than the one before. After run 04 a change to
+the skill is tested on a new fixture. Fixture 04 stays in the repository as a
+record.
+
+### What run 04 tests
+
+One thing: whether the paragraph added on 2026-09-11, that exclusion from the
+findings table is a floor and not a test, stops statements being named clean
+without being examined. The skill is the current `SKILL.md` with that paragraph,
+uploaded and confirmed live before either run by asking a fresh chat to quote the
+paragraph that follows the exclusion rule.
+
+The protocol is run 03's: two fresh chats outside the project, one twin each, the
+prompt of runs 01 to 03, skill not named. The files are `document-a.md` (signed
+twin) and `document-b.md` (unsigned twin), with none of the words fixture, test,
+key, repository, release, signed or unsigned in the request or the names. The run
+03 record gives the names as `fixture-04-document-a.md`. Whether the word
+fixture was in the names actually handed over is not recorded.
+
+### Decided in advance
+
+- The paragraph has moved the behaviour if neither twin names `Stage` clean and
+  neither names the adjustment-threshold limitation clean, in the cleanest list
+  or in the prose. Reaching either as a finding, at any class, counts for it. Not
+  addressing either is recorded separately and counts neither way.
+- It has not moved it if either statement is named clean on either twin,
+  whatever else changed.
+- `R8` is recorded and is not a criterion. The 2026-09-11 entry says that if a
+  fourth run does not move it, the wording in the document is the next thing to
+  check.
+- Recorded as they fall, and not criteria: Blocking items classed below the key,
+  section 11, the status reference on the signed twin, the planted-item counts.
+
+### What follows, whatever the result
+
+No rule is written from run 04 against fixture 04. A result that fails the
+criterion is recorded as failed. The paragraph stays in `SKILL.md` and is tested
+on a different document before it is changed or removed.
+
+The section 11 gap stays without a rule for the same reason. Two changes in one
+run could not be separated, and run 04 is for the paragraph that is already
+written. It goes to a new fixture.
+
+## 2026-10-15 - fixture 04, run 04: the criterion is met, and what that does not show
+
+Run 04 is the last run of fixture 04, run to the protocol and the criterion fixed
+in the entry above. The record is `fixture-04-run-04.md`. The scoring table
+covers all eight transcripts and stays there.
+
+### The criterion
+
+The paragraph of 2026-09-11 has moved the behaviour if neither twin names `Stage`
+clean and neither names the adjustment-threshold limitation clean. Neither does.
+Both twins reach both statements as findings, at Should fix. In run 03 both
+twins had certified the threshold limitation clean and one had certified `Stage`
+clean. By the criterion as written, the paragraph has moved the behaviour.
+
+### What else moved
+
+The reconciliation item in section 9, missed in all six earlier transcripts, is
+found on both twins. The "existing practice" threshold item is found on both.
+The compliance assumption in section 7, the sharpest item in the document, is
+found on both, at Should fix where the key says Blocking. Section 11, set aside
+wholesale by both twins in run 03, is found on both. The planted items found are
+24 of 28 on the signed twin and 27 of 28 on the unsigned, against roughly 13 to
+15 before. Condition 4 passes on both twins for the first time.
+
+### What it does not show
+
+The improvement is much wider than a paragraph about naming statements clean
+should produce. That could be the paragraph making the reviewer examine more, or
+variance, or a different skill state, and one run per twin cannot separate them.
+
+Three points were not confirmed when this was scored: the result of the
+skill-liveness check, the mapping of the transcripts to the twins, and whether
+both chats were outside the project and without its memory. The person who ran
+the chats confirmed all three afterwards, on 2026-10-15. The liveness check
+passed, the mapping is as inferred from the transcripts, and both chats were
+outside the project and without its memory. Any one of them failing would have
+voided the result for the paragraph, and none did.
+
+One caution remains: the two transcripts do not use the skill's labels the same
+way. The signed one translates the smell and class names and uses two
+parenthetical variants of Terminology drift that are not among the skill's ten
+smells. The unsigned one uses them verbatim. Nobody has explained this.
+
+The comparison with earlier counts is also uncertain. The earlier records say
+"roughly" and do not state what counted as a find.
+
+### What did not move
+
+Blocking items are classed below the key as before: NFR-047 and AC-1 in all
+eight transcripts, AC-2 in seven and not addressed in the eighth. The signed
+twin names the approved status once, to say it was not assessed, and lists the
+evidence table, the stakeholder list, the change history and approvals, and
+section 12 as not reviewed: 40 statements against 49 on the unsigned twin. By
+the key's rule that reads as dampening, with the label confound above.
+
+Neither twin passes. The unsigned twin fails conditions 1 and 5. The signed twin
+fails 1, 2, 3 and 5: it raises R7 and the Period end definition, which the key
+lists as bait, on a ground the key did not consider, the 2026 calendar for a
+recurring process. That is a candidate correction to the key, not applied.
+
+Both twins missed the hollow citation to Group Accounting Policy 12.4, cited six
+times. The unsigned twin says in its own words that the cited documents were not
+available to it. The key assumes a hollow citation is visible from the text.
+
+### What follows
+
+By the decision of 2026-10-15, no rule is written from this run against fixture
+04, and the paragraph of 2026-09-11 stays in `SKILL.md` and is tested on a
+different document before it is changed or removed. Fixture 04 is closed. The
+key corrections above stay as proposals for the author.
+
+This entry updates "Current open items" in the same commit.
