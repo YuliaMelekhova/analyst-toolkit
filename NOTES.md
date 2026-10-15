@@ -115,7 +115,12 @@ against this log on 2026-10-14.
   2026-09-07 and closed once by re-uploading three zips with `framework/`
   bundled. Nothing prevents a recurrence, and verification is manual: ask a
   fresh chat to quote a section only the new text contains.
-- **audit:** there is no tag or release. The README says v0.2.
+- **audit:** the version is stated three ways. The README says v0.2 and still
+  carries the work-in-progress note. The Notion hub lists three releases, v0.1.0
+  to v0.3.0, and its v0.3.0 page links to a GitHub release. Whether the tags
+  exist was not confirmed on 2026-10-14: the API was rate-limited, and the
+  repository page shows an empty Releases section. Undecided whether the current
+  state is a 0.3.x or a 0.4.0.
 
 ### Repository documents that disagree with the log (audit)
 
@@ -128,6 +133,9 @@ against this log on 2026-10-14.
   `answer-key.md` only. Fixtures 06 and 07 and their run records are not
   mentioned. `skills/nfr-interrogator/tests/` has no README.
 - The contents table in `pipeline/README.md` does not list `decisions/`.
+- The header of this file calls the Notion hub a prose version of this log. The
+  hub holds an overview and three release accounts, last edited on 2026-08-17 and
+  2026-08-18. Nothing after 2026-08-18 is covered there.
 - The fixture 04 run records disagree with each other, and with the 2026-09-11
   entry, on the points listed in the 2026-10-14 correction entry at the end of
   this file. Settling it needs the transcripts, which are not in the repository.
