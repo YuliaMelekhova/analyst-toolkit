@@ -115,17 +115,14 @@ against this log on 2026-10-14.
   2026-09-07 and closed once by re-uploading three zips with `framework/`
   bundled. Nothing prevents a recurrence, and verification is manual: ask a
   fresh chat to quote a section only the new text contains.
-- **audit:** the version is stated three ways. The README says v0.2 and still
-  carries the work-in-progress note. The Notion hub lists three releases, v0.1.0
-  to v0.3.0, and its v0.3.0 page links to a GitHub release. Whether the tags
+- **audit:** the README now says v0.4, and there is no v0.4.0 tag, GitHub
+  release or Notion page yet. The Notion hub lists three releases, v0.1.0 to
+  v0.3.0, and its v0.3.0 page links to a GitHub release. Whether the earlier tags
   exist was not confirmed on 2026-10-14: the API was rate-limited, and the
-  repository page shows an empty Releases section. Undecided whether the current
-  state is a 0.3.x or a 0.4.0.
+  repository page shows an empty Releases section.
 
 ### Repository documents that disagree with the log (audit)
 
-- The README roadmap lists a mixed-quality review fixture as planned. Fixture 03
-  is that fixture and was run on 2026-08-18.
 - `skills/requirements-smell-detector/tests/README.md` lists fixtures 01 to 04
   and their keys, and none of the run records (`fixture-03-run-01.md`,
   `fixture-04-run-01.md` to `fixture-04-run-03.md`).
