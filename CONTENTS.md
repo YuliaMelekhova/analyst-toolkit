@@ -95,6 +95,7 @@ Reviews requirements for ambiguity and unverifiable statements and returns findi
 | [`skills/requirements-smell-detector/tests/fixture-04-run-01.md`](skills/requirements-smell-detector/tests/fixture-04-run-01.md) | Record of fixture 04, run 01 |
 | [`skills/requirements-smell-detector/tests/fixture-04-run-02.md`](skills/requirements-smell-detector/tests/fixture-04-run-02.md) | Record of fixture 04, run 02, against the skill with the 2026-09-02 to 2026-09-04 changes |
 | [`skills/requirements-smell-detector/tests/fixture-04-run-03.md`](skills/requirements-smell-detector/tests/fixture-04-run-03.md) | Record of fixture 04, run 03, with neutral file names, scored against all three runs |
+| [`skills/requirements-smell-detector/tests/fixture-04-run-04.md`](skills/requirements-smell-detector/tests/fixture-04-run-04.md) | Record of fixture 04, run 04, the last run, scored against a criterion fixed in advance and across all eight transcripts |
 
 ---
 
