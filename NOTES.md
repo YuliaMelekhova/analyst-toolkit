@@ -134,10 +134,9 @@ against this log on 2026-10-14.
   bundled. Nothing prevents a recurrence, and verification is manual: ask a
   fresh chat to quote a section only the new text contains.
 - **audit:** the README now says v0.4, and there is no v0.4.0 tag, GitHub
-  release or Notion page yet. The Notion hub lists three releases, v0.1.0 to
-  v0.3.0, and its v0.3.0 page links to a GitHub release. Whether the earlier tags
-  exist was not confirmed on 2026-10-14: the API was rate-limited, and the
-  repository page shows an empty Releases section.
+  release or Notion page yet. The v0.3.0 tag exists: every file in the tree was
+  fetched at that tag on 2026-10-16. The Notion hub lists three releases, v0.1.0
+  to v0.3.0. Whether the v0.1.0 and v0.2.0 tags exist was not checked.
 
 ### Repository documents that disagree with the log (audit)
 
