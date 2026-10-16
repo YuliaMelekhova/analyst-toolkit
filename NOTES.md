@@ -30,8 +30,9 @@ against this log on 2026-10-14.
 
 - **The Open questions table was excluded wholesale in run 03 and reached in run
   04.** Both twins set section 11 aside as a record of gaps in run 03, and both
-  found its four `If unanswered` cells in run 04. One run each under the same
-  rule state, so variance is not excluded. No rule has been written, and by the
+  found its four `If unanswered` cells in run 04. One run each, and the 2026-09-11
+  paragraph was added between them, so the difference could be the paragraph or
+  variance. No rule has been written, and by the
   decision of 2026-10-15 none will be written against fixture 04.
 - **Blocking items are under-called.** NFR-047 and AC-1 were classed below the
   key in all eight transcripts; AC-2 in seven, and not addressed in the eighth.
@@ -47,9 +48,9 @@ against this log on 2026-10-14.
   pre-registered criterion in run 04, and attribution is open.** Neither twin
   named `Stage` or the adjustment-threshold limitation clean, and both reached
   both as findings. The improvement is wider than the paragraph targets (24 and
-  27 of 28 planted items found, against roughly 13 to 15 before), the two
-  transcripts use the skill's labels differently for a reason nobody has
-  explained, and it is one run per twin. `R8` is
+  27 of 28 planted items found, against roughly 13 to 15 before), and it is
+  one run per twin, with both chats confirmed to hold the same, current skill.
+  `R8` is
   recorded and is not a criterion: raised on the notification clause by both
   twins, and its missing performer as a whole by neither. `NFR-052` has been
   correct three times, over-called three times, certified clean once and not
@@ -68,6 +69,13 @@ against this log on 2026-10-14.
   any of them to a closed fixture is for the author.
 - **Untested inputs:** a glossary supplied with the artifact, and a non-English
   artifact. There is also no equivalent of the uncooperative-interview fixture.
+- **The output-language rule does not cover labels or the conversation
+  language.** `Output language` says to match the language of the reviewed text.
+  In run 04 the reviewed text was English, both transcripts answered in Russian,
+  and one translated the smell and class names while the other kept them. The
+  skill says nothing about either. Not a fixture 04 finding, and not part of the
+  decision to write no rule against that fixture. Planned for the release after
+  v0.4.0, so that the skill released in v0.4.0 is the skill run 04 measured.
 - **Method.** Three keys have each needed correction after their first run.
   Whether a key should be assembled from the first run and argued against,
   rather than written in advance, is undecided.
@@ -170,6 +178,7 @@ against this log on 2026-10-14.
 | Triggering of `requirements-smell-detector` | 2026-09-07: both twins triggered on an unprompted request |
 | Fixture 04 run against the skill it was meant to test | Runs 02 and 03 (2026-09-08, `fixture-04-run-03.md`) |
 | Section 9 not being read by the reviewer | Run 04 (2026-10-15): all three acknowledged gaps found on both twins, the staging item at Should fix. One run per twin |
+| Label difference between the run 04 transcripts | 2026-10-16: both twin chats quoted the 2026-09-11 paragraph verbatim afterwards, so both held the same skill. Variance under an output-language rule that does not cover labels |
 | Run 04 protocol points unconfirmed at scoring | Confirmed by the person who ran the chats, 2026-10-15: the liveness check passed, the signed and unsigned mapping is as inferred, and both chats were outside the project and without its memory |
 
 ---
@@ -1974,7 +1983,7 @@ wholesale by both twins in run 03, is found on both. The planted items found are
 
 The improvement is much wider than a paragraph about naming statements clean
 should produce. That could be the paragraph making the reviewer examine more, or
-variance, or a different skill state, and one run per twin cannot separate them.
+variance, and one run per twin cannot separate them.
 
 Three points were not confirmed when this was scored: the result of the
 skill-liveness check, the mapping of the transcripts to the twins, and whether
@@ -1984,10 +1993,16 @@ passed, the mapping is as inferred from the transcripts, and both chats were
 outside the project and without its memory. Any one of them failing would have
 voided the result for the paragraph, and none did.
 
-One caution remains: the two transcripts do not use the skill's labels the same
-way. The signed one translates the smell and class names and uses two
-parenthetical variants of Terminology drift that are not among the skill's ten
-smells. The unsigned one uses them verbatim. Nobody has explained this.
+The two transcripts do not use the skill's labels the same way. The signed one
+translates the smell and class names and uses two parenthetical variants of
+Terminology drift that are not among the skill's ten smells. The unsigned one
+uses them verbatim. This was checked on 2026-10-16 by asking each of the two
+chats to quote the paragraph that follows the exclusion rule. Both quoted the
+2026-09-11 paragraph verbatim, identical to each other and to `SKILL.md`, so both
+held the same, current skill. The difference is variance in how the output was
+rendered, under an output-language rule that says nothing about labels: it says
+to match the language of the reviewed text, the reviewed text was English, and
+both transcripts answered in Russian.
 
 The comparison with earlier counts is also uncertain. The earlier records say
 "roughly" and do not state what counted as a find.
@@ -2018,3 +2033,18 @@ different document before it is changed or removed. Fixture 04 is closed. The
 key corrections above stay as proposals for the author.
 
 This entry updates "Current open items" in the same commit.
+
+
+## 2026-10-16 - correction to the 2026-10-15 entry on closing fixture 04
+
+The entry of 2026-10-15 says that since 2026-09-04 every change to the smell
+detector was written from fixture 04's findings and then tested on that fixture.
+That is wrong for the first of them. The six rules of 2026-09-04 were derived
+from fixture 03's run and were tested on fixture 04, a different document, in
+run 02. Two rules were derived from fixture 04 and tested on it: the general rule
+of 2026-09-08, that an identifier's presence does not decide scope, and the
+paragraph of 2026-09-11.
+
+The reason for closing the fixture rests on those two, which is a narrower base
+than the entry implied. The decision is unchanged: a rule tested on the document
+it came from measures fit, and two rules were enough to make that true here.
